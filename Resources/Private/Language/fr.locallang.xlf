@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0" xmlns:t3="http://typo3.org/schemas/xliff">
+	<file t3:id="1518092390" source-language="en" datatype="plaintext" original="messages" date="2018-02-08T20:22:33Z" product-name="site_generator">
+		<header/>
+		<body>
+			<trans-unit id="title_generator">
+				<source>New site generation (or tree model duplication)</source>
+				<target>Génération d'un nouveau site (ou duplication d'une arborescence de pages)</target>
+			</trans-unit>
+
+            <trans-unit id="form.previousStep">
+				<source>Previous step</source>
+				<target>Étape précédente</target>
+			</trans-unit>
+            <trans-unit id="form.nexStep">
+				<source>Next step</source>
+				<target>Étape suivante</target>
+			</trans-unit>
+
+            <trans-unit id="form.FirstStepData.title">
+				<source>Mandatory informations</source>
+				<target>Informations obligatoires</target>
+			</trans-unit>
+            <trans-unit id="form.FirstStepData.siteTitle">
+				<source>Site title (root page title)</source>
+				<target>Titre du site (titre de la page racine)</target>
+			</trans-unit>
+            <trans-unit id="form.FirstStepData.selectModel">
+				<source>Select model</source>
+				<target>Sélectionner le modèle</target>
+			</trans-unit>
+            <trans-unit id="form.SecondStepData.domain">
+				<source>Domain name (www.sample.com) - leave empty to ignore</source>
+				<target>Nom de domaine (www.example.com) - laisser vide pour ignorer</target>
+			</trans-unit>
+
+            <trans-unit id="form.SecondStepData.title">
+				<source>Optional Information</source>
+				<target>Informations optionnelles</target>
+			</trans-unit>
+            <trans-unit id="form.SecondStepData.groupPrefix">
+				<source>Group prefix (BE and FE)</source>
+				<target>Préfixe du groupe (BE et FE)</target>
+			</trans-unit>
+            <trans-unit id="form.SecondStepData.newFolderCreation">
+				<source>New folders will be created in fileadmin like : "baseFolderName > Titre du site > SubFolderName"</source>
+				<target>De nouveaux dossiers seront créés dans fileadmin comme : "baseFolderName > Site Name > SubFolderName"</target>
+			</trans-unit>
+            <trans-unit id="form.SecondStepData.baseFolderName">
+				<source>Base folder name</source>
+				<target>Nom du dossier de base</target>
+			</trans-unit>
+            <trans-unit id="form.SecondStepData.subFolderNames">
+				<source>Sub-folder names to create (comma separated)</source>
+				<target>Nom des sous-dossiers (séparés par des virgules)</target>
+			</trans-unit>
+
+            <trans-unit id="noModelFounded">
+				<source>No model founded</source>
+				<target>Aucun modèle trouvé</target>
+			</trans-unit>
+            <trans-unit id="checkModelPid">
+				<source>Check modelsPid in extension configuration</source>
+				<target>Vérifier modelsPid dans la configuration de l'extension</target>
+			</trans-unit>
+
+            <trans-unit id="generate.success.copySuccessfull">
+				<source>- Model copy successful (pid model root page = %s)</source>
+				<target>- Le modèle a été copié (pid de la page racine = %s)</target>
+			</trans-unit>
+            <trans-unit id="generate.success.feGroupCreated">
+				<source>- A new FE group has been created : %s (uid = %s)</source>
+				<target>- Un nouveau groupe FE a été créé : %s (uid = %s)</target>
+			</trans-unit>
+            <trans-unit id="generate.success.beGroupCreated">
+				<source>- A new BE group has been created : %s (uid = %s)</source>
+				<target>- Un nouveau groupe BE a été créé : %s (uid = %s)</target>
+			</trans-unit>
+            <trans-unit id="generate.success.noFeGroupCreated">
+				<source>- FE group couldn't be created because module.tx_sitegenerator.settings.siteGenerator.wizard.pidFeGroup (Cf TS constants) is not defined</source>
+				<target>- Le group FE ne peut pas être créé car module.tx_sitegenerator.settings.siteGenerator.wizard.pidFeGroup (Cf constantes TS) n'est pas définie</target>
+			</trans-unit>
+            <trans-unit id="generate.success.folderExist">
+				<source>- Folder '%s' hasn't been created because it already exists</source>
+				<target>- Le dossier '%s' n'a pas été crée car il existe déjà</target>
+			</trans-unit>
+            <trans-unit id="generate.success.folderCreated">
+				<source>- Folder '%s' has been created</source>
+				<target>- Le dossier '%s' a été crée</target>
+			</trans-unit>
+            <trans-unit id="generate.success.feGroupSetToPages">
+				<source>- The FE group with uid %s has been set for pages : %s</source>
+				<target>- Le groupe FE avec l'uid %s a été affecté aux pages : %s</target>
+			</trans-unit>
+            <trans-unit id="generate.success.beGroupSetToPages">
+				<source>- The BE group with uid %s has been set for pages : %s</source>
+				<target>- Le groupe BE avec l'uid %s a été affecté aux pages : %s</target>
+			</trans-unit>
+            <trans-unit id="generate.success.homePageUpdated">
+				<source>- Home page title has been set to '%s'</source>
+				<target>- Le titre de la page d'accueil est '%s'</target>
+			</trans-unit>
+            <trans-unit id="generate.success.updatePageTS">
+				<source>- Update page TSConfig (TCEMAIN.clearCacheCmd) done for pages : %s</source>
+				<target>- La configuration de page (TCEMAIN.clearCacheCmd) a été mise à jour pour les pages : %s</target>
+			</trans-unit>
+            <trans-unit id="generate.success.setDomain">
+				<source>- The domain '%s' has been created</source>
+				<target>- Le domaine '%s' a été créé</target>
+			</trans-unit>
+
+            <trans-unit id="generate.success">
+				<source>The new site creation/tree model duplication was finished.</source>
+				<target>La création du nouveau site/duplication de l'arborescence de page est terminée.</target>
+			</trans-unit>
+            <trans-unit id="generate.todo">
+				<source>Now some tasks are left for you to do manually:
+					- create new BE users and add them to "%s" or add new users in that group
+					- add content...
+                </source>
+				<target>Il vous reste maintenant un certain nombre de tâches manuelles:
+                    - créer de nouveaux utilisateurs backend et les ajouter au groupe "%s", ou ajouter des utilisateurs existants dans ce groupe
+                    - ajouter du contenu...
+                </target>
+			</trans-unit>
+
+            <trans-unit id="wizard.firstPage.error">
+				<source>The site first page couldn't be created.</source>
+				<target>Impossible de créer la première page du site.</target>
+			</trans-unit>
+            <trans-unit id="wizard.createDomain.error">
+				<source>The domain couldn't be created.</source>
+				<target>Impossible de créer le domaine.</target>
+			</trans-unit>
+            <trans-unit id="wizard.copyModel.error">
+				<source>Site model copy error.</source>
+				<target>Erreur lors de la copie du site modèle.</target>
+			</trans-unit>
+            <trans-unit id="wizard.beGroup.error">
+				<source>Create BE group error.</source>
+				<target>Erreur lors de la création du groupe BE.</target>
+			</trans-unit>
+            <trans-unit id="wizard.feGroup.error">
+				<source>Create FE group error - check TypoScript configuration for pidFeGroup.</source>
+				<target>Erreur lors de la création du groupe FE - vérifier que la configuration TypoScript pour pidFeGroup.</target>
+			</trans-unit>
+            <trans-unit id="wizard.fileMount.error">
+				<source>Create file mount error.</source>
+				<target>Erreur lors de la création du point de montage.</target>
+			</trans-unit>
+            <trans-unit id="wizard.folderCreation.error">
+				<source>Directory creation error for "%s".</source>
+				<target>Erreur lors de la création du dossier "%s".</target>
+			</trans-unit>
+            <trans-unit id="wizard.tsError">
+				<source>TS configuration error for "%s".</source>
+				<target>Erreur de configuration TS for "%s".</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,40 @@
+# Module configuration
+module.tx_sitegenerator {
+    view {
+        templateRootPaths {
+            0 = EXT:site_generator/Resources/Private/Templates/
+            1 = {$module.tx_sitegenerator.view.templateRootPath}
+        }
+        partialRootPaths {
+            0 = EXT:site_generator/Resources/Private/Partials/
+            1 = {$module.tx_sitegenerator.view.partialRootPath}
+        }
+        layoutRootPaths {
+            0 = EXT:site_generator/Resources/Private/Layouts/
+            1 = {$module.tx_sitegenerator.view.layoutRootPath}
+        }
+    }
+    settings {
+        siteGenerator {
+            wizard {
+                steps {
+                    20 = Oktopuce\SiteGenerator\Wizard\StateCopyModelSite
+                    30 = Oktopuce\SiteGenerator\Wizard\StateCreateFolder
+                    40 = Oktopuce\SiteGenerator\Wizard\StateCreateFileMount
+                    50 = Oktopuce\SiteGenerator\Wizard\StateCreateFeGroup
+                    60 = Oktopuce\SiteGenerator\Wizard\StateCreateBeGroup
+                    70 = Oktopuce\SiteGenerator\Wizard\StateSetPageBeGroup
+                    80 = Oktopuce\SiteGenerator\Wizard\StateSetDomain
+                    90 = Oktopuce\SiteGenerator\Wizard\StateUpdateHomePage
+                    100 = Oktopuce\SiteGenerator\Wizard\StateUpdateTemplateHP
+                    110 = Oktopuce\SiteGenerator\Wizard\StateUpdatePageTs
+                    120 = Oktopuce\SiteGenerator\Wizard\StateUpdateSlugs
+                }
+                formDto = {$module.tx_sitegenerator.settings.siteGenerator.wizard.formDto}
+                pidFeGroup = {$module.tx_sitegenerator.settings.siteGenerator.wizard.pidFeGroup}
+                storageUid = {$module.tx_sitegenerator.settings.siteGenerator.wizard.storageUid}
+                hiddeHomePage = {$module.tx_sitegenerator.settings.siteGenerator.wizard.hiddeHomePage}
+            }
+        }
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "name": "oktopuce/site-generator",
+    "type": "typo3-cms-extension",
+    "description": "Site generator / tree model duplicator",
+    "homepage": "https://www.oktopuce.fr",
+    "license": ["GPL-2.0-or-later"],
+    "keywords": [
+        "TYPO3 CMS"
+        "extension",
+        "wizard",
+        "backend"
+    ],
+    "authors": [
+      {
+        "name": "Florian Rival",
+        "role": "Developer"
+      }
+    ],    "version": "1.0.0",
+    "require": {
+        "typo3/cms-core": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Oktopuce\\SiteGenerator\\": "Classes/"
+        }
+    }
+}

@@ -1,0 +1,45 @@
+############################
+### CUSTOM SUBCATEGORIES ###
+###########################
+# customsubcategory=100=Pid
+# customsubcategory=110=Uid
+# customsubcategory=120=Form
+# customsubcategory=130=Label
+# customsubcategory=140=Folder
+# customsubcategory=150=BE Group access lists
+
+# cat=Basic/100/10_ModelPid; type=string; label=Models PID: Models page uid used to generate the new site (comma separated for multiple models)
+modelsPid =
+
+# cat=Basic/100/20_SitesPid; type=string; label=Sites PID: Pages uid where sites can be created (comma separated)
+sitesPid =
+
+# cat=Basic/110/10_MountPoint; type=int; label=Mount point UID: This is the uid of the common mount point for all sites
+commonMountPointUid =
+
+# cat=Basic/120/10_OneForm; type=boolean; label=Only one form page for data: Check this if you want only one form page to gather data
+onlyOneFormPage=false
+
+# cat=Label/130/10_PageTitle; type=string; label=Home page title: The title used for the home page (can be overidden in form)
+homePageTitle = Home
+
+# cat=Label/130/20_GroupPrefix; type=string; label=Group prefix: The prefix used for group name (can be overidden in form)
+groupPrefix = Group
+
+# cat=Folder/140/10_BaseFolderName; type=string; label=Site base folder: The name for sites base folder (can be overidden in form)
+baseFolderName = Website
+
+# cat=Folder/140/10_SubFolderNames; type=string; label=Sub-folders to create: The names of the sub-folders to create (comma seprated, can be overidden in form)
+subFolderNames = documents,images
+
+# cat=Access lists/150/10_groupMods; type=string; label=Modules: List of allowed modules (comma separated)
+groupMods = web_layout,web_ViewpageView,web_list,file_FilelistList,user_setup
+
+# cat=Access lists/150/20_tablesSelect; type=string; label=Tables: Listing (comma separated)
+tablesSelect = pages,sys_file,sys_file_metadata,sys_file_reference,tt_content
+
+# cat=Access lists/150/30_tablesModify; type=string; label=Tables: Modifiy (comma separated)
+tablesModify = pages,sys_file,sys_file_metadata,sys_file_reference,tt_content
+
+# cat=Access lists/150/40_explicitAllowdeny; type=string; label=Explicitly allow/deny field values: Set tt_content allowed CType (comma separated)
+explicitAllowdeny = tt_content:CType:media:ALLOW,tt_content:CType:textteaser:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:CType:image:ALLOW,tt_content:CType:textmedia:ALLOW

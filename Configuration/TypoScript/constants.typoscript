@@ -1,0 +1,24 @@
+############################
+### CUSTOM SUBCATEGORIES ###
+###########################
+# customsubcategory=100=Wizard
+# customsubcategory=110=Uid
+# customsubcategory=120=Configuration
+
+# Module configuration
+module.tx_sitegenerator {
+    settings {
+        siteGenerator {
+            wizard {
+                # cat=Site Generator/100/10_Dto; type=string; label=Class name for DTO form
+                formDto = Oktopuce\SiteGenerator\Dto\SiteGeneratorDto
+                # cat=Site Generator/110/10_PidFeGroup; type=int; label=Pid FE group: Page Id for fe group creation - should be a folder - if set to 0, no FE group will be created
+                pidFeGroup = 0
+                # cat=Site Generator/110/20_StorageUid; type=int; label=StorageUid: Storage uid used for folder creation (0 = no folder creation)
+                storageUid = 1
+                # cat=Site Generator/120/20_HiddeHomePage; type=boolean; label=Hide home page: Set this to '1' if you want to set home page as hidden
+                hiddeHomePage = 0
+            }
+        }
+    }
+}
