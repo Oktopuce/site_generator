@@ -125,16 +125,26 @@ class SiteGeneratorController extends ActionController
     {
         // Retrieve data from form
         $parameters = GeneralUtility::_GP('tx_sitegenerator');
+        $siteDtoSaved = GeneralUtility::_GP('siteDtoSaved');
 
-        // Store form data in DTO
-        $this->siteGeneratorDto = GeneralUtility::makeInstance($this->settings['siteGenerator']['wizard']['formDto']);
+        if ($siteDtoSaved) {
+            // Restore saved form data
+            $this->siteGeneratorDto = unserialize(json_decode($siteDtoSaved));
+        }
+        else {
+            // Store form data in DTO
+            $this->siteGeneratorDto = GeneralUtility::makeInstance($this->settings['siteGenerator']['wizard']['formDto']);
 
-        // Load default values from extension configuration
-        $this->siteGeneratorDto->setTitle($this->getExtensionConfiguration('homePageTitle'));
-        $this->siteGeneratorDto->setGroupPrefix($this->getExtensionConfiguration('groupPrefix'));
-        $this->siteGeneratorDto->setCommonMountPointUid((int) $this->getExtensionConfiguration('commonMountPointUid'));
-        $this->siteGeneratorDto->setBaseFolderName($this->getExtensionConfiguration('baseFolderName'));
-        $this->siteGeneratorDto->setSubFolderNames($this->getExtensionConfiguration('subFolderNames'));
+            // Load default values from extension configuration
+            $this->siteGeneratorDto->setTitle($this->getExtensionConfiguration('homePageTitle'));
+
+            if ($this->siteGeneratorDto instanceof SiteGeneratorDto) {
+                $this->siteGeneratorDto->setGroupPrefix($this->getExtensionConfiguration('groupPrefix'));
+                $this->siteGeneratorDto->setCommonMountPointUid((int) $this->getExtensionConfiguration('commonMountPointUid'));
+                $this->siteGeneratorDto->setBaseFolderName($this->getExtensionConfiguration('baseFolderName'));
+                $this->siteGeneratorDto->setSubFolderNames($this->getExtensionConfiguration('subFolderNames'));
+            }
+        }
 
         if ($parameters) {
             foreach ($parameters as $key => $value) {
@@ -245,6 +255,7 @@ class SiteGeneratorController extends ActionController
         $viewVariables = [
             'moduleUrl' => $nextStep,
             'siteDto' => $this->siteGeneratorDto,
+            'siteDtoSaved' => json_encode(serialize($this->siteGeneratorDto)),
             'modelPages' => $modelPages,
             'action' => ($this->getExtensionConfiguration('onlyOneFormPage') ? 'generate_site' : 'get_data_second_step'),
             'returnurl' => $this->conf['returnurl'],
@@ -254,8 +265,7 @@ class SiteGeneratorController extends ActionController
         // Add signal to assign more variables to the view (usefull when using your own template)
         /** @var Dispatcher $signalSlotDispatcher */
         $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
-        $signalSlotDispatcher->dispatch(__CLASS__, 'addFirstStepViewVariables', [
-            &$viewVariables]);
+        $signalSlotDispatcher->dispatch(__CLASS__, 'addFirstStepViewVariables', [&$viewVariables]);
 
         $this->standaloneView->assignMultiple($viewVariables);
 
@@ -278,6 +288,7 @@ class SiteGeneratorController extends ActionController
         $viewVariables = [
             'moduleUrl' => $nextStep,
             'siteDto' => $this->siteGeneratorDto,
+            'siteDtoSaved' => json_encode(serialize($this->siteGeneratorDto)),
             'action' => 'generate_site',
             'returnurl' => $this->conf['returnurl'],
         ];
