@@ -1,9 +1,6 @@
 # TYPO3 Extension ``site_generator``
 
-:Repository:      https://github.com/Oktopuce/site_generator
-:Writing here:    Florian Rival
-
->With this backend extension, you can very easily create min-website or duplicate tree, it will automatically create associated BE/FE groups, create directories with associated files mount, add domain name, update Typoscript configuration (folders/pages ID and TCEMAIN.clearCacheCmd), update slugs. Based on State Design Pattern, it is highly customizable : you can remove unnecessary states and add your own states to fit your own needs.
+With this backend extension, you can very easily create min-website or duplicate tree, it will automatically create associated BE/FE groups, create directories with associated files mount, add domain name, update Typoscript configuration (folders/pages ID and TCEMAIN.clearCacheCmd), update slugs. Based on State Design Pattern, it is highly customizable : you can remove unnecessary states and add your own states to fit your own needs.
 
 ## Features
 
@@ -17,7 +14,7 @@
 
 #### Installation using Composer
 
-The recommended way to install the extension is by using [Composer][2]. In your Composer based TYPO3 project root, just do :
+The recommended way to install the extension is by using [Composer][1]. In your Composer based TYPO3 project root, just do :
 
 ```bash
 composer require oktopuce/site-generator
@@ -44,3 +41,5 @@ There are various ways you can contribute:
 
 - Bugfixes: Please describe what kind of bug your fix solve and give us feedback how to reproduce the issue. I'm going
 to accept only bugfixes if I can reproduce the issue.
+
+[1]: https://getcomposer.org/
