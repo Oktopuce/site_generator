@@ -14,7 +14,7 @@ namespace Oktopuce\SiteGenerator\Wizard;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
+use Oktopuce\SiteGenerator\Dto\BaseDto;
 
 /**
  * StateCreateFeGroup
@@ -40,13 +40,13 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
     /**
      * Create FE group
      *
-     * @param SiteGeneratorDto $siteData New site data
+     * @param BaseDto $siteData New site data
      * @param int $pidFeGroup Pid for FE group creation
      * @throws \Exception
      *
      * @return int The uid of the group created
      */
-    protected function createFeGroup(SiteGeneratorDto $siteData, $pidFeGroup): int
+    protected function createFeGroup(BaseDto $siteData, $pidFeGroup): int
     {
         $groupId = 0;
 

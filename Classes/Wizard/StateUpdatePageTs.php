@@ -15,7 +15,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
+use Oktopuce\SiteGenerator\Dto\BaseDto;
 
 /**
  * StateUpdateTemplate
@@ -38,10 +38,10 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
     /**
      * Update page TS to set new uids for TCEMAIN.clearCacheCmd
      *
-     * @param SiteGeneratorDto $siteData New site data
+     * @param BaseDto $siteData New site data
      * @return void
      */
-    protected function updatePageTS(SiteGeneratorDto $siteData)
+    protected function updatePageTS(BaseDto $siteData)
     {
         $pagesUpdated = [];
 
@@ -54,6 +54,7 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
 
             $newsTSConfig = '';
             $line = strtok($origRow['TSconfig'], PHP_EOL);
+            $matches = null;
 
             while ($line !== false) {
                 // If clearCacheCmd found, update it with new uids

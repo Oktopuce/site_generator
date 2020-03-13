@@ -16,7 +16,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Context\Context;
-use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
+use Oktopuce\SiteGenerator\Dto\BaseDto;
 
 /**
  * SiteGeneratorWizard : based on design pattern 'State'
@@ -25,7 +25,7 @@ class SiteGeneratorWizard
 {
 
     /**
-     * @var SiteGeneratorDto
+     * @var BaseDto
      */
     protected $siteData = null;
 
@@ -49,7 +49,7 @@ class SiteGeneratorWizard
     /**
      * Constructor of this class : set first wizard step and store site data from forms
      *
-     * @param SiteGeneratorDto $siteData Data coming from forms : mandatory and optional data
+     * @param BaseDto $siteData Data coming from forms : mandatory and optional data
      * @return void
      */
     public function __construct(object $siteData)
@@ -141,7 +141,7 @@ class SiteGeneratorWizard
     /**
      * Get site data (i.e. data from Form/DTO)
      *
-     * @return SiteGeneratorDto
+     * @return BaseDto
      */
     public function getSiteData()
     {

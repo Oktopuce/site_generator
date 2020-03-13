@@ -14,7 +14,7 @@ namespace Oktopuce\SiteGenerator\Wizard;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Log\LogLevel;
-use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
+use Oktopuce\SiteGenerator\Dto\BaseDto;
 
 /**
  * StateCopyModelSite
@@ -39,16 +39,17 @@ class StateCopyModelSite extends StateBase implements SiteGeneratorStateInterfac
     /**
      * Copy the model site in current page
      *
-     * @param SiteGeneratorDto $siteData New site data
+     * @param BaseDto $siteData New site data
      * @throws \Exception
      *
      * @return int The pid of the new Home Page
      */
-    protected function copyModel(SiteGeneratorDto $siteData): int
+    protected function copyModel(BaseDto $siteData): int
     {
         // Copy model site in current site root page
         $sitePage = $siteData->getPid();
         $modelPid = $siteData->getModelPid();
+        $cmd = [];
         $cmd['pages'][$modelPid]['copy'] = $sitePage;
 
         /* @var $tce DataHandler */

@@ -13,7 +13,7 @@ namespace Oktopuce\SiteGenerator\Wizard;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogLevel;
-use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
+use Oktopuce\SiteGenerator\Dto\BaseDto;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
 
 /**
@@ -37,12 +37,12 @@ class StateSetPageBeGroup extends StateBase implements SiteGeneratorStateInterfa
     /**
      * Affect BE group to pages created
      *
-     * @param SiteGeneratorDto $siteData New site data
+     * @param BaseDto $siteData New site data
      * @throws \Exception
      *
      * @return void
      */
-    protected function setBeGroup(SiteGeneratorDto $siteData): void
+    protected function setBeGroup(BaseDto $siteData): void
     {
         if ($siteData->getBeGroupId()) {
             $pages = [];

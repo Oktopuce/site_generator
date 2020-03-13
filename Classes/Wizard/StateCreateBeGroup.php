@@ -14,7 +14,7 @@ namespace Oktopuce\SiteGenerator\Wizard;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
+use Oktopuce\SiteGenerator\Dto\BaseDto;
 
 /**
  * StateCreateBeGroup
@@ -38,11 +38,11 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
     /**
      * Create BE group with file mount, DB mount, access lists
      *
-     * @param SiteGeneratorDto $siteData New site data
+     * @param BaseDto $siteData New site data
      * @throws \Exception
      * @return int The uid of the group created
      */
-    protected function createBeGroup(SiteGeneratorDto $siteData): int
+    protected function createBeGroup(BaseDto $siteData): int
     {
         // Get extension configuration
         $extensionConfiguration = $this->getExtensionConfiguration();

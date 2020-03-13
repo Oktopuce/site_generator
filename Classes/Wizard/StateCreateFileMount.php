@@ -14,7 +14,7 @@ namespace Oktopuce\SiteGenerator\Wizard;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Log\LogLevel;
-use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
+use Oktopuce\SiteGenerator\Dto\BaseDto;
 
 /**
  * StateCreateFileMount
@@ -38,11 +38,11 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
     /**
      * Create file mount for site
      *
-     * @param SiteGeneratorDto $siteData New site data
+     * @param BaseDto $siteData New site data
      * @throws \Exception
      * @return int The uid of the mounted file
      */
-    protected function createFileMount(SiteGeneratorDto $siteData): int
+    protected function createFileMount(BaseDto $siteData): int
     {
         $baseFolderName = $siteData->getBaseFolderName();
 

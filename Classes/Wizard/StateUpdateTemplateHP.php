@@ -14,7 +14,7 @@ namespace Oktopuce\SiteGenerator\Wizard;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
+use Oktopuce\SiteGenerator\Dto\BaseDto;
 use Oktopuce\SiteGenerator\Utility\ExtendedTemplateService;
 
 /**
@@ -38,10 +38,10 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
     /**
      * Update site template to set new uids
      *
-     * @param SiteGeneratorDto $siteData New site data
+     * @param BaseDto $siteData New site data
      * @return void
      */
-    protected function updateTemplate(SiteGeneratorDto $siteData)
+    protected function updateTemplate(BaseDto $siteData)
     {
         /** @var ExtendedTemplateService $templateService */
         $templateService = GeneralUtility::makeInstance(ExtendedTemplateService::class);

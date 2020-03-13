@@ -16,7 +16,7 @@ use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsExceptio
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Log\LogLevel;
-use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
+use Oktopuce\SiteGenerator\Dto\BaseDto;
 
 /**
  * StateCreateFolder
@@ -41,13 +41,13 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
     /**
      * Create folder "fileadmin/base_folder/sites_title", with sub-folders "documents" and "images"
      *
-     * @param SiteGeneratorDto $siteData New site data
+     * @param BaseDto $siteData New site data
      * @param int $storageUid The uid of storage to use
      * @throws \Exception
      *
      * @return void
      */
-    protected function createFolders(SiteGeneratorDto $siteData, $storageUid): void
+    protected function createFolders(BaseDto $siteData, $storageUid): void
     {
         // Get base folder and sub-folders name to create
         $baseFolderName = $siteData->getBaseFolderName();

@@ -14,7 +14,7 @@ namespace Oktopuce\SiteGenerator\Wizard;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Log\LogLevel;
-use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
+use Oktopuce\SiteGenerator\Dto\BaseDto;
 
 /**
  * StateFirstPageCreation
@@ -37,11 +37,11 @@ class StateSetDomain extends StateBase implements SiteGeneratorStateInterface
     /**
      * Create a doamin
      *
-     * @param SiteGeneratorDto $siteData New site data
+     * @param BaseDto $siteData New site data
      * @throws \Exception
      * @return int The id of the domain created
      */
-    protected function createDomain(SiteGeneratorDto $siteData): int
+    protected function createDomain(BaseDto $siteData): int
     {
         $domainUid = 0;
         

@@ -14,7 +14,7 @@ namespace Oktopuce\SiteGenerator\Wizard;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogLevel;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
-use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
+use Oktopuce\SiteGenerator\Dto\BaseDto;
 
 /**
  * StateUpdateHomePage
@@ -32,18 +32,18 @@ class StateUpdateHomePage extends StateBase implements SiteGeneratorStateInterfa
         $settings = $context->getSettings();
 
         // Update the home page with the form data
-        $this->updateHomePage($context->getSiteData(), (bool)$settings['siteGenerator']['wizard']['hiddeHomePage']);
+        $this->updateHomePage($context->getSiteData(), (bool)$settings['siteGenerator']['wizard']['hideHomePage']);
     }
 
     /**
      * Update the home page with the form data
      *
-     * @param SiteGeneratorDto $siteData New site data
+     * @param BaseDto $siteData New site data
      * @param bool $hideHomePage If true, home page will be hidden
      *
      * @return void
      */
-    protected function updateHomePage(SiteGeneratorDto $siteData, $hideHomePage)
+    protected function updateHomePage(BaseDto $siteData, $hideHomePage)
     {
         $updateValues = [
             'title' => $siteData->getTitle(),

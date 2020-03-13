@@ -16,7 +16,7 @@ use TYPO3\CMS\Core\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
-use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
+use Oktopuce\SiteGenerator\Dto\BaseDto;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
 
 /**
@@ -40,10 +40,10 @@ class StateUpdateSlugs extends StateBase implements SiteGeneratorStateInterface
     /**
      * Update slugs for new tree structure
      *
-     * @param SiteGeneratorDto $siteData New site data
+     * @param BaseDto $siteData New site data
      * @return void
      */
-    protected function updateSlugs(SiteGeneratorDto $siteData)
+    protected function updateSlugs(BaseDto $siteData)
     {
         // First flush all caches because slug parts are taken from 'cache_runtime'
         // but it's not possible to clear only 'cache_runtime' : no group associated to it
