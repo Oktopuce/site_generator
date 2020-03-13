@@ -1,3 +1,8 @@
+.. ==================================================
+.. FOR YOUR INFORMATION
+.. --------------------------------------------------
+.. -*- coding: utf-8 -*- with BOM.
+
 .. include:: ../Includes.txt
 
 
@@ -9,52 +14,56 @@ Developer Corner
 
 Target group: **Developers**
 
-This is your opportunity to pass on information to other developers who may be using your extension.
+The **site_generator** extension is highly customizable, this chapter describes the basics of the extension and explain how to extend it in order to fit your own needs :
 
-Use this section to provide examples of code or detail any information that would be deemed relevant to a developer.
+- add customs states
+- add specific data to forms
+- change wizard steps
 
-You may wish to explain how a certain feature was implemented or detail any changes that might of been 
-made to the extension.
+The site_generator wizard is based on State Design Pattern :
 
-.. _developer-hooks:
+.. figure:: ../Images/SiteGenerator.png
+   :class: with-shadow
+   :alt: Start the wizard
 
-Hooks
-=====
+   Site generator model
 
-Possible hook examples. Input parameters are:
+The wizard get states from **Typoscript Setup** and form data through **SiteGeneraorDto**.
 
-+----------------+---------------+---------------------------------+
-| Parameter      | Data type     | Description                     |
-+================+===============+=================================+
-| $table         | string        | Name of the table               |
-+----------------+---------------+---------------------------------+
-| $field         | string        | Name of the field               |
-+----------------+---------------+---------------------------------+
+For full customization, I suggest to create your own extension, this is how it is suppose to be in following section, the tree structure looks like this :
 
-Use parameter :code:`$table` to retrieve the table name...
+.. code-block:: none
 
-.. _developer-api:
+   .
+   ├── Classes
+   │   ├── Dto
+   │   │   └── SiteGeneratorDto.php
+   │   ├── Slot
+   │   │   └── SiteGeneratorSlot.php
+   │   └── Wizard
+   │       └── StateCreateFeGroup.php
+   ├── composer.json
+   ├── ext_emconf.php
+   ├── ext_localconf.php
+   ├── ext_typoscript_constants.typoscript
+   ├── ext_typoscript_setup.typoscript
+   └── Resources
+       └── Private
+           └── Templates
+               └── SiteGenerator
+                   ├── GetDataFirstStep.html
+                   └── GetDataSecondStep.html
 
-API
-===
+File details
+============
 
-How to use the API...
+.. toctree::
+	:maxdepth: 3
+	:titlesonly:
+	:glob:
 
-.. code-block:: php
-
-   $stuff = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-      '\\Foo\\Bar\\Utility\\Stuff'
-   );
-   $stuff->do();
-
-or some other language:
-
-.. code-block:: javascript
-   :linenos:
-   :emphasize-lines: 2-4
-
-   $(document).ready(
-      function () {
-         doStuff();
-      }
-   );
+   Typoscript/Index
+   Dto/Index
+   SignalSlots/Index
+   Templates/Index
+   Wizard/Index

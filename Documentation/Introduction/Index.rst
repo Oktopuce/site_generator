@@ -1,3 +1,8 @@
+.. ==================================================
+.. FOR YOUR INFORMATION
+.. --------------------------------------------------
+.. -*- coding: utf-8 -*- with BOM.
+
 .. include:: ../Includes.txt
 
 
@@ -7,53 +12,77 @@
 Introduction
 ============
 
-
-.. tip::
-
-   New to reStructuredText and Sphinx?
-
-   Get an introduction:
-   https://docs.typo3.org/m/typo3/docs-how-to-document/master/en-us/WritingReST/Index.html
-
-   Use this cheat sheet as reference:
-   https://docs.typo3.org/m/typo3/docs-how-to-document/master/en-us/WritingReST/CheatSheet.html
-
 .. _what-it-does:
 
 What does it do?
 ================
 
-The aim of this chapter is to provide a general overview of your extension.
+This extension provide an easy way to create mini-websites or duplicate a tree in the backend.
 
-* What does it do?
-* What problems does it solve?
-* Who is the target audience?
+Once the tree is duplicated, the extension will automatically :
 
-This chapter should provide information that will help inform 
-potential users and assist them in deciding if they should 
-install and use this extension.
+* create associated BE/FE groups
+* set access group for created tree
+* create directories and files mount
+* add domain name
+* update Typoscript configuration (folders/pages ID and TCEMAIN.clearCacheCmd)
+* update slugs for URL rewriting
 
-.. important::
-
-   Don't forget to repeat your extension's version number in the
-   :file:`Settings.cfg` file, in the :code:`release` property. It will be
-   automatically picked up on the cover page by the :code:`|release|`
-   substitution.
-
+.. hint::
+   The *site_generator* extension is highly customizable : you can remove unnecessary states and add your own states to fit your own needs.
 
 .. _screenshots:
 
 Screenshots
 ===========
 
-This chapter should help people understand how the extension works. Remove it
-if it is not relevant.
+Start the wizard
+""""""""""""""""
 
-.. figure:: ../Images/IntroductionPackage.png
+.. figure:: ../Images/StartWizard.png
    :class: with-shadow
-   :alt: Introduction Package
-   :width: 300px
+   :alt: Start the wizard
 
-   Introduction Package just after installation (caption of the image)
+   Start the site generator wizard
 
-How the Frontend of the Introduction Package looks like just after installation (legend of the image)
+Right click on a page specified by extension configuration to start the site generation process
+
+Fill mandatory data
+"""""""""""""""""""
+
+.. figure:: ../Images/FirstForm.png
+   :class: with-shadow
+   :alt: First form
+
+   Set the mandatory data
+
+Select the model (if required) and set first page title
+
+Fill optional data
+""""""""""""""""""
+
+.. figure:: ../Images/SecondForm.png
+   :class: with-shadow
+   :alt: Second form
+
+   Set the optional data
+
+Set optional data (this step can be bypass with extension configuration)
+
+Generation finished
+"""""""""""""""""""
+
+.. figure:: ../Images/Finish.png
+   :class: with-shadow
+   :alt: Generation finished
+
+   Display a résumé of all steps
+
+When the generation is finished, a résumé of all states is displayed
+
+.. toctree::
+	:maxdepth: 3
+	:titlesonly:
+	:glob:
+
+   Support/Index

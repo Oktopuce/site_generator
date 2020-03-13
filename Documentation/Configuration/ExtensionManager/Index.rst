@@ -11,7 +11,10 @@ Extension Manager
 -----------------
 
 Some general settings can be configured in the Extension Manager.
-If you need to configure those, switch to the module "Settings > Extension Configuration" and select the extension "**site_generator**".
+If you need to configure those, switch to the module :guilabel:`Settings > Extension Configuration` and select the extension "**site_generator**".
+
+.. Important::
+   **modelsPid** and **sitesPid** are mandatory fields.
 
 The settings are divided into several tabs and described here in detail:
 
@@ -23,15 +26,18 @@ Properties
 	==================================== ===================================== ====================
 	Property                             Tab                                   Default
 	==================================== ===================================== ====================
-	onlyOneFormPage                       basic                                 false
-	commonMountPointUid                   basic
-	supervisorGroupUid                    basic
-	modelsPid                             basic
-	sitesPid                              basic
-	homePageTitle   	                  label                                 Home
-	groupPrefix                           label                                 Group
-	baseFolderName                        folder                                Website
-	subFolderNames                        folder                                documents, images
+	onlyOneFormPage_                      basic                                 false
+	commonMountPointUid_                  basic
+	modelsPid_                            basic
+	sitesPid_                             basic
+	homePageTitle_                        label                                 Home
+	groupPrefix_                          label                                 Group
+	baseFolderName_                       folder                                Website
+	subFolderNames_                       folder                                documents, images
+	groupMods_                            access lists                          web_layout,web_ViewpageView,web_list,file_FilelistList,user_setup
+	tablesSelect_                         access lists                          pages,sys_file,sys_file_metadata,sys_file_reference,tt_content
+	tablesModify_                         access lists                          pages,sys_file,sys_file_metadata,sys_file_reference,tt_content
+	explicitAllowdeny_                    access lists                          tt_content:CType:media:ALLOW,tt_content:CType:textteaser:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:CType:image:ALLOW,tt_content:CType:textmedia:ALLOW
 	==================================== ===================================== ====================
 
 Property details
@@ -47,19 +53,13 @@ Property details
 
 onlyOneFormPage
 """""""""""""""
-By default there are two configuration pages to set wizard data. Set this to true if you need only one configuration page.
+By default there are two configuration pages - one for mandatory data and another one for optional data - to set wizard data. Set this to true if you need only one configuration page.
 
 .. _extensionManagerCommonMountPointUid:
 
 commonMountPointUid
 """""""""""""""""""
 Here you can set the uid of a commun mount point for all sites, this mount point will then be available for each duplicated tree.
-
-.. _extensionManageSupervisorGroupUid:
-
-supervisorGroupUid
-""""""""""""""""""
-This is the uid of the supervisor group
 
 .. _extensionManagerModelsPid:
 
@@ -72,28 +72,52 @@ You can have several model pids separated with comma.
 
 sitesPid
 """"""""
-Pages uid where sites can be created, use comma for multiple values.
+Pages uid where sites can be created, use comma for multiple values. The site generator wizard will only be available on that pages.
 
 .. _extensionManagerHomePageTitle:
 
 homePageTitle
 """""""""""""
-Define here the title used for the home page of each subsite - can be overidden in wizard form.
+Define here the title used for the home page of each subsite - can be overridden in wizard form.
 
 .. _extensionManagerGroupPrefix:
 
 groupPrefix
 """""""""""
-If set when a new group is created, the group title will be prepended with this string - can be overidden in wizard form.
+If set when a new FE or BE group is created, the group title will be prepended with this string - can be overridden in wizard form.
 
 .. _extensionManagerBaseFolderName:
 
 baseFolderName
 """"""""""""""
-This is the name of the base folder used for each subsite mount point - can be overidden in wizard form.
+This is the name of the base folder used for each subsite mount point - can be overridden in wizard form.
 
 .. _extensionManagerSubFolderNames:
 
 subFolderNames
 """"""""""""""
-The names of the sub-folders to create inside "baseFolderName/site_title/" - comma seprated, can be overidden in wizard form.
+The names of the sub-folders to create inside "baseFolderName/site_title/" - comma separated, can be overridden in wizard form.
+
+.. _extensionManagerGroupMods:
+
+groupMods
+"""""""""
+List of allowed modules for BE group (comma separated)
+
+.. _extensionManagerTablesSelect:
+
+tablesSelect
+""""""""""""
+Listing of tables that can be select for BE group (comma separated)
+
+.. _extensionManagerTablesModify:
+
+tablesModify
+""""""""""""
+List of tables that can be modified for BE group (comma separated)
+
+.. _extensionManagerExplicitAllowdeny:
+
+explicitAllowdeny
+"""""""""""""""""
+Set tt_content allowed CType for BE group (comma separated)

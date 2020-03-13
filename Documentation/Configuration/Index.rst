@@ -9,54 +9,57 @@ Configuration
 
 Target group: **Developers, Integrators**
 
-How is the extension configured? Aim to provide simple instructions detailing
-how the extension is configured. Always assume that the user has no prior experience
-of using your extension.
-
-Try and provide a typical use case for your extension and detail each of the
-steps required to get the extension running.
-
-
-Typical Example
+Minimal setup
 ===============
 
-- Do we need to include a static template?
-- For example add a code snippet with comments
+#. Install the extension
+#. Create your model and a root page where sites can be generated
+#. Within Extension Manager configuration, set 'Models Pid' and 'Sites Pid'
+#. If FE group creation is needed :
 
-Minimal example of TypoScript:
+   - Create a folder page for FE group creation
+   - Set FE group folder pid in TSConfig : pidFeGroup
 
-- Code-blocks have support for syntax highlighting
-- Use any supported language
+#. Then you can call the wizard on 'Sites Pid' pages
+
+Set pidFeGroup in Typoscript Constants :
 
 .. code-block:: typoscript
 
-   plugin.tx_myextension.settings {
-      # configure basic email settings
-      email {
-         subject = Some subject
-         from = someemail@domain.de
-      }
+   module.tx_sitegenerator {
+       settings {
+           siteGenerator {
+               wizard {
+                   pidFeGroup = xxx
+               }
+           }
+       }
    }
 
 .. _configuration-typoscript:
 
-TypoScript Reference
-====================
+If you only need Tree Duplication, you can change Typoscript Setup like this :
 
-Possible subsections: Reference of TypoScript options.
-The construct below show the recommended structure for
-TypoScript properties listing and description.
+.. code-block:: typoscript
 
-When detailing data types or standard TypoScript
-features, don't hesitate to cross-link to the TypoScript
-Reference as shown below.
+   module.tx_sitegenerator {
+       settings {
+           siteGenerator {
+               wizard {
+                   steps >
+                   steps {
+                       10 = Oktopuce\SiteGenerator\Wizard\StateCopyModelSite
+                       20 = Oktopuce\SiteGenerator\Wizard\StateUpdateHomePage
+                       30 = Oktopuce\SiteGenerator\Wizard\StateUpdateTemplateHP
+                       40 = Oktopuce\SiteGenerator\Wizard\StateUpdatePageTs
+                       50 = Oktopuce\SiteGenerator\Wizard\StateUpdateSlugs
+                   }
+               }
+           }
+       }
+   }
 
-
-See `Hyperlinks & Cross-Referencing <https://docs.typo3.org/typo3cms/HowToDocument/WritingReST/Hyperlinks.html>`
-for information about how to use cross-references.
-
-See the :file:`Settings.cgf` file for the declaration of cross-linking keys.
-You can add more keys besides tsref.
+.. _configuration-typoscript:
 
 
 Configuration
@@ -64,7 +67,7 @@ Configuration
 
 .. only:: html
 
-	This chapter describes how to the extension can be configured
+	Those chapters describes how the extension can be configured
 
 .. toctree::
 	:maxdepth: 5

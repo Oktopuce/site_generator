@@ -7,5 +7,4 @@
 Known Problems
 ==============
 
-Use this section for informing about any type of of problem
-that are not necessarily named in the bug tracker such as performance issues, ...
+No known problem till now

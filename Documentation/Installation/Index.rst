@@ -1,6 +1,9 @@
+.. ==================================================
+.. FOR YOUR INFORMATION
+.. --------------------------------------------------
+.. -*- coding: utf-8 -*- with BOM.
+
 .. include:: ../Includes.txt
-
-
 
 .. _installation:
 
@@ -47,4 +50,4 @@ You can get the latest version from git by using the git command:
 
 .. code-block:: bash
 
-   git clone git://git.typo3.org/TYPO3CMS/Extensions/site_generator.git
+   git clone https://github.com/Oktopuce/site_generator.git
