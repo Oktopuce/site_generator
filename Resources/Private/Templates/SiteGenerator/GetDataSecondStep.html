@@ -9,9 +9,7 @@
         <f:form action="{moduleUrl}" method="POST" name="tx_sitegenerator" class="form-optional-data">
             <f:form.hidden name="action" value="{action}" />
             <f:form.hidden name="returnurl" value="{returnurl}" />
-            <f:form.hidden property="pid" value="{siteDto.pid}" />
-            <f:form.hidden property="modelPid" value="{siteDto.modelPid}" />
-            <f:form.hidden property="title" value="{siteDto.title}" />
+            <f:form.hidden name="siteDtoSaved" value="{siteDtoSaved}" />
             <div class="form-group">
                 <div class="form-section">
                     <div class="row">
@@ -58,7 +56,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <f:link.action additionalParams="{action: 'get_data_first_step', tx_sitegenerator: {pid: siteDto.pid, title: siteDto.title}}" class="btn btn-default"><f:translate key="form.previousStep"/></f:link.action>
+                <f:link.action additionalParams="{action: 'get_data_first_step', siteDtoSaved: siteDtoSaved}" class="btn btn-default"><f:translate key="form.previousStep"/></f:link.action>
                 <f:form.submit value="{f:translate(key: 'form.nexStep')}" class="btn btn-default" />
             </div>
         </f:form>
