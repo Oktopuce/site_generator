@@ -24,7 +24,7 @@
 				<source>Select model</source>
 			</trans-unit>
             <trans-unit id="form.SecondStepData.domain">
-				<source>Domain name (www.sample.com) - leave empty to ignore</source>
+				<source>Domain name (https://www.example.com/) - leave empty to ignore</source>
 			</trans-unit>
 
             <trans-unit id="form.SecondStepData.title">
@@ -80,25 +80,22 @@
             <trans-unit id="generate.success.updatePageTS">
 				<source>- Update page TSConfig (TCEMAIN.clearCacheCmd) done for pages : %s</source>
 			</trans-unit>
-            <trans-unit id="generate.success.setDomain">
-				<source>- The domain '%s' has been created</source>
+            <trans-unit id="generate.success.createSiteConfiguration">
+				<source>- The site configuration for domain '%s' has been created</source>
 			</trans-unit>
 
             <trans-unit id="generate.success">
 				<source>The new site creation/tree model duplication was finished.</source>
 			</trans-unit>
-            <trans-unit id="generate.todo">
-				<source>Now some tasks are left for you to do manually:
-                    - create new BE users and add them to "%s" or add new users in that group
-                    - add content...
-                </source>
-			</trans-unit>
 
             <trans-unit id="wizard.firstPage.error">
 				<source>The first page couldn't be created.</source>
 			</trans-unit>
-            <trans-unit id="wizard.createDomain.error">
-				<source>The domain couldn't be created.</source>
+            <trans-unit id="wizard.createSiteConfiguration.error">
+				<source>The site configuration couldn't be created.</source>
+			</trans-unit>
+            <trans-unit id="wizard.createSiteConfiguration.error.noRooTPage">
+				<source>- The site configuration couldn't be created because model contains no root page.</source>
 			</trans-unit>
             <trans-unit id="wizard.copyModel.error">
 				<source>Site model copy error.</source>

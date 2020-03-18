@@ -30,8 +30,8 @@
 				<target>Sélectionner le modèle</target>
 			</trans-unit>
             <trans-unit id="form.SecondStepData.domain">
-				<source>Domain name (www.sample.com) - leave empty to ignore</source>
-				<target>Nom de domaine (www.example.com) - laisser vide pour ignorer</target>
+				<source>Domain name (https://www.example.com/) - leave empty to ignore</source>
+				<target>Nom de domaine (https://www.example.com/) - laisser vide pour ignorer</target>
 			</trans-unit>
 
             <trans-unit id="form.SecondStepData.title">
@@ -104,33 +104,27 @@
 				<source>- Update page TSConfig (TCEMAIN.clearCacheCmd) done for pages : %s</source>
 				<target>- La configuration de page (TCEMAIN.clearCacheCmd) a été mise à jour pour les pages : %s</target>
 			</trans-unit>
-            <trans-unit id="generate.success.setDomain">
-				<source>- The domain '%s' has been created</source>
-				<target>- Le domaine '%s' a été créé</target>
+            <trans-unit id="generate.success.createSiteConfiguration">
+				<source>- The site configuration for domain '%s' has been created</source>
+				<target>- La configuration de site pour le domain '%s' a été réalisée</target>
 			</trans-unit>
 
             <trans-unit id="generate.success">
 				<source>The new site creation/tree model duplication was finished.</source>
 				<target>La création du nouveau site/duplication de l'arborescence de page est terminée.</target>
 			</trans-unit>
-            <trans-unit id="generate.todo">
-				<source>Now some tasks are left for you to do manually:
-					- create new BE users and add them to "%s" or add new users in that group
-					- add content...
-                </source>
-				<target>Il vous reste maintenant un certain nombre de tâches manuelles:
-                    - créer de nouveaux utilisateurs backend et les ajouter au groupe "%s", ou ajouter des utilisateurs existants dans ce groupe
-                    - ajouter du contenu...
-                </target>
-			</trans-unit>
 
             <trans-unit id="wizard.firstPage.error">
 				<source>The site first page couldn't be created.</source>
 				<target>Impossible de créer la première page du site.</target>
 			</trans-unit>
-            <trans-unit id="wizard.createDomain.error">
-				<source>The domain couldn't be created.</source>
-				<target>Impossible de créer le domaine.</target>
+            <trans-unit id="wizard.createSiteConfiguration.error">
+				<source>The site configuration couldn't be created.</source>
+				<target>Impossible de créer la configuration du site.</target>
+			</trans-unit>
+            <trans-unit id="wizard.createSiteConfiguration.error.noRooTPage">
+				<source>- The site configuration couldn't be created because model contains no root page.</source>
+				<target>- Impossible de créer la configuration du site car le modèle ne contient pas de page racine.</target>
 			</trans-unit>
             <trans-unit id="wizard.copyModel.error">
 				<source>Site model copy error.</source>
