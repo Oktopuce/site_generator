@@ -23,22 +23,26 @@ Properties
 
 .. container:: ts-properties
 
-	==================================== ===================================== ====================
-	Property                             Tab                                   Default
-	==================================== ===================================== ====================
-	onlyOneFormPage_                      basic                                 false
-	commonMountPointUid_                  basic
-	modelsPid_                            basic
-	sitesPid_                             basic
-	homePageTitle_                        label                                 Home
-	groupPrefix_                          label                                 Group
-	baseFolderName_                       folder                                Website
-	subFolderNames_                       folder                                documents, images
-	groupMods_                            access lists                          web_layout,web_ViewpageView,web_list,file_FilelistList,user_setup
-	tablesSelect_                         access lists                          pages,sys_file,sys_file_metadata,sys_file_reference,tt_content
-	tablesModify_                         access lists                          pages,sys_file,sys_file_metadata,sys_file_reference,tt_content
-	explicitAllowdeny_                    access lists                          tt_content:CType:media:ALLOW,tt_content:CType:textteaser:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:CType:image:ALLOW,tt_content:CType:textmedia:ALLOW
-	==================================== ===================================== ====================
+   ==================================== ===================================== ====================
+   Property                             Tab                                   Default
+   ==================================== ===================================== ====================
+   onlyOneFormPage_                      basic                                 false
+   commonMountPointUid_                  basic
+   modelsPid_                            basic
+   sitesPid_                             basic
+   homePageTitle_                        label                                 Home
+   groupPrefix_                          label                                 Group
+   baseFolderName_                       folder                                Website
+   subFolderNames_                       folder                                documents, images
+   groupMods_                            access lists                          web_layout,web_ViewpageView,web_list,file_FilelistList,user_setup
+   tablesSelect_                         access lists                          pages,sys_file,sys_file_metadata,sys_file_reference,tt_content
+   tablesModify_                          access lists                          pages,sys_file,sys_file_metadata,sys_file_reference,tt_content
+   explicitAllowdeny_                    access lists                          tt_content:CType:media:ALLOW,tt_content:CType:textteaser:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:CType:image:ALLOW,tt_content:CType:textmedia:ALLOW
+   siteIdentifierPrefix_                 site configuration                    siteGenerator-
+   langTitle_                            site configuration                    English
+   locale_                               site configuration                    en_US.UTF-8
+   iso-639-1_                            site configuration                    en
+   ==================================== ===================================== ====================
 
 Property details
 ^^^^^^^^^^^^^^^^
@@ -121,3 +125,27 @@ List of tables that can be modified for BE group (comma separated)
 explicitAllowdeny
 """""""""""""""""
 Set tt_content allowed CType for BE group (comma separated)
+
+.. _extensionManagerSiteIdentifierPrefix:
+
+siteIdentifierPrefix
+""""""""""""""""""""
+The prefix used for site identifier in site configuration
+
+.. _extensionManagerLangTitle:
+
+langTitle
+"""""""""
+The language title (ex : English)
+
+.. _extensionManagerLocale:
+
+locale
+""""""
+Locale used for localized date and currency formats. E.g. "de_DE" or "en_US.UTF-8".
+
+.. _extensionManagerIso-639-1:
+
+iso-639-1
+"""""""""
+Two letters of ISO 639-1 code of the language, sample : en, fr
