@@ -24,7 +24,7 @@ module.tx_sitegenerator {
                     40 = Oktopuce\SiteGenerator\Wizard\StateCreateFeGroup
                     50 = Oktopuce\SiteGenerator\Wizard\StateCreateBeGroup
                     60 = Oktopuce\SiteGenerator\Wizard\StateSetPageBeGroup
-                    70 = Oktopuce\SiteGenerator\Wizard\StateSetDomain
+                    70 = Oktopuce\SiteGenerator\Wizard\StateSiteConfiguration
                     80 = Oktopuce\SiteGenerator\Wizard\StateUpdateHomePage
                     90 = Oktopuce\SiteGenerator\Wizard\StateUpdateTemplateHP
                     100 = Oktopuce\SiteGenerator\Wizard\StateUpdatePageTs
