@@ -74,6 +74,32 @@ class PagesRepository
     }
 
     /**
+     * Find a root site id between a set of pages
+     *
+     * @param array $uids   The pages ids to look for a root line
+     *
+     * @return int
+     */
+    public function getRootSiteId(array $uids): int
+    {
+        /** @var \TYPO3\CMS\Core\Database\Query\QueryBuilder $queryBuilder */
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+
+        $rootPage = $queryBuilder->select('uid')
+            ->from('pages')
+            ->setMaxResults(1)
+            ->where(
+                $queryBuilder->expr()->in('uid', $queryBuilder->createNamedParameter($uids, Connection::PARAM_INT_ARRAY)),
+                $queryBuilder->expr()->eq('is_siteroot', true)
+            )
+            ->execute()
+            ->fetchAll();
+
+        return((!empty($rootPage) ? $rootPage[0]['uid'] : 0));
+    }
+
+        /**
      * Returns an instance of the QueryBuilder.
      *
      * @return QueryBuilder
