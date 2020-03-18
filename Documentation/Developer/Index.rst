@@ -58,9 +58,9 @@ File details
 ============
 
 .. toctree::
-	:maxdepth: 3
-	:titlesonly:
-	:glob:
+   :maxdepth: 3
+   :titlesonly:
+   :glob:
 
    Typoscript/Index
    Dto/Index

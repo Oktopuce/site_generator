@@ -11,12 +11,12 @@ Configuration
 
 .. only:: html
 
-	This chapter describes how to the extension can be configured
+   This chapter describes how to the extension can be configured
 
 .. toctree::
-	:maxdepth: 5
-	:titlesonly:
+   :maxdepth: 5
+   :titlesonly:
 
-	TypoScript/Index
-	TsConfig/Index
-	ExtensionManager/Index
+   TypoScript/Index
+   TsConfig/Index
+   ExtensionManager/Index

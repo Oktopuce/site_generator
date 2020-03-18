@@ -18,7 +18,7 @@ If you base your TYPO3 instance on a modern composer based installation, just re
 
 .. code-block:: bash
 
-	composer require oktopuce/site-generator
+   composer require oktopuce/site-generator
 
 Then go to the backend extension manager and load the extension in "Installed Extensions".
 

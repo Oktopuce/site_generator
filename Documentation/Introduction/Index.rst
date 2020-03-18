@@ -25,6 +25,7 @@ Once the tree is duplicated, the extension will automatically :
 * set access group for created tree
 * create directories and files mount
 * add domain name
+* create site configuration
 * update Typoscript configuration (folders/pages ID and TCEMAIN.clearCacheCmd)
 * update slugs for URL rewriting
 
@@ -81,8 +82,8 @@ Generation finished
 When the generation is finished, a résumé of all states is displayed
 
 .. toctree::
-	:maxdepth: 3
-	:titlesonly:
-	:glob:
+   :maxdepth: 3
+   :titlesonly:
+   :glob:
 
    Support/Index

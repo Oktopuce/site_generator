@@ -18,7 +18,7 @@ Minimal setup
 #. If FE group creation is needed :
 
    - Create a folder page for FE group creation
-   - Set FE group folder pid in TSConfig : pidFeGroup
+   - Set FE group folder pid in Typoscript Constants : pidFeGroup
 
 #. Then you can call the wizard on 'Sites Pid' pages
 
@@ -67,12 +67,12 @@ Configuration
 
 .. only:: html
 
-	Those chapters describes how the extension can be configured
+   Those chapters describes how the extension can be configured
 
 .. toctree::
-	:maxdepth: 5
-	:titlesonly:
+   :maxdepth: 5
+   :titlesonly:
 
-	TypoScript/Index
-	TsConfig/Index
-	ExtensionManager/Index
+   TypoScript/Index
+   TsConfig/Index
+   ExtensionManager/Index

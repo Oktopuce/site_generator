@@ -46,14 +46,14 @@ Site Generator
 :Rendered:
    |today|
 
-With this extension, you can very easily create mini-website or duplicate tree, it will automatically create associated BE/FE groups, create directories with associated files mount, add domain name, update Typoscript configuration (folders/pages ID and TCEMAIN.clearCacheCmd), update slugs. Based on State Design Pattern, it is highly customizable : you can remove unnecessary states and add your own states to fit your own needs.
+With this extension, you can very easily create mini-website or duplicate tree, it will automatically create associated BE/FE groups, create directories with associated files mount, add domain name and site configuration, update Typoscript configuration (folders/pages ID and TCEMAIN.clearCacheCmd), update slugs. Based on State Design Pattern, it is highly customizable : you can remove unnecessary states and add your own states to fit your own needs.
 
 **Table of Contents**
 
 .. toctree::
-	:maxdepth: 3
-	:titlesonly:
-	:glob:
+   :maxdepth: 3
+   :titlesonly:
+   :glob:
 
    Introduction/Index
    Editor/Index
