@@ -7,6 +7,7 @@
 # customsubcategory=130=Label
 # customsubcategory=140=Folder
 # customsubcategory=150=BE Group access lists
+# customsubcategory=160=Site configuration
 
 # cat=Basic/100/10_ModelPid; type=string; label=Models PID: Models page uid used to generate the new site (comma separated for multiple models)
 modelsPid =
@@ -18,7 +19,7 @@ sitesPid =
 commonMountPointUid =
 
 # cat=Basic/120/10_OneForm; type=boolean; label=Only one form page for data: Check this if you want only one form page to gather data
-onlyOneFormPage=false
+onlyOneFormPage = false
 
 # cat=Label/130/10_PageTitle; type=string; label=Home page title: The title used for the home page (can be overridden in form)
 homePageTitle = Home
@@ -32,14 +33,27 @@ baseFolderName = Website
 # cat=Folder/140/10_SubFolderNames; type=string; label=Sub-folders to create: The names of the sub-folders to create (comma separated, can be overridden in form)
 subFolderNames = documents,images
 
-# cat=Access lists/150/10_groupMods; type=string; label=Modules: List of allowed modules for BE group (comma separated)
+# cat=Access_lists/150/10_groupMods; type=string; label=Modules: List of allowed modules for BE group (comma separated)
 groupMods = web_layout,web_ViewpageView,web_list,file_FilelistList,user_setup
 
-# cat=Access lists/150/20_tablesSelect; type=string; label=Tables: Listing of tables that can be select for BE group (comma separated)
+# cat=Access_lists/150/20_tablesSelect; type=string; label=Tables: Listing of tables that can be select for BE group (comma separated)
 tablesSelect = pages,sys_file,sys_file_metadata,sys_file_reference,tt_content
 
-# cat=Access lists/150/30_tablesModify; type=string; label=Tables: List of tables that can be modified for BE group (comma separated)
+# cat=Access_lists/150/30_tablesModify; type=string; label=Tables: List of tables that can be modified for BE group (comma separated)
 tablesModify = pages,sys_file,sys_file_metadata,sys_file_reference,tt_content
 
-# cat=Access lists/150/40_explicitAllowdeny; type=string; label=Explicitly allow/deny field values: Set tt_content allowed CType for BE group (comma separated)
+# cat=Access_lists/150/40_explicitAllowdeny; type=string; label=Explicitly allow/deny field values: Set tt_content allowed CType for BE group (comma separated)
 explicitAllowdeny = tt_content:CType:media:ALLOW,tt_content:CType:textteaser:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:CType:image:ALLOW,tt_content:CType:textmedia:ALLOW
+
+# cat=Site_configuration/160/10_SiteIdentifierPrefix; type=string; label=Site identifier prefix: The prefix used for site identifier in site configuration
+siteIdentifierPrefix = siteGenerator-
+
+# cat=Site_configuration/160/20_LangTitle; type=string; label=Language title: The language title (ex : English)
+langTitle = English
+
+# cat=Site_configuration/160/30_Locale; type=string; label=Locale: Used for localized date and currency formats. E.g. "de_DE" or "en_US.UTF-8".
+locale = en_US.UTF-8
+
+# cat=Site_configuration/160/40_Iso-639-1; type=string; label=ISO 639-1 code of the Language: Two letters of iso code language
+iso-639-1 = en
+
