@@ -13,6 +13,7 @@ namespace Oktopuce\SiteGenerator\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -80,8 +81,6 @@ class SiteGeneratorController extends ActionController
      */
     public function __construct()
     {
-        parent::__construct();
-
         // Get translations
         $this->getLanguageService()->includeLLFile('EXT:site_generator/Resources/Private/Language/locallang.xlf');
 
@@ -185,13 +184,16 @@ class SiteGeneratorController extends ActionController
      * Injects the request object for the current request and gathers all data
      *
      * @param ServerRequestInterface $request the current request
-     * @param ResponseInterface $response
+     * @param ResponseInterface $response (removed in V10)
      *
      * @return ResponseInterface the response with the content
      */
-    public function dispatch(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function dispatch(ServerRequestInterface $request, ResponseInterface $response = null): ResponseInterface
     {
-        $response = $response->withHeader('Content-Type', 'text/html; charset=utf-8');
+		if ($response === null) {
+        	$response = new HtmlResponse('');
+		}
+        $response->withHeader('Content-Type', 'text/html; charset=utf-8');
 
         // The pid is mandatory
         if ($this->siteGeneratorDto->getPid() <= 0) {
@@ -230,10 +232,16 @@ class SiteGeneratorController extends ActionController
     protected function addbuttons(): void
     {
         $lang = $this->getLanguageService();
+        $gobackLabel = 'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.goBack';
+
+        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.0.0', '<')) {
+            $gobackLabel = 'LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.goBack';
+        }
+
         if ($this->conf['returnurl']) {
             $returnButton = $this->buttonBar->makeLinkButton()
                 ->setHref($this->conf['returnurl'])
-                ->setTitle($lang->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.goBack'))
+                ->setTitle($lang->sL($gobackLabel))
                 ->setIcon($this->moduleTemplate->getIconFactory()->getIcon('actions-view-go-back', Icon::SIZE_SMALL));
             $this->buttonBar->addButton($returnButton, ButtonBar::BUTTON_POSITION_LEFT, 10);
         }
@@ -378,9 +386,9 @@ class SiteGeneratorController extends ActionController
     }
 
     /**
-     * @return \TYPO3\CMS\Lang\LanguageService
+     * @return \TYPO3\CMS\Core\Localization\LanguageService | \TYPO3\CMS\Core\Localization\LanguageService
      */
-    protected function getLanguageService(): \TYPO3\CMS\Lang\LanguageService
+    protected function getLanguageService()
     {
         return $GLOBALS['LANG'];
     }
