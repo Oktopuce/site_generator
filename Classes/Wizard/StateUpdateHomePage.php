@@ -32,14 +32,14 @@ class StateUpdateHomePage extends StateBase implements SiteGeneratorStateInterfa
         $settings = $context->getSettings();
 
         // Update the home page with the form data
-        $this->updateHomePage($context->getSiteData(), (bool)$settings['siteGenerator']['wizard']['hideHomePage']);
+        $this->updateHomePage($context->getSiteData(), (int)$settings['siteGenerator']['wizard']['hideHomePage']);
     }
 
     /**
      * Update the home page with the form data
      *
      * @param BaseDto $siteData New site data
-     * @param bool $hideHomePage If true, home page will be hidden
+     * @param int $hideHomePage If 1, home page will be hidden
      *
      * @return void
      */
