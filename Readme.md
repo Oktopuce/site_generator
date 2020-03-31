@@ -1,4 +1,9 @@
-# TYPO3 Extension ``site_generator`` [![Build Status](https://travis-ci.com/Oktopuce/site_generator.svg?branch=master)](https://travis-ci.com/github/Oktopuce/site_generator)
+# TYPO3 Extension ``site_generator``
+
+[![Build Status](https://travis-ci.com/Oktopuce/site_generator.svg?branch=master)](https://travis-ci.com/github/Oktopuce/site_generator)
+[![Latest Stable Version](https://poser.pugx.org/oktopuce/site-generator/v/stable)](https://packagist.org/packages/oktopuce/site-generator)
+[![Total Downloads](https://poser.pugx.org/oktopuce/site-generator/downloads)](https://packagist.org/packages/oktopuce/site-generator)
+[![License](https://poser.pugx.org/oktopuce/site-generator/license)](https://packagist.org/packages/oktopuce/site-generator)
 
 With this backend extension, you can very easily create min-website or duplicate tree, it will automatically create associated BE/FE groups, create directories with associated files mount, add domain name and site configuration, update Typoscript configuration (folders/pages ID and TCEMAIN.clearCacheCmd), update slugs. Based on State Design Pattern, it is highly customizable : you can remove unnecessary states and add your own states to fit your own needs.
 
