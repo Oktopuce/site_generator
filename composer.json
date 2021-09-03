@@ -13,11 +13,18 @@
     "authors": [
       {
         "name": "Florian Rival",
-        "role": "Developer"
+		"email": "florian.typo3@oktopuce.fr",
+        "homepage": "https://www.oktopuce.fr"
       }
     ],
-    "require": {
-        "typo3/cms-core": "^9.5||^11.3.99"
+	"repositories": [
+		{
+		  "type": "composer",
+		  "url": "https://composer.typo3.org/"
+		}
+	],
+	"require": {
+        "typo3/cms-core": "^9.5 || ^11"
     },
     "autoload": {
         "psr-4": {
