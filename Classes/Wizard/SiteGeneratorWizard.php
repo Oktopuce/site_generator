@@ -2,6 +2,7 @@
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 /* * *
  *
  * This file is part of the "Site Generator" Extension for TYPO3 CMS.
@@ -95,7 +96,7 @@ class SiteGeneratorWizard
     public function startWizard()
     {
         // Force wizard with admin rights
-        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '9.0.0', '>=')) {
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '9.0.0', '>=')) {
             /** @var Context $context */
             $context = GeneralUtility::makeInstance(Context::class);
             $saveBeUserAdmin = $context->getPropertyFromAspect('backend.user', 'isAdmin');

@@ -25,7 +25,7 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 class BackendControllerHook
 {
     /**
-     * Adds ImportExport-specific JavaScript
+     * Adds sitegenerator-specific JavaScript
      *
      * @param array $configuration
      * @param BackendController $backendController

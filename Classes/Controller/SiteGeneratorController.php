@@ -2,6 +2,7 @@
 
 namespace Oktopuce\SiteGenerator\Controller;
 
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 /* * *
  *
  * This file is part of the "Site Generator" Extension for TYPO3 CMS.
@@ -234,8 +235,8 @@ class SiteGeneratorController extends ActionController
         $lang = $this->getLanguageService();
         $gobackLabel = 'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.goBack';
 
-        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.0.0', '<')) {
-            $gobackLabel = 'LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.goBack';
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '10.0.0', '<')) {
+            $gobackLabel = 'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.goBack';
         }
 
         if ($this->conf['returnurl']) {
@@ -402,7 +403,7 @@ class SiteGeneratorController extends ActionController
      */
     public function buildUriFromRoute($name): string
     {
-        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '9.0.0', '>=')) {
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '9.0.0', '>=')) {
             /** @var UriBuilder $uriBuilder */
             $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
             $uri = (string) $uriBuilder->buildUriFromRoute($name);
