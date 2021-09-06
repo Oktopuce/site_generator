@@ -15,7 +15,7 @@ define(function () {
   var ContextMenuActions = {};
 
   ContextMenuActions.getReturnUrl = function () {
-    return top.rawurlencode(top.list_frame.document.location.pathname + top.list_frame.document.location.search);
+    return encodeURIComponent(top.list_frame.document.location.pathname + top.list_frame.document.location.search);
   };
 
   /**

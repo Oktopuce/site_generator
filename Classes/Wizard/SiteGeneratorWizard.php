@@ -1,16 +1,17 @@
 <?php
 
-namespace Oktopuce\SiteGenerator\Wizard;
+declare(strict_types=1);
 
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-/* * *
+/*
  *
  * This file is part of the "Site Generator" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * * */
+ */
+
+namespace Oktopuce\SiteGenerator\Wizard;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -96,17 +97,12 @@ class SiteGeneratorWizard
     public function startWizard()
     {
         // Force wizard with admin rights
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '9.0.0', '>=')) {
-            /** @var Context $context */
-            $context = GeneralUtility::makeInstance(Context::class);
-            $saveBeUserAdmin = $context->getPropertyFromAspect('backend.user', 'isAdmin');
-        }
-        else {
-            $saveBeUserAdmin = $GLOBALS['BE_USER']->user['admin'];
-        }
+        /** @var Context $context */
+        $context = GeneralUtility::makeInstance(Context::class);
+        $saveBeUserAdmin = $context->getPropertyFromAspect('backend.user', 'isAdmin');
 
         // Don't know how to change it with aspect in Typo3 V9
-        $GLOBALS['BE_USER']->user['admin'] = 1;
+        $GLOBALS['BE_USER']->user['admin'] = true;
 
         // Process all steps : steps are defined in setup TS, field wizardSteps
         while ($this->currentState != NULL) {
@@ -133,8 +129,7 @@ class SiteGeneratorWizard
                 $this->currentState = GeneralUtility::makeInstance($stateClass);
                 next(self::$states);
             }
-        }
-        else {
+        } else {
             throw new \Exception(LocalizationUtility::translate('wizard.tsConfig.error', 'site_generator'));
         }
     }
@@ -148,5 +143,4 @@ class SiteGeneratorWizard
     {
         return ($this->siteData);
     }
-
 }

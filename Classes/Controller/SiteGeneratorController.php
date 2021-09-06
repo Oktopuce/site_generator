@@ -1,19 +1,21 @@
 <?php
 
-namespace Oktopuce\SiteGenerator\Controller;
+declare(strict_types=1);
 
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-/* * *
+/*
  *
  * This file is part of the "Site Generator" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * * */
+ */
+
+namespace Oktopuce\SiteGenerator\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -24,11 +26,13 @@ use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Core\Resource\Utility\BackendUtility;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use Oktopuce\SiteGenerator\Wizard\SiteGeneratorWizard;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
 use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
+use Oktopuce\SiteGenerator\Wizard\Event\BeforeRenderingFirstStepViewEvent;
+use Oktopuce\SiteGenerator\Wizard\Event\BeforeRenderingSecondStepViewEvent;
+
 
 /**
  * SiteGeneratorController
@@ -78,9 +82,14 @@ class SiteGeneratorController extends ActionController
     protected $extensionConfiguration = [];
 
     /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
+    /**
      * The constructor of this class
      */
-    public function __construct()
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
         // Get translations
         $this->getLanguageService()->includeLLFile('EXT:site_generator/Resources/Private/Language/locallang.xlf');
@@ -112,6 +121,8 @@ class SiteGeneratorController extends ActionController
             'ok' => $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_common.xlf:ok')
         ]);
 
+        $this->eventDispatcher = $eventDispatcher;
+
         // Standalone view initialisation
         $this->initStandaloneView();
     }
@@ -130,8 +141,7 @@ class SiteGeneratorController extends ActionController
         if ($siteDtoSaved) {
             // Restore saved form data
             $this->siteGeneratorDto = unserialize(json_decode($siteDtoSaved));
-        }
-        else {
+        } else {
             // Store form data in DTO
             $this->siteGeneratorDto = GeneralUtility::makeInstance($this->settings['siteGenerator']['wizard']['formDto']);
 
@@ -149,6 +159,15 @@ class SiteGeneratorController extends ActionController
         if ($parameters) {
             foreach ($parameters as $key => $value) {
                 $setter = 'set' . ucfirst($key);
+
+                // Retrieve method parameter type
+                $reflectionFunc = new \ReflectionMethod(get_class($this->siteGeneratorDto), $setter);
+                $reflectionParams = $reflectionFunc->getParameters();
+
+                if ($reflectionParams[0]->getType() && $reflectionParams[0]->getType()->getName()) {
+                    \settype($value, $reflectionParams[0]->getType()->getName());
+                }
+
                 $this->siteGeneratorDto->$setter($value);
             }
         }
@@ -191,9 +210,9 @@ class SiteGeneratorController extends ActionController
      */
     public function dispatch(ServerRequestInterface $request, ResponseInterface $response = null): ResponseInterface
     {
-		if ($response === null) {
-        	$response = new HtmlResponse('');
-		}
+        if ($response === null) {
+            $response = new HtmlResponse('');
+        }
         $response->withHeader('Content-Type', 'text/html; charset=utf-8');
 
         // The pid is mandatory
@@ -235,10 +254,6 @@ class SiteGeneratorController extends ActionController
         $lang = $this->getLanguageService();
         $gobackLabel = 'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.goBack';
 
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '10.0.0', '<')) {
-            $gobackLabel = 'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.goBack';
-        }
-
         if ($this->conf['returnurl']) {
             $returnButton = $this->buttonBar->makeLinkButton()
                 ->setHref($this->conf['returnurl'])
@@ -271,10 +286,8 @@ class SiteGeneratorController extends ActionController
             'rules' => '[{"type":"required"}]'
         ];
 
-        // Add signal to assign more variables to the view (usefull when using your own template)
-        /** @var Dispatcher $signalSlotDispatcher */
-        $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
-        $signalSlotDispatcher->dispatch(__CLASS__, 'addFirstStepViewVariables', [&$viewVariables]);
+        // Add event to assign more variables to the view (usefull when using your own template)
+        $this->eventDispatcher->dispatch(new BeforeRenderingFirstStepViewEvent($viewVariables));
 
         $this->standaloneView->assignMultiple($viewVariables);
 
@@ -282,7 +295,7 @@ class SiteGeneratorController extends ActionController
         $this->moduleTemplate->setContent($this->standaloneView->render());
         $content = $this->moduleTemplate->renderContent();
 
-        return($content);
+        return ($content);
     }
 
     /**
@@ -302,10 +315,8 @@ class SiteGeneratorController extends ActionController
             'returnurl' => $this->conf['returnurl'],
         ];
 
-        // Add signal to assign more variables to the view (usefull when using your own template)
-        /** @var Dispatcher $signalSlotDispatcher */
-        $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
-        $signalSlotDispatcher->dispatch(__CLASS__, 'addSecondStepViewVariables', [&$viewVariables]);
+        // Add event to assign more variables to the view (usefull when using your own template)
+        // $this->eventDispatcher->dispatch(new BeforeRenderingSecondStepViewEvent($viewVariables));
 
         $this->standaloneView->assignMultiple($viewVariables);
 
@@ -313,7 +324,7 @@ class SiteGeneratorController extends ActionController
         $this->moduleTemplate->setContent($this->standaloneView->render());
         $content = $this->moduleTemplate->renderContent();
 
-        return($content);
+        return ($content);
     }
 
     /**
@@ -344,14 +355,17 @@ class SiteGeneratorController extends ActionController
         $this->setTemplateName('GenerateSite.html');
         $this->moduleTemplate->setContent($this->standaloneView->render());
 
+        // Update page tree
+        BackendUtility::setUpdateSignal('updatePageTree').
+
         // Add JS for refreshing tree node
-        $this->moduleTemplate->addJavaScriptCode(
-            'SiteGeneratorInLineJS',
-            'top.TYPO3.Backend.NavigationContainer.PageTree.refreshTree();'
-        );
+        // $this->moduleTemplate->addJavaScriptCode(
+        //     'SiteGeneratorInLineJS',
+        //     'top.TYPO3.Backend.NavigationContainer.PageTree.refreshTree();'
+        // );
         $content = $this->moduleTemplate->renderContent();
 
-        return($content);
+        return ($content);
     }
 
     /**
@@ -366,7 +380,7 @@ class SiteGeneratorController extends ActionController
         if ($this->extensionConfiguration == null) {
             $this->extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator'];
         }
-        return($this->extensionConfiguration[$name]);
+        return ($this->extensionConfiguration[$name]);
     }
 
     /**
@@ -403,15 +417,9 @@ class SiteGeneratorController extends ActionController
      */
     public function buildUriFromRoute($name): string
     {
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '9.0.0', '>=')) {
-            /** @var UriBuilder $uriBuilder */
-            $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-            $uri = (string) $uriBuilder->buildUriFromRoute($name);
-        }
-        else {
-            $uri = BackendUtility::getModuleUrl($name);
-        }
+        /** @var UriBuilder $uriBuilder */
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+        $uri = (string) $uriBuilder->buildUriFromRoute($name);
         return ($uri);
     }
-
 }

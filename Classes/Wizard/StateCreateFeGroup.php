@@ -1,15 +1,17 @@
 <?php
 
-namespace Oktopuce\SiteGenerator\Wizard;
+declare(strict_types=1);
 
-/* * *
+/*
  *
  * This file is part of the "Site Generator" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * * */
+ */
+
+namespace Oktopuce\SiteGenerator\Wizard;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogLevel;
@@ -71,19 +73,18 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
 
             if ($groupId > 0) {
                 $this->log(LogLevel::NOTICE, 'Create FE group successful (uid = ' . $groupId);
+                // @extensionScannerIgnoreLine
                 $siteData->addMessage($this->translate('generate.success.feGroupCreated', [$groupName, $groupId]));
-            }
-            else {
+            } else {
                 $this->log(LogLevel::ERROR, 'Create FE group error, check if module.tx_sitegenerator.settings.wizard.pidFeGroup is a folder');
                 throw new \Exception($this->translate('wizard.feGroup.error'));
             }
-        }
-        else {
+        } else {
             $this->log(LogLevel::WARNING, "FE Group couldn't be created because module.tx_sitegenerator.settings.wizard.pidFeGroup is not defined");
+            // @extensionScannerIgnoreLine
             $siteData->addMessage($this->translate('generate.success.noFeGroupCreated'));
         }
 
         return ($groupId);
     }
-
 }

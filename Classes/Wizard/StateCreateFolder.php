@@ -1,15 +1,17 @@
 <?php
 
-namespace Oktopuce\SiteGenerator\Wizard;
+declare(strict_types=1);
 
-/* * *
+/*
  *
  * This file is part of the "Site Generator" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * * */
+ */
+
+namespace Oktopuce\SiteGenerator\Wizard;
 
 use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderAccessPermissionsException;
 use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsException;
@@ -23,6 +25,16 @@ use Oktopuce\SiteGenerator\Dto\BaseDto;
  */
 class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
 {
+    /**
+     * @var ResourceFactory
+     */
+    private $resourceFactory;
+
+    public function __construct(ResourceFactory $resourceFactory)
+    {
+        parent::__construct();
+        $this->resourceFactory = $resourceFactory;
+    }
 
     /**
      * Create site folder in fileadmin : base Folder / site title / sub folder
@@ -53,21 +65,20 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
         $baseFolderName = $siteData->getBaseFolderName();
         $subFolderNames = GeneralUtility::trimExplode(',', $siteData->getSubFolderNames(), true);
 
-        /* @var $resourceFactory ResourceFactory */
-        $resourceFactory = ResourceFactory::getInstance();
         if ($storageUid) {
-            $storage = $resourceFactory->getStorageObject($storageUid);
+            $storage = $this->resourceFactory->getStorageObject($storageUid);
 
             try {
                 $currentFolder = $baseFolderName;
                 if (!$storage->hasFolder($currentFolder)) {
                     // Folder does not exists : create it
                     $baseFolder = $storage->createFolder($baseFolderName);
+                    // @extensionScannerIgnoreLine
                     $siteData->addMessage($this->translate('generate.success.folderCreated', [$currentFolder]));
-                }
-                else {
+                } else {
                     $baseFolder = $storage->getFolder($baseFolderName);
                     if (!empty($baseFolderName) && !empty($baseFolder)) {
+                        // @extensionScannerIgnoreLine
                         $siteData->addMessage($this->translate('generate.success.folderExist', [$currentFolder]));
                     }
                 }
@@ -78,10 +89,11 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
                 if (!$storage->hasFolderInFolder($newFolder, $baseFolder)) {
                     // Create sub-folder for current site
                     $siteFolder = $storage->createFolder($newFolder, $baseFolder);
+                    // @extensionScannerIgnoreLine
                     $siteData->addMessage($this->translate('generate.success.folderCreated', [$currentFolder]));
-                }
-                else {
+                } else {
                     $siteFolder = $storage->getFolderInFolder($newFolder, $baseFolder);
+                    // @extensionScannerIgnoreLine
                     $siteData->addMessage($this->translate('generate.success.folderExist', [$currentFolder]));
                 }
 
@@ -105,5 +117,4 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
             $this->log(LogLevel::NOTICE, 'Folder creation successfull');
         }
     }
-
 }

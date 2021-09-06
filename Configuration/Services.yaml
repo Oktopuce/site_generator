@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Oktopuce\SiteGenerator\:
+    resource: '../Classes/*'
+
+  Oktopuce\SiteGenerator\Wizard\StateCreateFolder:
+    public: true
+    shared: false
