@@ -57,3 +57,14 @@ locale = en_US.UTF-8
 # cat=Site_configuration/160/40_Iso-639-1; type=string; label=ISO 639-1 code of the Language: Two letters of iso code language
 iso-639-1 = en
 
+# cat=Site_configuration/160/50_navigationTitle; type=string; label=Navigation Title: Used within language-related menu
+navigationTitle = English
+
+# cat=Site_configuration/160/60_hreflang; type=string; label=Language Tag defined by RFC 1766 / 3066: Used within for "lang" and "hreflang" attributes
+hreflang = en-US
+
+# cat=Site_configuration/160/70_direction; type=string; label=Direction: Language direction for "dir" attribute
+direction = ltr
+
+# cat=Site_configuration/160/80_flag; type=string; label=Flag icon: Two letters for flag icon
+flag = en-us-gb

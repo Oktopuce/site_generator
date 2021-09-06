@@ -1,15 +1,17 @@
 <?php
 
-namespace Oktopuce\SiteGenerator\Wizard;
+declare(strict_types=1);
 
-/* * *
+/*
  *
  * This file is part of the "Site Generator" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * * */
+ */
+
+namespace Oktopuce\SiteGenerator\Wizard;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Core\Environment;
@@ -65,10 +67,10 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
                     $language['locale'] = $extensionConfiguration['locale'];
                     $language['iso-639-1'] = $extensionConfiguration['iso-639-1'];
                     $language['websiteTitle'] = '';
-                    $language['navigationTitle'] = '';
-                    $language['hreflang'] = '';
-                    $language['direction'] = '';
-                    $language['flag'] = '';
+                    $language['navigationTitle'] = $extensionConfiguration['navigationTitle'];
+                    $language['hreflang'] = $extensionConfiguration['hreflang'];
+                    $language['direction'] = $extensionConfiguration['direction'];
+                    $language['flag'] = $extensionConfiguration['flag'];
                     $language['languageId'] = '0';
 
                     $newSiteConfiguration = [];
@@ -86,18 +88,19 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
                     $siteConfigurationManager->write($siteIdentifier, $newSiteConfiguration);
 
                     $this->log(LogLevel::NOTICE, 'Site configuration created');
+                    // @extensionScannerIgnoreLine
                     $siteData->addMessage($this->translate('generate.success.createSiteConfiguration', [
-                            $siteData->getDomain()]));
+                        $siteData->getDomain()
+                    ]));
                 } catch (SiteValidationErrorException $e) {
                     $this->log(LogLevel::ERROR, 'Cannont create site configuration for domain : ' . $siteData->getDomain());
                     throw new \Exception($this->translate('wizard.createSiteConfiguration.error'));
                 }
-            }
-            else {
+            } else {
                 $this->log(LogLevel::WARNING, 'The selected model does not contains root pages, no site configuration created');
+                // @extensionScannerIgnoreLine
                 $siteData->addMessage($this->translate('wizard.createSiteConfiguration.error.noRooTPage'));
             }
         }
     }
-
 }
