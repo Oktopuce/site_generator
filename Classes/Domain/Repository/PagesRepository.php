@@ -1,15 +1,17 @@
 <?php
 
-namespace Oktopuce\SiteGenerator\Domain\Repository;
+declare(strict_types=1);
 
-/* * *
+/*
  *
  * This file is part of the "Site Generator" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * * */
+ */
+
+namespace Oktopuce\SiteGenerator\Domain\Repository;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -70,7 +72,7 @@ class PagesRepository
             ->execute()
             ->fetchAll();
 
-        return($pages);
+        return ($pages);
     }
 
     /**
@@ -96,10 +98,10 @@ class PagesRepository
             ->execute()
             ->fetchAll();
 
-        return((!empty($rootPage) ? $rootPage[0]['uid'] : 0));
+        return ((!empty($rootPage) ? $rootPage[0]['uid'] : 0));
     }
 
-        /**
+    /**
      * Returns an instance of the QueryBuilder.
      *
      * @return QueryBuilder
@@ -110,5 +112,4 @@ class PagesRepository
         $pool = GeneralUtility::makeInstance(ConnectionPool::class);
         return $pool->getQueryBuilderForTable('pages');
     }
-
 }

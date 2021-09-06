@@ -1,13 +1,17 @@
 <?php
 
-namespace Oktopuce\SiteGenerator\Dto;
+declare(strict_types=1);
 
 /*
- * This file is part of the Extension "SiteGenerator" for TYPO3 CMS.
+ *
+ * This file is part of the "Site Generator" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
+ *
  */
+
+ namespace Oktopuce\SiteGenerator\Dto;
 
 /**
  * SiteGeneratorDto DTO for data exchange beetwen form and Wizard
@@ -87,7 +91,7 @@ class SiteGeneratorDto extends BaseDto
 
      * @return void
      */
-    public function setDomain($domain): void
+    public function setDomain(string $domain): void
     {
         $this->domain = $domain;
     }
@@ -108,7 +112,7 @@ class SiteGeneratorDto extends BaseDto
      * @param int $mountId
      * @return void
      */
-    public function setMountId($mountId): void
+    public function setMountId(int $mountId): void
     {
         $this->mountId = $mountId;
     }
@@ -129,7 +133,7 @@ class SiteGeneratorDto extends BaseDto
      * @param int $beGroupId
      * @return void
      */
-    public function setBeGroupId($beGroupId): void
+    public function setBeGroupId(int $beGroupId): void
     {
         $this->beGroupId = $beGroupId;
     }
@@ -150,7 +154,7 @@ class SiteGeneratorDto extends BaseDto
      * @param string $groupPrefix
      * @return void
      */
-    public function setGroupPrefix($groupPrefix): void
+    public function setGroupPrefix(string $groupPrefix): void
     {
         $this->groupPrefix = $groupPrefix;
     }
@@ -171,7 +175,7 @@ class SiteGeneratorDto extends BaseDto
      * @param string $baseFolderName
      * @return void
      */
-    public function setBaseFolderName($baseFolderName): void
+    public function setBaseFolderName(string $baseFolderName): void
     {
         $this->baseFolderName = $baseFolderName;
     }
@@ -192,7 +196,7 @@ class SiteGeneratorDto extends BaseDto
      * @param int $commonMountPointUid
      * @return void
      */
-    public function setCommonMountPointUid($commonMountPointUid): void
+    public function setCommonMountPointUid(int $commonMountPointUid): void
     {
         $this->commonMountPointUid = $commonMountPointUid;
     }
@@ -213,7 +217,7 @@ class SiteGeneratorDto extends BaseDto
      * @param string $subFolderNames
      * @return void
      */
-    public function setSubFolderNames($subFolderNames): void
+    public function setSubFolderNames(string $subFolderNames): void
     {
         $this->subFolderNames = $subFolderNames;
     }
@@ -234,7 +238,7 @@ class SiteGeneratorDto extends BaseDto
      * @param int $feGroupId
      * @return void
      */
-    public function setFeGroupId($feGroupId): void
+    public function setFeGroupId(int $feGroupId): void
     {
         $this->feGroupId = $feGroupId;
     }
@@ -255,7 +259,7 @@ class SiteGeneratorDto extends BaseDto
      * @param int $feGroupPid
      * @return void
      */
-    public function setFeGroupPid($feGroupPid): void
+    public function setFeGroupPid(int $feGroupPid): void
     {
         $this->feGroupPid = $feGroupPid;
     }

@@ -1,13 +1,17 @@
 <?php
 
-namespace Oktopuce\SiteGenerator\Dto;
+declare(strict_types=1);
 
 /*
- * This file is part of the Extension "SiteGenerator" for TYPO3 CMS.
+ *
+ * This file is part of the "Site Generator" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
+ *
  */
+
+namespace Oktopuce\SiteGenerator\Dto;
 
 /**
  * BaseDto Base DTO for data exchange beetwen form and Wizard
@@ -59,7 +63,7 @@ class BaseDto
 
      * @return void
      */
-    public function setTitle($title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -90,7 +94,7 @@ class BaseDto
      * @param int $pid
      * @return void
      */
-    public function setPid($pid): void
+    public function setPid(int $pid): void
     {
         $this->pid = $pid;
     }
@@ -111,7 +115,7 @@ class BaseDto
      * @param int $modelPid
      * @return void
      */
-    public function setModelPid($modelPid): void
+    public function setModelPid(int $modelPid): void
     {
         $this->modelPid = $modelPid;
     }
@@ -132,7 +136,7 @@ class BaseDto
      * @param int $hpPid
      * @return void
      */
-    public function setHpPid($hpPid): void
+    public function setHpPid(int $hpPid): void
     {
         $this->hpPid = $hpPid;
     }
@@ -150,10 +154,10 @@ class BaseDto
     /**
      * Set the mapping array merge : relation beetween original pid / new pid after model copy
      *
-     * @param int $mappingArrayMerge
+     * @param array $mappingArrayMerge
      * @return void
      */
-    public function setMappingArrayMerge($mappingArrayMerge): void
+    public function setMappingArrayMerge(array $mappingArrayMerge): void
     {
         $this->mappingArrayMerge = $mappingArrayMerge;
     }
@@ -174,7 +178,7 @@ class BaseDto
      *
      * @return int
      */
-    public function getNewPidFromModel($modelPid): int
+    public function getNewPidFromModel(int $modelPid): int
     {
         return ($this->mappingArrayMerge[$modelPid] ?? 0);
     }
@@ -186,7 +190,7 @@ class BaseDto
 
      * @return void
      */
-    public function setMessage($message): void
+    public function setMessage(string $message): void
     {
         $this->message = $message;
     }
@@ -198,7 +202,7 @@ class BaseDto
 
      * @return void
      */
-    public function addMessage($message): void
+    public function addMessage(string $message): void
     {
         $this->message .= PHP_EOL . $message;
     }
