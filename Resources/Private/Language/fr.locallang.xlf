@@ -108,6 +108,10 @@
 				<source>- The site configuration for domain '%s' has been created</source>
 				<target>- La configuration de site pour le domain '%s' a été réalisée</target>
 			</trans-unit>
+            <trans-unit id="generate.success.createFileMount">
+				<source>- A new file mount has been set : %s (uid = %d)</source>
+				<target>- Un nouveau point de montage de fichier a été généré : %s (uid = %d)</target>
+			</trans-unit>
 
             <trans-unit id="generate.success">
 				<source>The new site creation/tree model duplication was finished.</source>
