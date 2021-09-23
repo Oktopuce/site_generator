@@ -4,3 +4,7 @@
 
 # ignore generated documentation
 *GENERATED*
+.Build/
+.idea/
+Build/testing-docker/.env
+composer.lock
