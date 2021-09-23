@@ -10,3 +10,7 @@ services:
   Oktopuce\SiteGenerator\Wizard\StateCreateFolder:
     public: true
     shared: false
+
+  Oktopuce\SiteGenerator\Hook\BackendControllerHook:
+    public: true
+    shared: false

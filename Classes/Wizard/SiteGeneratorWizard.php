@@ -46,22 +46,20 @@ class SiteGeneratorWizard
      *
      * @var array
      */
-    protected $settings;
+    protected $settings = [];
 
     /**
      * Constructor of this class : set first wizard step and store site data from forms
      *
      * @param BaseDto $siteData Data coming from forms : mandatory and optional data
+     * @param ConfigurationManagerInterface $configurationManager
      * @return void
      */
-    public function __construct(object $siteData)
+    public function __construct(ConfigurationManagerInterface $configurationManager)
     {
-        /** @var ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->configurationManager = $objectManager->get(ConfigurationManagerInterface::class);
+        $this->configurationManager = $configurationManager;
         $this->settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS, 'SiteGenerator');
 
-        $this->siteData = $siteData;
         $this->getStates();
         $this->setNextWizardState();
     }
@@ -72,7 +70,7 @@ class SiteGeneratorWizard
      *
      * @return array
      */
-    public function getSettings()
+    public function getSettings(): array
     {
         return ($this->settings);
     }
@@ -82,7 +80,7 @@ class SiteGeneratorWizard
      *
      * @return void
      */
-    public function getStates()
+    public function getStates(): void
     {
         ksort($this->settings['siteGenerator']['wizard']['steps']);
         self::$states = $this->settings['siteGenerator']['wizard']['steps'];
@@ -91,11 +89,15 @@ class SiteGeneratorWizard
 
     /**
      * Start site generation wizard
+     * @param BaseDto $siteData Data coming from forms : mandatory and optional data
      *
      * @return void
      */
-    public function startWizard()
+    public function startWizard(object $siteData): void
     {
+        // Set data coming from form
+        $this->siteData = $siteData;
+
         // Force wizard with admin rights
         /** @var Context $context */
         $context = GeneralUtility::makeInstance(Context::class);
@@ -119,7 +121,7 @@ class SiteGeneratorWizard
      *
      * @return void
      */
-    public function setNextWizardState()
+    public function setNextWizardState(): void
     {
         $this->currentState = null;
 
@@ -139,7 +141,7 @@ class SiteGeneratorWizard
      *
      * @return BaseDto
      */
-    public function getSiteData()
+    public function getSiteData(): BaseDto
     {
         return ($this->siteData);
     }

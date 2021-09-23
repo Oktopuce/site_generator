@@ -24,6 +24,23 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 class BackendControllerHook
 {
     /**
+     * pageRenderer
+     *
+     * @var PageRenderer
+     */
+    protected $pageRenderer = null;
+
+    /**
+     * Class constructor
+     *
+     * @param PageRenderer $pageRenderer
+     */
+    public function __construct(PageRenderer $pageRenderer)
+    {
+        $this->pageRenderer = $pageRenderer;
+    }
+
+    /**
      * Adds sitegenerator-specific JavaScript
      *
      * @param array $configuration
@@ -35,14 +52,6 @@ class BackendControllerHook
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         $url = (string)$uriBuilder->buildUriFromRoute('wizard_sitegenerator');
 
-        $this->getPageRenderer()->addInlineSetting('SiteGenerator', 'moduleUrl', $url);
-    }
-
-    /**
-     * @return PageRenderer
-     */
-    protected function getPageRenderer()
-    {
-        return GeneralUtility::makeInstance(PageRenderer::class);
+        $this->pageRenderer->addInlineSetting('SiteGenerator', 'moduleUrl', $url);
     }
 }
