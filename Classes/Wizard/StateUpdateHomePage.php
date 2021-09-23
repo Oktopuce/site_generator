@@ -29,7 +29,7 @@ class StateUpdateHomePage extends StateBase implements SiteGeneratorStateInterfa
      * @param SiteGeneratorWizard $context
      * @return void
      */
-    public function process(SiteGeneratorWizard $context)
+    public function process(SiteGeneratorWizard $context): void
     {
         $settings = $context->getSettings();
 
@@ -45,7 +45,7 @@ class StateUpdateHomePage extends StateBase implements SiteGeneratorStateInterfa
      *
      * @return void
      */
-    protected function updateHomePage(BaseDto $siteData, $hideHomePage)
+    protected function updateHomePage(BaseDto $siteData, int $hideHomePage): void
     {
         $updateValues = [
             'title' => $siteData->getTitle(),

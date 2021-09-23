@@ -29,7 +29,7 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
      * @param SiteGeneratorWizard $context
      * @return void
     */
-    public function process(SiteGeneratorWizard $context)
+    public function process(SiteGeneratorWizard $context): void
     {
         // Create BE group
         $groupId = $this->createBeGroup($context->getSiteData());

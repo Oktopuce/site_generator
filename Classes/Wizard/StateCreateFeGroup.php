@@ -30,12 +30,12 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
      * @param SiteGeneratorWizard $context
      * @return void
      */
-    public function process(SiteGeneratorWizard $context)
+    public function process(SiteGeneratorWizard $context): void
     {
         $settings = $context->getSettings();
 
         // Create FE group
-        $groupId = $this->createFeGroup($context->getSiteData(), $settings['siteGenerator']['wizard']['pidFeGroup']);
+        $groupId = $this->createFeGroup($context->getSiteData(), (int)$settings['siteGenerator']['wizard']['pidFeGroup']);
         $context->getSiteData()->setFeGroupId($groupId);
     }
 
@@ -48,7 +48,7 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
      *
      * @return int The uid of the group created
      */
-    protected function createFeGroup(BaseDto $siteData, $pidFeGroup): int
+    protected function createFeGroup(BaseDto $siteData, int $pidFeGroup): int
     {
         $groupId = 0;
 

@@ -29,7 +29,7 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
      * @param SiteGeneratorWizard $context
      * @return void
     */
-    public function process(SiteGeneratorWizard $context)
+    public function process(SiteGeneratorWizard $context): void
     {
         // Create file mount for site
         $mountId = $this->createFileMount($context->getSiteData());
@@ -51,10 +51,11 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
         // Create a new file mount at root page
         $data = [];
         $newUniqueId = 'NEW' . uniqid();
+        $path = '/' . ($baseFolderName ? $baseFolderName . '/' : '') . strtolower($siteData->getTitleSanitize()) . '/';
         $data['sys_filemounts'][$newUniqueId] = [
             'title' => $siteData->getTitle(),
             'base' => 1,    /* fileadmin */
-            'path' => '/' . ($baseFolderName ? $baseFolderName . '/' : '') . strtolower($siteData->getTitleSanitize()) . '/',
+            'path' => $path,
             'pid' => 0
         ];
 
@@ -69,6 +70,8 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
 
         if ($mountId > 0) {
             $this->log(LogLevel::NOTICE, 'Create file mount successfull (uid = ' . $mountId);
+            // @extensionScannerIgnoreLine
+            $siteData->addMessage($this->translate('generate.success.createFileMount', [$path, $mountId]));
         }
         else {
             $this->log(LogLevel::ERROR, 'Create file mount error');

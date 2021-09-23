@@ -29,7 +29,7 @@ class StateCopyModelSite extends StateBase implements SiteGeneratorStateInterfac
      * @param SiteGeneratorWizard $context
      * @return void
     */
-    public function process(SiteGeneratorWizard $context)
+    public function process(SiteGeneratorWizard $context): void
     {
         // Copy the model site in current site
         $homePagePid = $this->copyModel($context->getSiteData());

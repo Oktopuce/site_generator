@@ -33,7 +33,7 @@ class StateUpdateSlugs extends StateBase implements SiteGeneratorStateInterface
      * @param SiteGeneratorWizard $context
      * @return void
      */
-    public function process(SiteGeneratorWizard $context)
+    public function process(SiteGeneratorWizard $context): void
     {
         // Update slug
         $this->updateSlugs($context->getSiteData());
@@ -45,7 +45,7 @@ class StateUpdateSlugs extends StateBase implements SiteGeneratorStateInterface
      * @param BaseDto $siteData New site data
      * @return void
      */
-    protected function updateSlugs(BaseDto $siteData)
+    protected function updateSlugs(BaseDto $siteData): void
     {
         // First flush all caches because slug parts are taken from 'cache_runtime'
         // but it's not possible to clear only 'cache_runtime' : no group associated to it

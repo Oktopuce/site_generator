@@ -31,7 +31,7 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
      * @param SiteGeneratorWizard $context
      * @return void
      */
-    public function process(SiteGeneratorWizard $context)
+    public function process(SiteGeneratorWizard $context): void
     {
         // Update site template to set new uid
         $this->updateTemplate($context->getSiteData());
@@ -43,7 +43,7 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
      * @param BaseDto $siteData New site data
      * @return void
      */
-    protected function updateTemplate(BaseDto $siteData)
+    protected function updateTemplate(BaseDto $siteData): void
     {
         /** @var ExtendedTemplateService $templateService */
         $templateService = GeneralUtility::makeInstance(ExtendedTemplateService::class);
@@ -67,7 +67,7 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
                 // Set the data to be saved
                 $recData = [];
                 $saveId = $templateRow['uid'];
-                $recData['sys_template'][$saveId]['constants'] = implode($templateService->raw, LF);
+                $recData['sys_template'][$saveId]['constants'] = implode(LF, $templateService->raw);
                 // Create new  tce-object
                 $tce = GeneralUtility::makeInstance(DataHandler::class);
                 $tce->start($recData, []);

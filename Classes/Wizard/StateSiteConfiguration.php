@@ -32,7 +32,7 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
      * @param SiteGeneratorWizard $context
      * @return void
      */
-    public function process(SiteGeneratorWizard $context)
+    public function process(SiteGeneratorWizard $context): void
     {
         // Create the domain name on first page
         $this->createSiteConfiguration($context->getSiteData());

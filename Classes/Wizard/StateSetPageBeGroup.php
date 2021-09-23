@@ -30,7 +30,7 @@ class StateSetPageBeGroup extends StateBase implements SiteGeneratorStateInterfa
      * @param SiteGeneratorWizard $context
      * @return void
      */
-    public function process(SiteGeneratorWizard $context)
+    public function process(SiteGeneratorWizard $context): void
     {
         // Affect BE group to pages created
         $this->setBeGroup($context->getSiteData());
@@ -63,5 +63,4 @@ class StateSetPageBeGroup extends StateBase implements SiteGeneratorStateInterfa
             $siteData->addMessage($this->translate('generate.success.beGroupSetToPages', [$siteData->getBeGroupId(), implode(',', $pages)]));
         }
     }
-
 }

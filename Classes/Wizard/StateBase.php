@@ -27,7 +27,8 @@ class StateBase
      */
     protected $logger = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
@@ -39,7 +40,7 @@ class StateBase
      * @param array $data Additional data to log
      * @return void
      */
-    public function log($level, $message, array $data = [])
+    public function log($level, $message, array $data = []): void
     {
         $this->logger->log($level, "Site generator : " . $message, $data);
     }
@@ -53,7 +54,7 @@ class StateBase
      *
      * @return string|null The value from LOCAL_LANG or NULL if no translation was found.
      */
-    public function translate($key, $arguments = null, $extensionName = 'site_generator')
+    public function translate($key, $arguments = null, $extensionName = 'site_generator'): ?string
     {
         return (LocalizationUtility::translate($key, $extensionName, $arguments));
     }
@@ -67,5 +68,4 @@ class StateBase
     {
         return ($this->extensionConfiguration == null ? $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator'] : []);
     }
-
 }

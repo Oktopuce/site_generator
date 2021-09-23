@@ -42,12 +42,12 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
      * @param SiteGeneratorWizard $context
      * @return void
      */
-    public function process(SiteGeneratorWizard $context)
+    public function process(SiteGeneratorWizard $context): void
     {
         $settings = $context->getSettings();
 
         // Create folders in storage
-        $this->createFolders($context->getSiteData(), $settings['siteGenerator']['wizard']['storageUid']);
+        $this->createFolders($context->getSiteData(), (int)$settings['siteGenerator']['wizard']['storageUid']);
     }
 
     /**
@@ -59,7 +59,7 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
      *
      * @return void
      */
-    protected function createFolders(BaseDto $siteData, $storageUid): void
+    protected function createFolders(BaseDto $siteData, int $storageUid): void
     {
         // Get base folder and sub-folders name to create
         $baseFolderName = $siteData->getBaseFolderName();

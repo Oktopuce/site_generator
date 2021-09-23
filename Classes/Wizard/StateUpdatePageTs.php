@@ -31,7 +31,7 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
      * @param SiteGeneratorWizard $context
      * @return void
      */
-    public function process(SiteGeneratorWizard $context)
+    public function process(SiteGeneratorWizard $context): void
     {
         // Update site template to set new uid
         $this->updatePageTS($context->getSiteData());
@@ -43,7 +43,7 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
      * @param BaseDto $siteData New site data
      * @return void
      */
-    protected function updatePageTS(BaseDto $siteData)
+    protected function updatePageTS(BaseDto $siteData): void
     {
         $pagesUpdated = [];
 
