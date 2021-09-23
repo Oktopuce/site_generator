@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace Oktopuce\SiteGenerator\Wizard\Event;
 
 /**
- * This event is fired before rendering the second form for gathering data
+ * This event is fired before rendering the first form for gathering data
  * It is usefull when you use your own template and want to assign more variables to the view
  */
-final class BeforeRenderingSecondStepViewEvent
+trait BeforeRenderingiewTrait
 {
     /**
      * @var array
@@ -29,8 +29,24 @@ final class BeforeRenderingSecondStepViewEvent
         $this->viewVariables = $viewVariables;
     }
 
+    /**
+     * getViewVariables
+     *
+     * @return array
+     */
     public function getViewVariables(): array
     {
         return $this->viewVariables;
+    }
+
+    /**
+     * addViewVariables
+     *
+     * @param  array $variables
+     * @return void
+     */
+    public function addViewVariables(array $variables): void
+    {
+        $this->viewVariables = $this->viewVariables + $variables;
     }
 }

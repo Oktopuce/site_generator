@@ -24,15 +24,14 @@ use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3Fluid\Fluid\View\Exception\InvalidTemplateResourceException;
 use Oktopuce\SiteGenerator\Wizard\SiteGeneratorWizard;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
 use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
 use Oktopuce\SiteGenerator\Wizard\Event\BeforeRenderingFirstStepViewEvent;
 use Oktopuce\SiteGenerator\Wizard\Event\BeforeRenderingSecondStepViewEvent;
-
 
 /**
  * SiteGeneratorController
@@ -84,19 +83,29 @@ class SiteGeneratorController extends ActionController
     /**
      * @var EventDispatcherInterface
      */
-    protected $eventDispatcher;
+    protected $eventDispatcher = null;
+
+    /**
+     * @var SiteGeneratorWizard
+     */
+    protected $siteGeneratorWizard = null;
 
     /**
      * The constructor of this class
+     *
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param ConfigurationManagerInterface $configurationManager
+     * @param SiteGeneratorWizard $siteGeneratorWizard
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        EventDispatcherInterface $eventDispatcher,
+        ConfigurationManagerInterface $configurationManager,
+        SiteGeneratorWizard $siteGeneratorWizard
+    ) {
         // Get translations
         $this->getLanguageService()->includeLLFile('EXT:site_generator/Resources/Private/Language/locallang.xlf');
 
-        /** @var ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->configurationManager = $objectManager->get(ConfigurationManagerInterface::class);
+        $this->configurationManager = $configurationManager;
         $this->settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS, 'SiteGenerator');
 
         // Store DTO data from form
@@ -122,6 +131,7 @@ class SiteGeneratorController extends ActionController
         ]);
 
         $this->eventDispatcher = $eventDispatcher;
+        $this->siteGeneratorWizard = $siteGeneratorWizard;
 
         // Standalone view initialisation
         $this->initStandaloneView();
@@ -287,9 +297,9 @@ class SiteGeneratorController extends ActionController
         ];
 
         // Add event to assign more variables to the view (usefull when using your own template)
-        $this->eventDispatcher->dispatch(new BeforeRenderingFirstStepViewEvent($viewVariables));
+        $event = $this->eventDispatcher->dispatch(new BeforeRenderingFirstStepViewEvent($viewVariables));
 
-        $this->standaloneView->assignMultiple($viewVariables);
+        $this->standaloneView->assignMultiple($event->getViewVariables());
 
         $this->setTemplateName('GetDataFirstStep.html');
         $this->moduleTemplate->setContent($this->standaloneView->render());
@@ -316,9 +326,9 @@ class SiteGeneratorController extends ActionController
         ];
 
         // Add event to assign more variables to the view (usefull when using your own template)
-        // $this->eventDispatcher->dispatch(new BeforeRenderingSecondStepViewEvent($viewVariables));
+        $event = $this->eventDispatcher->dispatch(new BeforeRenderingSecondStepViewEvent($viewVariables));
 
-        $this->standaloneView->assignMultiple($viewVariables);
+        $this->standaloneView->assignMultiple($event->getViewVariables());
 
         $this->setTemplateName('GetDataSecondStep.html');
         $this->moduleTemplate->setContent($this->standaloneView->render());
@@ -334,36 +344,28 @@ class SiteGeneratorController extends ActionController
      */
     protected function generateSiteAction(): string
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        /* @var $siteGeneratorWizard SiteGeneratorWizard */
-        $siteGeneratorWizard = $objectManager->get(SiteGeneratorWizard::class, $this->siteGeneratorDto);
-
         $errorMessage = '';
 
         try {
             // Start the wizard
-            $siteGeneratorWizard->startWizard();
+            $this->siteGeneratorWizard->startWizard($this->siteGeneratorDto);
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
         }
 
         $this->standaloneView->assignMultiple([
             'errorMessage' => $errorMessage,
-            'sucessMessage' => $siteGeneratorWizard->getSiteData()->getMessage()
+            'sucessMessage' => $this->siteGeneratorWizard->getSiteData()->getMessage()
         ]);
 
         $this->setTemplateName('GenerateSite.html');
         $this->moduleTemplate->setContent($this->standaloneView->render());
 
         // Update page tree
-        BackendUtility::setUpdateSignal('updatePageTree').
+        BackendUtility::setUpdateSignal('updatePageTree') .
 
-        // Add JS for refreshing tree node
-        // $this->moduleTemplate->addJavaScriptCode(
-        //     'SiteGeneratorInLineJS',
-        //     'top.TYPO3.Backend.NavigationContainer.PageTree.refreshTree();'
-        // );
-        $content = $this->moduleTemplate->renderContent();
+            // Add JS for refreshing tree node
+            $content = $this->moduleTemplate->renderContent();
 
         return ($content);
     }
