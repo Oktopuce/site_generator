@@ -17,6 +17,10 @@
         "homepage": "https://www.oktopuce.fr"
       }
     ],
+	"support": {
+		"issues": "https://github.com/Oktopuce/site_generator/issues",
+		"source": "https://github.com/Oktopuce/site_generator"
+	},
 	"repositories": [
 		{
 		  "type": "composer",
@@ -24,7 +28,7 @@
 		}
 	],
 	"require": {
-        "typo3/cms-core": "^9.5 || ^11"
+        "typo3/cms-core": "^10.4 || ^11.3.2"
     },
     "autoload": {
         "psr-4": {
