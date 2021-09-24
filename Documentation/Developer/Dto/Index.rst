@@ -16,65 +16,68 @@ In the DTO we define all data required in the forms, the wizard will automatical
 
 .. code-block:: php
 
+   declare(strict_types=1);
+
+   namespace Oktopuce\SiteGeneratorCustomized\Dto;
+
    class SiteGeneratorDto extends \Oktopuce\SiteGenerator\Dto\SiteGeneratorDto
    {
 
-       /**
-        * My customized data from form
-        *
-        * @var string
-        */
-       protected $customizedData = '';
+      /**
+      * My customized data from form
+      *
+      * @var string
+      */
+      protected $customizedData = '';
 
-       /**
-        * FE User
-        *
-        * @var int
-        */
-       protected $feUser = 0;
+      /**
+      * FE User
+      *
+      * @var int
+      */
+      protected $feUser = 0;
 
-       /**
-        * CustomizedData
-        *
-        * @param string $customizedData
-        * @return void
-        */
-       public function setCustomizedData($customizedData): void
-       {
-           $this->customizedData = $customizedData;
-       }
+      /**
+      * CustomizedData
+      *
+      * @param string $customizedData
+      * @return void
+      */
+      public function setCustomizedData(string $customizedData): void
+      {
+         $this->customizedData = $customizedData;
+      }
 
-       /**
-        * Get customizedData
-        *
-        * @return string
-        */
-       public function getCustomizedData(): string
-       {
-           return $this->customizedData;
-       }
+      /**
+      * Get customizedData
+      *
+      * @return string
+      */
+      public function getCustomizedData(): string
+      {
+         return $this->customizedData;
+      }
 
-       /**
-        * FeUser
-        *
-        * @param int $feUser
-        * @return void
-        */
-       public function setFeUser($feUser): void
-       {
-           $this->feUser = $feUser;
-       }
+      /**
+      * FeUser
+      *
+      * @param int $feUser
+      * @return void
+      */
+      public function setFeUser(int $feUser): void
+      {
+         $this->feUser = $feUser;
+      }
 
-       /**
-        * Get feUser
-        *
-        * @return int
-        */
-       public function getFeUser(): int
-       {
-           return $this->feUser;
-       }
-
+      /**
+      * Get feUser
+      *
+      * @return int
+      */
+      public function getFeUser(): int
+      {
+         return $this->feUser;
+      }
    }
 
 .. important::

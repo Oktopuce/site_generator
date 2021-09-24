@@ -25,7 +25,7 @@ Site Generator
    Site generator/tree model duplicator backend wizard
 
 :Keywords:
-   backend, site generation, tree duplication
+   backend, site generation, tree duplication, site factory
 
 :Copyright:
    2020
@@ -46,7 +46,7 @@ Site Generator
 :Rendered:
    |today|
 
-With this extension, you can very easily create mini-website or duplicate tree, it will automatically create associated BE/FE groups, create directories with associated files mount, add domain name and site configuration, update Typoscript configuration (folders/pages ID and TCEMAIN.clearCacheCmd), update slugs. Based on State Design Pattern, it is highly customizable : you can remove unnecessary states and add your own states to fit your own needs.
+With this extension, you can very easily create websites or duplicate tree, it will automatically create associated BE/FE groups, create directories with associated files mount, add domain name and site configuration, update Typoscript configuration (folders/pages ID and TCEMAIN.clearCacheCmd), update slugs. Based on State Design Pattern, it is highly customizable : you can remove unnecessary states and add your own states to fit your own needs.
 
 **Table of Contents**
 
@@ -60,4 +60,4 @@ With this extension, you can very easily create mini-website or duplicate tree, 
    Installation/Index
    Configuration/Index
    Developer/Index
-   KnownProblems/Index
+   Miscellaneous/Index

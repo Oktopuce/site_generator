@@ -3,7 +3,7 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
-.. include:: ../Includes.txt
+.. include:: ../../Includes.txt
 
 
 .. _typoscript:
@@ -79,7 +79,7 @@ ext_typoscript_setup.typoscript
 
 .. important::
 
-   We reset all default wizard states, reuse existing states and add our customized state
+   Reset all default wizard states, reuse existing states and add your customized state
 
    .. code-block:: typoscript
 

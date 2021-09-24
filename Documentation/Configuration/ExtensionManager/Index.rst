@@ -42,6 +42,10 @@ Properties
    langTitle_                            site configuration                    English
    locale_                               site configuration                    en_US.UTF-8
    iso-639-1_                            site configuration                    en
+   navigationTitle_                      site configuration                    English
+   hreflang_                             site configuration                    en-US
+   direction_                            site configuration                    ltr
+   flag_                                 site configuration                    en-us-gb
    ==================================== ===================================== ====================
 
 Property details
@@ -149,3 +153,27 @@ Locale used for localized date and currency formats. E.g. "de_DE" or "en_US.UTF-
 iso-639-1
 """""""""
 Two letters of ISO 639-1 code of the language, sample : en, fr
+
+.. _extensionManagerNavigationTitle:
+
+navigationTitle
+"""""""""""""""
+The navigation title used within language-related menus, sample : English, Français
+
+.. _extensionManagerHreflang:
+
+hreflang
+""""""""
+The language tag defined by RFC 1766 / 3066. Used within for "lang" and "hreflang" attributes, sample : en-US, fr-FR
+
+.. _extensionManagerDirection:
+
+direction
+"""""""""
+The language direction for "dir" attribute : empty (none), ltr or rtl
+
+.. _extensionManagerFlag:
+
+flag
+""""
+The language flag icon, sample : en-us-gb, fr

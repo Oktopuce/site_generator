@@ -3,7 +3,7 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
-.. include:: ../Includes.txt
+.. include:: ../../Includes.txt
 
 
 .. _wizard:
@@ -18,7 +18,7 @@ All states are declared in :ref:`Typoscript Setup <screenshots>` for the wizard 
 
 .. code-block:: php
 
-   <?php
+   declare(strict_types=1);
 
    namespace Oktopuce\SiteGeneratorCustomized\Wizard;
 
@@ -31,68 +31,67 @@ All states are declared in :ref:`Typoscript Setup <screenshots>` for the wizard 
    use Oktopuce\SiteGeneratorCustomized\Dto\SiteGeneratorDto;
 
    /**
-    * StateCreateFeGroup
-    */
+   * StateCreateFeGroup
+   */
    class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterface
    {
-       /**
-        * Create FE user group
-        *
-        * @param SiteGeneratorWizard $context
-        * @return void
-       */
-       public function process(SiteGeneratorWizard $context)
-       {
-           $settings = $context->getSettings();
+      /**
+      * Create FE user group
+      *
+      * @param SiteGeneratorWizard $context
+      * @return void
+      */
+      public function process(SiteGeneratorWizard $context): void
+      {
+         $settings = $context->getSettings();
 
-           // Create FE group
-           $groupId = $this->createFeGroup($context->getSiteData(), $settings['siteGenerator']['wizard']['pidFeGroup'], $settings['siteGenerator']['wizard']['baseFeGroupUid']);
-           $context->getSiteData()->setFeGroupId($groupId);
-       }
+         // Create FE group
+         $groupId = $this->createFeGroup($context->getSiteData(), (int)$settings['siteGenerator']['wizard']['pidFeGroup'], (int)$settings['siteGenerator']['wizard']['baseFeGroupUid']);
+         $context->getSiteData()->setFeGroupId($groupId);
+      }
 
-       /**
-        * Create FE group
-        *
-        * @param SiteGeneratorDto $siteData New site data
-        * @param int $pidFeGroup Pid for FE group creation
-        * @param int $baseFeGroupUid Base Workgroup UID
-        * @throws \Exception
-        *
-        * @return int The uid of the group created
-        */
-       protected function createFeGroup(SiteGeneratorDto $siteData, $pidFeGroup, $baseFeGroupUid): int
-       {
-           // Create a new FE group with specific subgroup
-           $data = [];
-           $newUniqueId = 'NEW' . uniqid();
-           $groupName = $siteData->getCustomizedData() . ' - ' . $siteData->getTitle();
-           $data['fe_groups'][$newUniqueId] = [
+      /**
+      * Create FE group
+      *
+      * @param SiteGeneratorDto $siteData New site data
+      * @param int $pidFeGroup Pid for FE group creation
+      * @param int $baseFeGroupUid Base Workgroup UID
+      * @throws \Exception
+      *
+      * @return int The uid of the group created
+      */
+      protected function createFeGroup(SiteGeneratorDto $siteData, int $pidFeGroup, int $baseFeGroupUid): int
+      {
+         // Create a new FE group with specific subgroup
+         $data = [];
+         $newUniqueId = 'NEW' . uniqid();
+         $groupName = $siteData->getCustomizedData() . ' - ' . $siteData->getTitle();
+         $data['fe_groups'][$newUniqueId] = [
                'pid' => $pidFeGroup,
                'title' => $groupName,
                'subgroup' => $baseFeGroupUid
-           ];
+         ];
 
-           /* @var $tce DataHandler */
-           $tce = GeneralUtility::makeInstance(DataHandler::class);
-           $tce->stripslashes_values = 0;
-           $tce->start($data, []);
-           $tce->process_datamap();
+         /* @var $tce DataHandler */
+         $tce = GeneralUtility::makeInstance(DataHandler::class);
+         $tce->stripslashes_values = 0;
+         $tce->start($data, []);
+         $tce->process_datamap();
 
-           // Retrieve uid of user group created
-           $groupId = $tce->substNEWwithIDs[$newUniqueId];
+         // Retrieve uid of user group created
+         $groupId = $tce->substNEWwithIDs[$newUniqueId];
 
-           if ($groupId > 0) {
-               $this->log(LogLevel::NOTICE, 'Create BE group successful (uid = ' . $groupId);
+         if ($groupId > 0) {
+               $this->log(LogLevel::NOTICE, 'Create FE group successful (uid = ' . $groupId);
                $siteData->addMessage($this->translate('generate.success.feGroupCreated', [$groupName, $groupId]));
-           }
-           else {
-               $this->log(LogLevel::ERROR, 'Create BE group error');
+         }
+         else {
+               $this->log(LogLevel::ERROR, 'Create FE group error');
                throw new \Exception($this->translate('wizard.feGroup.error'));
-           }
+         }
 
-           return ($groupId);
-       }
-
+         return ($groupId);
+      }
    }
 
 .. caution::

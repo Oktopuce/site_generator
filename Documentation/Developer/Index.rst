@@ -38,10 +38,13 @@ For full customization, I suggest to create your own extension, this is how it i
    ├── Classes
    │   ├── Dto
    │   │   └── SiteGeneratorDto.php
-   │   ├── Slot
-   │   │   └── SiteGeneratorSlot.php
+   │   ├── EventListener
+   │   │   ├── VariablesForFirstView.php
+   │   │   └── VariablesForSecondView.php
    │   └── Wizard
    │       └── StateCreateFeGroup.php
+   ├── Configuration
+   │   └── Services.yml
    ├── composer.json
    ├── ext_emconf.php
    ├── ext_localconf.php
@@ -64,6 +67,6 @@ File details
 
    Typoscript/Index
    Dto/Index
-   SignalSlots/Index
+   EventListener/Index
    Templates/Index
    Wizard/Index

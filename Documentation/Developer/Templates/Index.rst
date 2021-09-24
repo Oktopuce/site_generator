@@ -3,7 +3,7 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
-.. include:: ../Includes.txt
+.. include:: ../../Includes.txt
 
 
 .. _templates:
@@ -45,7 +45,7 @@ First form used for mandatory data, copy/paste Fluid Template from **site_genera
 
 .. hint::
 
-   feUsers data are filled with :ref:`Signal <SignalSlots>`.
+   feUsers data are filled with :ref:`Event listener <EventListener>`.
 
 
 
