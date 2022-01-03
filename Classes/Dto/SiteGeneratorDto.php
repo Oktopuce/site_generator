@@ -64,13 +64,6 @@ class SiteGeneratorDto extends BaseDto
     protected $baseFolderName = '';
 
     /**
-     * Folder name
-     *
-     * @var string
-     */
-    protected $siteFolderNameSource = '';
-
-    /**
      * Sub folder names
      *
      * @var string
@@ -90,6 +83,11 @@ class SiteGeneratorDto extends BaseDto
      * @var int
      */
     protected $feGroupPid = 0;
+
+    /**
+     * @var bool
+     */
+    protected $groupHomePath = false;
 
     /**
      * Domain
@@ -198,22 +196,6 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * @return string
-     */
-    public function getSiteFolderNameSource(): string
-    {
-        return $this->siteFolderNameSource;
-    }
-
-    /**
-     * @param string $siteFolderNameSource
-     */
-    public function setSiteFolderNameSource(string $siteFolderNameSource): void
-    {
-        $this->siteFolderNameSource = $siteFolderNameSource;
-    }
-
-    /**
      * Set commonMountPointUid
      *
      * @param int $commonMountPointUid
@@ -297,4 +279,19 @@ class SiteGeneratorDto extends BaseDto
         return $this->feGroupPid;
     }
 
+    /**
+     * @return bool
+     */
+    public function getGroupHomePath(): bool
+    {
+        return $this->groupHomePath;
+    }
+
+    /**
+     * @param bool $groupHomePath
+     */
+    public function setGroupHomePath(bool $groupHomePath): void
+    {
+        $this->groupHomePath = $groupHomePath;
+    }
 }

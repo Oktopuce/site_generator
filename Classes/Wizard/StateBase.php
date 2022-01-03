@@ -70,11 +70,6 @@ class StateBase
         return ($this->extensionConfiguration == null ? $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator'] : []);
     }
 
-    public function getSiteFolderName(): string
-    {
-        return $this->getExtensionConfiguration()['siteFolderName'] ?? 'siteTitle';
-    }
-
     /**
      * @return mixed|string
      * @throws \Exception
@@ -110,7 +105,7 @@ class StateBase
      * @throws \Exception
      */
     public function getSiteFolder($siteData) {
-        if($this->getSiteFolderName() === 'userGroupUid') {
+        if($siteData->getGroupHomePath()) {
             if($siteData->getBeGroupId()) {
                 return (string) $siteData->getBeGroupId();
             } else {
@@ -122,7 +117,7 @@ class StateBase
     }
 
     public function getBaseFolderName(BaseDto $siteData) {
-        if($this->getSiteFolderName() === 'userGroupUid') {
+        if($siteData->getGroupHomePath()) {
             return $this->getFolderFromGroupHomePath();
         } else {
             return $siteData->getBaseFolderName();
@@ -135,7 +130,7 @@ class StateBase
      * @throws \Exception
      */
     public function getStorageUid(SiteGeneratorWizard $context) {
-        if($this->getSiteFolderName() === 'userGroupUid') {
+        if($context->getSiteData()->getGroupHomePath()) {
             return $this->getStorageUidFromGroupHomePath();
         } else {
             $settings = $context->getSettings();

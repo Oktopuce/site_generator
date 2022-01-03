@@ -39,8 +39,28 @@
             <div class="form-group">
                 <div class="form-section">
                     <div class="row">
-                        <f:if condition="{siteDto.siteFolderNameSource} == 'siteTitle'">
+                        <f:if condition="{groupHomePathValid}">
                             <f:then>
+                                <div class="form-group col-xs-12">
+                                    <label class="t3js-formengine-label">Use group home path:</label>
+                                    <f:form.checkbox value="1" property="groupHomePath" checked="true" />
+                                    <div class="siteFolder-groupHomePath">
+                                            <f:translate key="form.SecondStepData.newFolderCreationFromGroupHomePath"/>
+                                    </div>
+                                    <div class="siteFolder-siteTitle">
+                                        <div class="form-group col-xs-12">
+                                            <f:translate key="form.SecondStepData.newFolderCreation"/>
+                                        </div>
+                                        <div class="form-group col-xs-12 col-md-4">
+                                            <label class="t3js-formengine-label"><f:translate key="form.SecondStepData.baseFolderName" /></label>
+                                            <div class="form-control-clearable">
+                                                <f:form.textfield property="baseFolderName" value="{siteDto.baseFolderName}" class="form-control t3js-clearable hasDefaultValue t3js-charcounter-initialized"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </f:then>
+                            <f:else>
                                 <div class="form-group col-xs-12">
                                     <f:translate key="form.SecondStepData.newFolderCreation"/>
                                 </div>
@@ -49,11 +69,6 @@
                                     <div class="form-control-clearable">
                                         <f:form.textfield property="baseFolderName" value="{siteDto.baseFolderName}" class="form-control t3js-clearable hasDefaultValue t3js-charcounter-initialized"/>
                                     </div>
-                                </div>
-                            </f:then>
-                            <f:else>
-                                <div class="form-group col-xs-12">
-                                    <f:translate key="form.SecondStepData.newFolderCreationFromGroupHomePath"/>
                                 </div>
                             </f:else>
                         </f:if>

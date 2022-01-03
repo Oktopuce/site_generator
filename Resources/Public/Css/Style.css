@@ -1,0 +1,15 @@
+body {
+    background: black!important;
+}
+input[name="tx_sitegenerator[groupHomePath]"]:checked ~ .siteFolder-groupHomePath {
+    display:block;
+}
+input[name="tx_sitegenerator[groupHomePath]"]:checked ~ .siteFolder-siteTitle {
+    display:none;
+}
+input[name="tx_sitegenerator[groupHomePath]"] ~ .siteFolder-groupHomePath {
+    display:none;
+}
+input[name="tx_sitegenerator[groupHomePath]"] ~ .siteFolder-siteTitle {
+    display:block;
+}

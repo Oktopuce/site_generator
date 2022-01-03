@@ -163,7 +163,6 @@ class SiteGeneratorController extends ActionController
                 $this->siteGeneratorDto->setCommonMountPointUid((int) $this->getExtensionConfiguration('commonMountPointUid'));
                 $this->siteGeneratorDto->setBaseFolderName($this->getExtensionConfiguration('baseFolderName'));
                 $this->siteGeneratorDto->setSubFolderNames($this->getExtensionConfiguration('subFolderNames'));
-                $this->siteGeneratorDto->setSiteFolderNameSource($this->getExtensionConfiguration('siteFolderName'));
             }
         }
 
@@ -318,12 +317,16 @@ class SiteGeneratorController extends ActionController
     {
         $nextStep = $this->buildUriFromRoute('wizard_sitegenerator');
 
+        $groupHomePathArray = explode(':', $GLOBALS['TYPO3_CONF_VARS']['BE']['groupHomePath']);
+        $groupHomePathValid = count($groupHomePathArray) === 2 && is_numeric($groupHomePathArray[0]);
+
         $viewVariables = [
             'moduleUrl' => $nextStep,
             'siteDto' => $this->siteGeneratorDto,
             'siteDtoSaved' => json_encode(serialize($this->siteGeneratorDto)),
             'action' => 'generate_site',
             'returnurl' => $this->conf['returnurl'],
+            'groupHomePathValid' => $groupHomePathValid
         ];
 
         // Add event to assign more variables to the view (usefull when using your own template)

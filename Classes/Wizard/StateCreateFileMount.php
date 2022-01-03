@@ -31,7 +31,7 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
     */
     public function process(SiteGeneratorWizard $context): void
     {
-        if($this->getSiteFolderName() == 'siteTitle') {
+        if(!$context->getSiteData()->getGroupHomePath()) {
 
             // Create file mount for site
             $mountId = $this->createFileMount($context->getSiteData());

@@ -47,10 +47,11 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
      */
     public function process(SiteGeneratorWizard $context): void
     {
+        $siteData = $context->getSiteData();
         // Create folders in storage
-        if ((get_class($this) == 'Oktopuce\SiteGenerator\Wizard\StateCreateGroupHomeFolder' && $this->getSiteFolderName() == 'userGroupUid') or
-            (get_class($this) == 'Oktopuce\SiteGenerator\Wizard\StateCreateFolder' && $this->getSiteFolderName() == 'siteTitle')) {
-            $this->createFolders($context->getSiteData(), $context);
+        if ((get_class($this) == 'Oktopuce\SiteGenerator\Wizard\StateCreateGroupHomeFolder' && $siteData->getGroupHomePath()) or
+            (get_class($this) == 'Oktopuce\SiteGenerator\Wizard\StateCreateFolder' && !$siteData->getGroupHomePath())) {
+            $this->createFolders($siteData, $context);
         }
     }
 
