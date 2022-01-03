@@ -64,6 +64,13 @@ class SiteGeneratorDto extends BaseDto
     protected $baseFolderName = '';
 
     /**
+     * Folder name
+     *
+     * @var string
+     */
+    protected $siteFolderNameSource = '';
+
+    /**
      * Sub folder names
      *
      * @var string
@@ -188,6 +195,22 @@ class SiteGeneratorDto extends BaseDto
     public function getBaseFolderName(): string
     {
         return $this->baseFolderName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSiteFolderNameSource(): string
+    {
+        return $this->siteFolderNameSource;
+    }
+
+    /**
+     * @param string $siteFolderNameSource
+     */
+    public function setSiteFolderNameSource(string $siteFolderNameSource): void
+    {
+        $this->siteFolderNameSource = $siteFolderNameSource;
     }
 
     /**

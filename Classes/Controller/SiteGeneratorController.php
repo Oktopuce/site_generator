@@ -102,9 +102,9 @@ class SiteGeneratorController extends ActionController
         ConfigurationManagerInterface $configurationManager,
         SiteGeneratorWizard $siteGeneratorWizard
     ) {
+
         // Get translations
         $this->getLanguageService()->includeLLFile('EXT:site_generator/Resources/Private/Language/locallang.xlf');
-
         $this->configurationManager = $configurationManager;
         $this->settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS, 'SiteGenerator');
 
@@ -163,6 +163,7 @@ class SiteGeneratorController extends ActionController
                 $this->siteGeneratorDto->setCommonMountPointUid((int) $this->getExtensionConfiguration('commonMountPointUid'));
                 $this->siteGeneratorDto->setBaseFolderName($this->getExtensionConfiguration('baseFolderName'));
                 $this->siteGeneratorDto->setSubFolderNames($this->getExtensionConfiguration('subFolderNames'));
+                $this->siteGeneratorDto->setSiteFolderNameSource($this->getExtensionConfiguration('siteFolderName'));
             }
         }
 

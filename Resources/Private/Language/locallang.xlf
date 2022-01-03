@@ -36,6 +36,9 @@
             <trans-unit id="form.SecondStepData.newFolderCreation">
 				<source>New folders will be created in fileadmin like : "baseFolderName > Site title > SubFolderName"</source>
 			</trans-unit>
+            <trans-unit id="form.SecondStepData.newFolderCreationFromGroupHomePath">
+				<source>New folders will be created in fileadmin like : "groupHomePath > User group uid > SubFolderName"</source>
+			</trans-unit>
             <trans-unit id="form.SecondStepData.baseFolderName">
 				<source>Base folder name</source>
 			</trans-unit>

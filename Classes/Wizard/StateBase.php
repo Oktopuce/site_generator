@@ -68,4 +68,9 @@ class StateBase
     {
         return ($this->extensionConfiguration == null ? $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator'] : []);
     }
+
+    public function getSiteFolderName(): string
+    {
+        return $this->getExtensionConfiguration()['siteFolderName'] ?? 'siteTitle';
+    }
 }
