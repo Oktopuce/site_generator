@@ -19,6 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
+use function Symfony\Component\String\s;
 
 /**
  * StateCreateFolder
@@ -42,32 +43,14 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
      * Create site folder in fileadmin : base Folder / site title / sub folder
      *
      * @param SiteGeneratorWizard $context
-     * @return void
      * @throws \Exception
      */
     public function process(SiteGeneratorWizard $context): void
     {
-        $siteData = $context->getSiteData();
-        $settings = $context->getSettings();
-        $storageUid = (int)$settings['siteGenerator']['wizard']['storageUid'];
-        if(get_class($this) == 'Oktopuce\SiteGenerator\Wizard\StateCreateGroupHomeFolder' && $this->getSiteFolderName() == 'userGroupUid' ) {
-            $groupHomePathData = explode(':', $GLOBALS['TYPO3_CONF_VARS']['BE']['groupHomePath']);
-            if (count($groupHomePathData) === 2 && is_numeric($groupHomePathData[0])) {
-                $storageUid = $groupHomePathData[0];
-                $siteData->setBaseFolderName(trim($groupHomePathData[1], '/'));
-            } else {
-                throw new \Exception('The extension configuration siteFolderName was set to userGroupUid, but the Installation-Wide Option [BE][groupHomePath] was not configured correctly. Should be a combined folder identifier. Eg. 2:groups/');
-            }
-            if ($siteData->getBeGroupId()) {
-                $this->folderName = (string)$siteData->getBeGroupId();
-            } else {
-                throw new \Exception('The extension configuration siteFolderName was set to userGroupUid, but the usergroup uid was not found. Please check order of the states. StateCreateBeGroup should come before StateCreateGroupHomeFolder.');
-            }
-        } else if(get_class($this) == 'Oktopuce\SiteGenerator\Wizard\StateCreateFolder' && $this->getSiteFolderName() == 'siteTitle') {
-            $this->folderName = strtolower($siteData->getTitleSanitize());
-        }
-        if(isset($this->folderName)) {
-            $this->createFolders($siteData, (int)$storageUid);
+        // Create folders in storage
+        if ((get_class($this) == 'Oktopuce\SiteGenerator\Wizard\StateCreateGroupHomeFolder' && $this->getSiteFolderName() == 'userGroupUid') or
+            (get_class($this) == 'Oktopuce\SiteGenerator\Wizard\StateCreateFolder' && $this->getSiteFolderName() == 'siteTitle')) {
+            $this->createFolders($context->getSiteData(), $context);
         }
     }
 
@@ -75,18 +58,18 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
      * Create folder "fileadmin/base_folder/sites_title", with sub-folders "documents" and "images"
      *
      * @param BaseDto $siteData New site data
-     * @param int $storageUid The uid of storage to use
+     * @param SiteGeneratorWizard $context The uid of storage to use
      * @throws \Exception
      *
      * @return void
      */
-    protected function createFolders(BaseDto $siteData, int $storageUid): void
+    protected function createFolders(BaseDto $siteData, SiteGeneratorWizard $context): void
     {
         // Get base folder and sub-folders name to create
-        $baseFolderName = $siteData->getBaseFolderName();
+        $baseFolderName = $this->getBaseFolderName($siteData);
         $subFolderNames = GeneralUtility::trimExplode(',', $siteData->getSubFolderNames(), true);
 
-        if ($storageUid) {
+        if ($storageUid = $this->getStorageUid($context)) {
             $storage = $this->resourceFactory->getStorageObject($storageUid);
 
             try {
@@ -104,15 +87,16 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
                     }
                 }
 
-                // Create site folder
-                $currentFolder .= '/' . $this->folderName;
-                if (!$storage->hasFolderInFolder($this->folderName, $baseFolder)) {
+                // Create site folder from site title
+                $newFolder = $this->getSiteFolder($siteData);
+                $currentFolder .= '/' . $newFolder;
+                if (!$storage->hasFolderInFolder($newFolder, $baseFolder)) {
                     // Create sub-folder for current site
-                    $siteFolder = $storage->createFolder($this->folderName, $baseFolder);
+                    $siteFolder = $storage->createFolder($newFolder, $baseFolder);
                     // @extensionScannerIgnoreLine
                     $siteData->addMessage($this->translate('generate.success.folderCreated', [$currentFolder]));
                 } else {
-                    $siteFolder = $storage->getFolderInFolder($this->folderName, $baseFolder);
+                    $siteFolder = $storage->getFolderInFolder($newFolder, $baseFolder);
                     // @extensionScannerIgnoreLine
                     $siteData->addMessage($this->translate('generate.success.folderExist', [$currentFolder]));
                 }
