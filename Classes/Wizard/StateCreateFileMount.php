@@ -28,17 +28,38 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
      *
      * @param SiteGeneratorWizard $context
      * @return void
-    */
+     * @throws \Exception
+     */
     public function process(SiteGeneratorWizard $context): void
     {
-        if(!$context->getSiteData()->getGroupHomePath()) {
-
+        if($context->getSiteData()->getGroupHomePath()) {
+            // Get file mount id from global 'groupHomePath'
+            $mountId =  $this->getFromHomePath();
+        } else {
             // Create file mount for site
             $mountId = $this->createFileMount($context->getSiteData());
-
-            $context->getSiteData()->setMountId($mountId);
-
         }
+
+        $context->getSiteData()->setMountId($mountId);
+    }
+
+    /**
+     * Get file mount id from global 'groupHomePath'
+     *
+     * @throws \Exception
+     * @return int The uid from the groupHomePath
+     */
+    protected function getFromHomePath(): int
+    {
+        // Get mount id from global 'groupHomePath'
+        [$groupHomeStorageUid, $groupHomeFilter] = explode(':', $GLOBALS['TYPO3_CONF_VARS']['BE']['groupHomePath'], 2);
+
+        if ((int)$groupHomeStorageUid <= 0 || is_null($groupHomeFilter)) {
+            $this->log(LogLevel::ERROR, 'Create file mount error. The groupHomePath is not valid.');
+            throw new \Exception($this->translate('wizard.fileMount.error.groupHomePathNotValid'));
+        }
+
+        return (int)$groupHomeStorageUid;
     }
 
     /**

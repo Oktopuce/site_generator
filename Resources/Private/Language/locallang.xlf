@@ -115,6 +115,9 @@
             <trans-unit id="wizard.fileMount.error">
 				<source>Create file mount error.</source>
 			</trans-unit>
+            <trans-unit id="wizard.fileMount.error.groupHomePathNotValid">
+				<source>Create file mount error. The groupHomePath is not valid.</source>
+			</trans-unit>
             <trans-unit id="wizard.folderCreation.error">
 				<source>Directory creation error for "%s".</source>
 			</trans-unit>
