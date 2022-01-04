@@ -102,9 +102,9 @@ class SiteGeneratorController extends ActionController
         ConfigurationManagerInterface $configurationManager,
         SiteGeneratorWizard $siteGeneratorWizard
     ) {
+
         // Get translations
         $this->getLanguageService()->includeLLFile('EXT:site_generator/Resources/Private/Language/locallang.xlf');
-
         $this->configurationManager = $configurationManager;
         $this->settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS, 'SiteGenerator');
 
@@ -317,12 +317,16 @@ class SiteGeneratorController extends ActionController
     {
         $nextStep = $this->buildUriFromRoute('wizard_sitegenerator');
 
+        $groupHomePathArray = explode(':', $GLOBALS['TYPO3_CONF_VARS']['BE']['groupHomePath']);
+        $groupHomePathValid = count($groupHomePathArray) === 2 && is_numeric($groupHomePathArray[0]);
+
         $viewVariables = [
             'moduleUrl' => $nextStep,
             'siteDto' => $this->siteGeneratorDto,
             'siteDtoSaved' => json_encode(serialize($this->siteGeneratorDto)),
             'action' => 'generate_site',
             'returnurl' => $this->conf['returnurl'],
+            'groupHomePathValid' => $groupHomePathValid
         ];
 
         // Add event to assign more variables to the view (usefull when using your own template)

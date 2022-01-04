@@ -30,6 +30,9 @@ groupPrefix = Group
 # cat=Folder/140/10_BaseFolderName; type=string; label=Site base folder: The name for sites base folder (can be overridden in form)
 baseFolderName = Website
 
+# cat=Folder/140/10_SiteFolder; type=options[Website title=siteTitle,Backend usergroup uid=userGroupUid]; label=Site folder: The name for site folder. Site title or group uid for used with grouphomepath feature.
+siteFolderName = siteTitle
+
 # cat=Folder/140/10_SubFolderNames; type=string; label=Sub-folders to create: The names of the sub-folders to create (comma separated, can be overridden in form)
 subFolderNames = documents,images
 

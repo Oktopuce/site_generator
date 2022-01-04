@@ -32,20 +32,21 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
     public function process(SiteGeneratorWizard $context): void
     {
         // Create BE group
-        $groupId = $this->createBeGroup($context->getSiteData());
-
-        $context->getSiteData()->setBeGroupId($groupId);
+        $groupId = $this->createBeGroup($context);
     }
 
     /**
      * Create BE group with file mount, DB mount, access lists
      *
-     * @param BaseDto $siteData New site data
+     * @param SiteGeneratorWizard $context
      * @throws \Exception
      * @return int The uid of the group created
      */
-    protected function createBeGroup(BaseDto $siteData): int
+    protected function createBeGroup(SiteGeneratorWizard $context): int
     {
+        // New site data
+        $siteData = $context->getSiteData();
+
         // Get extension configuration
         $extensionConfiguration = $this->getExtensionConfiguration();
 
@@ -61,7 +62,7 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
             'tables_select' => ($extensionConfiguration['tablesSelect'] ?: null),
             'tables_modify' => ($extensionConfiguration['tablesModify'] ?: null),
             'explicit_allowdeny' => ($extensionConfiguration['explicitAllowdeny'] ?: null),
-            'TSconfig' => 'options.defaultUploadFolder = 1:' . ($siteData->getBaseFolderName() ? $siteData->getBaseFolderName() . '/' : '') . strtolower($siteData->getTitleSanitize()) . '/'
+//            'TSconfig' => 'options.defaultUploadFolder = 1:' . ($siteData->getBaseFolderName() ? $siteData->getBaseFolderName() . '/' : '') . strtolower($siteData->getTitleSanitize()) . '/'
         ];
 
         // Set common mountpoint
@@ -82,6 +83,16 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
 
         // Retrieve uid of user group created
         $groupId = $tce->substNEWwithIDs[$newUniqueId];
+
+        // Update the TSconfig field
+        $context->getSiteData()->setBeGroupId($groupId);
+        unset($data);
+        $data['be_groups'][$groupId] = [
+            'TSconfig' => 'options.defaultUploadFolder = ' . $this->getSiteFolderCombinedIdentifier($context)
+        ];
+        $tce->start($data, []);
+        $tce->process_datamap();
+
 
         if ($groupId > 0) {
             $this->log(LogLevel::NOTICE, 'Create BE group successful (uid = ' . $groupId);

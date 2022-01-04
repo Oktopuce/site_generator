@@ -11,6 +11,10 @@ services:
     public: true
     shared: false
 
+  Oktopuce\SiteGenerator\Wizard\StateCreateGroupHomeFolder:
+    public: true
+    shared: false
+
   Oktopuce\SiteGenerator\Hook\BackendControllerHook:
     public: true
     shared: false

@@ -19,6 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
+use function Symfony\Component\String\s;
 
 /**
  * StateCreateFolder
@@ -30,6 +31,8 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
      */
     private $resourceFactory;
 
+    private string $folderName;
+
     public function __construct(ResourceFactory $resourceFactory)
     {
         parent::__construct();
@@ -40,32 +43,34 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
      * Create site folder in fileadmin : base Folder / site title / sub folder
      *
      * @param SiteGeneratorWizard $context
-     * @return void
+     * @throws \Exception
      */
     public function process(SiteGeneratorWizard $context): void
     {
-        $settings = $context->getSettings();
-
+        $siteData = $context->getSiteData();
         // Create folders in storage
-        $this->createFolders($context->getSiteData(), (int)$settings['siteGenerator']['wizard']['storageUid']);
+        if ((get_class($this) == 'Oktopuce\SiteGenerator\Wizard\StateCreateGroupHomeFolder' && $siteData->getGroupHomePath()) or
+            (get_class($this) == 'Oktopuce\SiteGenerator\Wizard\StateCreateFolder' && !$siteData->getGroupHomePath())) {
+            $this->createFolders($siteData, $context);
+        }
     }
 
     /**
      * Create folder "fileadmin/base_folder/sites_title", with sub-folders "documents" and "images"
      *
      * @param BaseDto $siteData New site data
-     * @param int $storageUid The uid of storage to use
+     * @param SiteGeneratorWizard $context The uid of storage to use
      * @throws \Exception
      *
      * @return void
      */
-    protected function createFolders(BaseDto $siteData, int $storageUid): void
+    protected function createFolders(BaseDto $siteData, SiteGeneratorWizard $context): void
     {
         // Get base folder and sub-folders name to create
-        $baseFolderName = $siteData->getBaseFolderName();
+        $baseFolderName = $this->getBaseFolderName($siteData);
         $subFolderNames = GeneralUtility::trimExplode(',', $siteData->getSubFolderNames(), true);
 
-        if ($storageUid) {
+        if ($storageUid = $this->getStorageUid($context)) {
             $storage = $this->resourceFactory->getStorageObject($storageUid);
 
             try {
@@ -84,7 +89,7 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
                 }
 
                 // Create site folder from site title
-                $newFolder = strtolower($siteData->getTitleSanitize());
+                $newFolder = $this->getSiteFolder($siteData);
                 $currentFolder .= '/' . $newFolder;
                 if (!$storage->hasFolderInFolder($newFolder, $baseFolder)) {
                     // Create sub-folder for current site

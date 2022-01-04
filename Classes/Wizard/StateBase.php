@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
+use Oktopuce\SiteGenerator\Dto\BaseDto;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -67,5 +68,83 @@ class StateBase
     public function getExtensionConfiguration(): array
     {
         return ($this->extensionConfiguration == null ? $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator'] : []);
+    }
+
+    /**
+     * @return mixed|string
+     * @throws \Exception
+     */
+    protected function getStorageUidFromGroupHomePath() {
+        return $this->getGroupHomePathArray()[0];
+    }
+
+    /**
+     * @return mixed|string
+     * @throws \Exception
+     */
+    protected function getFolderFromGroupHomePath() {
+        return trim($this->getGroupHomePathArray()[1], '/');
+    }
+
+    /**
+     * @return false|string[]
+     * @throws \Exception
+     */
+    protected function getGroupHomePathArray() {
+        $groupHomePathArray = explode(':', $GLOBALS['TYPO3_CONF_VARS']['BE']['groupHomePath']);
+        if (count($groupHomePathArray) === 2 && is_numeric($groupHomePathArray[0])) {
+            return $groupHomePathArray;
+        } else {
+            throw new \Exception('The Installation-Wide Option [BE][groupHomePath] was not configured correctly. Should be a combined folder identifier. Eg. 2:groups/');
+        }
+    }
+
+    /**
+     * @param $siteData
+     * @return string
+     * @throws \Exception
+     */
+    public function getSiteFolder($siteData) {
+        if($siteData->getGroupHomePath()) {
+            if($siteData->getBeGroupId()) {
+                return (string) $siteData->getBeGroupId();
+            } else {
+                throw new \Exception('The extension configuration siteFolderName was set to userGroupUid, but the usergroup uid was not found. Please check order of the states. StateCreateBeGroup should come before StateCreateGroupHomeFolder.');
+            }
+        } else {
+            return strtolower($siteData->getTitleSanitize());
+        }
+    }
+
+    public function getBaseFolderName(BaseDto $siteData) {
+        if($siteData->getGroupHomePath()) {
+            return $this->getFolderFromGroupHomePath();
+        } else {
+            return $siteData->getBaseFolderName();
+        }
+    }
+
+    /**
+     * @param SiteGeneratorWizard $context
+     * @return int|void
+     * @throws \Exception
+     */
+    public function getStorageUid(SiteGeneratorWizard $context) {
+        if($context->getSiteData()->getGroupHomePath()) {
+            return $this->getStorageUidFromGroupHomePath();
+        } else {
+            $settings = $context->getSettings();
+            return (int)$settings['siteGenerator']['wizard']['storageUid'];
+        }
+    }
+
+    /**
+     * @param SiteGeneratorWizard $context
+     * @return string
+     * @throws \Exception
+     */
+    public function getSiteFolderCombinedIdentifier(SiteGeneratorWizard $context) {
+        $siteData = $context->getSiteData();
+        return $this->getStorageUid($context) . ':' . $this->getBaseFolderName($siteData) . '/' . $this->getSiteFolder($siteData) . '/';
     }
 }

@@ -23,6 +23,7 @@ module.tx_sitegenerator {
                     30 = Oktopuce\SiteGenerator\Wizard\StateCreateFileMount
                     40 = Oktopuce\SiteGenerator\Wizard\StateCreateFeGroup
                     50 = Oktopuce\SiteGenerator\Wizard\StateCreateBeGroup
+                    55 = Oktopuce\SiteGenerator\Wizard\StateCreateGroupHomeFolder
                     60 = Oktopuce\SiteGenerator\Wizard\StateSetPageBeGroup
                     70 = Oktopuce\SiteGenerator\Wizard\StateSiteConfiguration
                     80 = Oktopuce\SiteGenerator\Wizard\StateUpdateHomePage

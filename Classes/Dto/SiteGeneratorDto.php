@@ -85,6 +85,11 @@ class SiteGeneratorDto extends BaseDto
     protected $feGroupPid = 0;
 
     /**
+     * @var bool
+     */
+    protected $groupHomePath = false;
+
+    /**
      * Domain
      *
      * @param string $domain
@@ -274,4 +279,19 @@ class SiteGeneratorDto extends BaseDto
         return $this->feGroupPid;
     }
 
+    /**
+     * @return bool
+     */
+    public function getGroupHomePath(): bool
+    {
+        return $this->groupHomePath;
+    }
+
+    /**
+     * @param bool $groupHomePath
+     */
+    public function setGroupHomePath(bool $groupHomePath): void
+    {
+        $this->groupHomePath = $groupHomePath;
+    }
 }
