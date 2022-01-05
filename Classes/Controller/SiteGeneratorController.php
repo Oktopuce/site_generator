@@ -204,6 +204,7 @@ class SiteGeneratorController extends ActionController
         $this->standaloneView->setPartialRootPaths($partialRootPaths);
         $this->standaloneView->getRequest()->setControllerExtensionName('site_generator');
         $this->standaloneView->getRequest()->setControllerName('SiteGenerator');
+        $this->standaloneView->assign('settings', $this->settings);
 
         $renderingContext = $this->standaloneView->getRenderingContext();
         $renderingContext->setControllerName('SiteGenerator');
