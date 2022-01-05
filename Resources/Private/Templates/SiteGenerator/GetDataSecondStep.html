@@ -12,6 +12,7 @@
             <f:form.hidden name="siteDtoSaved" value="{siteDtoSaved}" />
             <f:comment>id is required to retrieve the right Typoscript configuration</f:comment>
             <f:form.hidden name="id" value="{siteDto.pid}" />
+            <f:render partial="SecondStep/Top" arguments="{_all}" optional="1" />
             <div class="form-group">
                 <div class="form-section">
                     <div class="row">
@@ -57,6 +58,7 @@
                     </div>
                 </div>
             </div>
+            <f:render partial="SecondStep/Bottom" arguments="{_all}" optional="1" />
             <div class="form-group">
                 <f:link.action additionalParams="{action: 'get_data_first_step', siteDtoSaved: siteDtoSaved}" class="btn btn-default"><f:translate key="form.previousStep"/></f:link.action>
                 <f:form.submit value="{f:translate(key: 'form.nexStep')}" class="btn btn-default" />
