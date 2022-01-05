@@ -18,6 +18,7 @@
                     <f:form.hidden property="pid" value="{siteDto.pid}" />
                     <h1><f:translate key="title_generator" /></h1>
                     <h4><f:translate key="form.FirstStepData.title" /></h4>
+                    <f:render partial="FirstStep/Top" arguments="{_all}" optional="1" />
                     <div class="form-group">
                         <div class="form-section">
                             <div class="row">
@@ -44,6 +45,7 @@
                             </div>
                         </div>
                     </div>
+                    <f:render partial="FirstStep/Bottom" arguments="{_all}" optional="1" />
                     <div class="form-group">
                         <f:form.submit value="{f:translate(key: 'form.nexStep', extensionName: 'site_generator')}" class="btn btn-default" />
                     </div>
