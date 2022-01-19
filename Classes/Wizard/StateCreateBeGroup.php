@@ -66,11 +66,11 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
 
         // Set common mountpoint
         if ($siteData->getCommonMountPointUid()) {
-            $data['be_groups'][$newUniqueId]['file_mountpoints'] = $siteData->getCommonMountPointUid();
+            $data['be_groups'][$newUniqueId] = ['file_mountpoints' => $siteData->getCommonMountPointUid()];
         }
 
         // Set created mountpoint
-        if ($siteData->getMountId()) {
+        if (isset($data['be_groups'][$newUniqueId]['file_mountpoints']) && $siteData->getMountId()) {
             $data['be_groups'][$newUniqueId]['file_mountpoints'] .= ($siteData->getCommonMountPointUid() ? ',' : '') . $siteData->getMountId();
         }
 
