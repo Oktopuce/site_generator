@@ -61,7 +61,7 @@ class StateCopyModelSite extends StateBase implements SiteGeneratorStateInterfac
         $tce->process_cmdmap();
 
         // Save mapping array merge in context : relation between original pid / new pid
-        $siteData->setMappingArrayMerge($tce->copyMappingArray_merged['pages']);
+        $siteData->setMappingArrayMerge($tce->copyMappingArray_merged);
 
         // Get the pid of home page copied
         $homePagePid = $tce->copyMappingArray_merged['pages'][$modelPid];

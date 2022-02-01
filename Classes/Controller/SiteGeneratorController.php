@@ -17,6 +17,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -38,57 +39,56 @@ use Oktopuce\SiteGenerator\Wizard\Event\BeforeRenderingSecondStepViewEvent;
  */
 class SiteGeneratorController extends ActionController
 {
-    /*
+    /**
      * @var IconFactory
      */
-
-    protected $iconFactory = null;
+    protected IconFactory $iconFactory;
 
     /**
      * @var ModuleTemplate
      */
-    protected $moduleTemplate = null;
+    protected ModuleTemplate $moduleTemplate;
 
     /**
      * @var ButtonBar
      */
-    protected $buttonBar = null;
+    protected ButtonBar $buttonBar;
 
     /**
      * @var StandaloneView
      */
-    protected $standaloneView = null;
+    protected StandaloneView $standaloneView;
 
     /**
      * The local configuration array
      *
      * @var array
      */
-    protected $conf = [];
+    protected array $conf = [];
 
     /**
      * The data transfer object form => wizard
      *
-     * @var SiteGeneratorDto
+     * @var SiteGeneratorDto Could also be DTO defined by TS
      */
-    protected $siteGeneratorDto = null;
+    protected $siteGeneratorDto;
 
     /**
      * Extension configuration
      *
      * @var array
      */
-    protected $extensionConfiguration = [];
+    protected array $extensionConfiguration = [];
 
     /**
      * @var EventDispatcherInterface
      */
-    protected $eventDispatcher = null;
+    protected $eventDispatcher;
 
     /**
      * @var SiteGeneratorWizard
      */
-    protected $siteGeneratorWizard = null;
+    protected SiteGeneratorWizard $siteGeneratorWizard;
 
     /**
      * The constructor of this class
@@ -96,16 +96,24 @@ class SiteGeneratorController extends ActionController
      * @param EventDispatcherInterface $eventDispatcher
      * @param ConfigurationManagerInterface $configurationManager
      * @param SiteGeneratorWizard $siteGeneratorWizard
+     * @param ModuleTemplate $moduleTemplate
+     * @throws \ReflectionException
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         ConfigurationManagerInterface $configurationManager,
-        SiteGeneratorWizard $siteGeneratorWizard
+        SiteGeneratorWizard $siteGeneratorWizard,
+        ModuleTemplate $moduleTemplate
     ) {
+        // Dependency injection
+        $this->eventDispatcher = $eventDispatcher;
+        $this->configurationManager = $configurationManager;
+        $this->siteGeneratorWizard = $siteGeneratorWizard;
+        $this->moduleTemplate = $moduleTemplate;
+
         // Get translations
         $this->getLanguageService()->includeLLFile('EXT:site_generator/Resources/Private/Language/locallang.xlf');
 
-        $this->configurationManager = $configurationManager;
         $this->settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS, 'SiteGenerator');
 
         // Store DTO data from form
@@ -115,7 +123,7 @@ class SiteGeneratorController extends ActionController
         $this->conf['returnurl'] = GeneralUtility::_GP('returnurl');
 
         // Initialize module template
-        $this->moduleTemplate = GeneralUtility::makeInstance(ModuleTemplate::class);
+//        $this->moduleTemplate = GeneralUtility::makeInstance(ModuleTemplate::class);
         $this->iconFactory = $this->moduleTemplate->getIconFactory();
         $this->buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
@@ -130,9 +138,6 @@ class SiteGeneratorController extends ActionController
             'ok' => $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_common.xlf:ok')
         ]);
 
-        $this->eventDispatcher = $eventDispatcher;
-        $this->siteGeneratorWizard = $siteGeneratorWizard;
-
         // Standalone view initialisation
         $this->initStandaloneView();
     }
@@ -141,6 +146,7 @@ class SiteGeneratorController extends ActionController
      * Store DTO Data from form
      *
      * @return void
+     * @throws \ReflectionException
      */
     public function storeDtoData(): void
     {
@@ -214,11 +220,12 @@ class SiteGeneratorController extends ActionController
      * Injects the request object for the current request and gathers all data
      *
      * @param ServerRequestInterface $request the current request
-     * @param ResponseInterface $response (removed in V10)
+     * @param ?ResponseInterface $response (removed in V10)
      *
      * @return ResponseInterface the response with the content
+     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
      */
-    public function dispatch(ServerRequestInterface $request, ResponseInterface $response = null): ResponseInterface
+    public function dispatch(ServerRequestInterface $request, ?ResponseInterface $response = null): ResponseInterface
     {
         if ($response === null) {
             $response = new HtmlResponse('');
@@ -228,8 +235,7 @@ class SiteGeneratorController extends ActionController
         // The pid is mandatory
         if ($this->siteGeneratorDto->getPid() <= 0) {
             $response->getBody()->write('This script cannot be called directly');
-            $response = $response->withStatus(500);
-            return $response;
+            return $response->withStatus(500);
         }
 
         // Add doc header buttons
@@ -277,6 +283,7 @@ class SiteGeneratorController extends ActionController
      * Display a form to gather data (first step)
      *
      * @return string The rendered view
+     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
      */
     protected function getDataFirstStepAction(): string
     {
@@ -303,15 +310,15 @@ class SiteGeneratorController extends ActionController
 
         $this->setTemplateName('GetDataFirstStep.html');
         $this->moduleTemplate->setContent($this->standaloneView->render());
-        $content = $this->moduleTemplate->renderContent();
 
-        return ($content);
+        return ($this->moduleTemplate->renderContent());
     }
 
     /**
      * Display a form to gather data (second step)
      *
      * @return string The rendered view
+     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
      */
     protected function getDataSecondStepAction(): string
     {
@@ -332,9 +339,8 @@ class SiteGeneratorController extends ActionController
 
         $this->setTemplateName('GetDataSecondStep.html');
         $this->moduleTemplate->setContent($this->standaloneView->render());
-        $content = $this->moduleTemplate->renderContent();
 
-        return ($content);
+        return ($this->moduleTemplate->renderContent());
     }
 
     /**
@@ -373,13 +379,13 @@ class SiteGeneratorController extends ActionController
     /**
      * Get data from extension configuration
      *
-     * @param  string $name Name of data to retrieve from configuration
+     * @param string $name Name of data to retrieve from configuration
      *
      * @return string
      */
-    public function getExtensionConfiguration($name): string
+    public function getExtensionConfiguration(string $name): string
     {
-        if ($this->extensionConfiguration == null) {
+        if (empty($this->extensionConfiguration)) {
             $this->extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator'];
         }
         return ($this->extensionConfiguration[$name]);
@@ -388,11 +394,11 @@ class SiteGeneratorController extends ActionController
     /**
      * Set template name for view
      *
-     * @param  string $templateName
+     * @param string $templateName
      *
      * @return void
      */
-    public function setTemplateName($templateName): void
+    public function setTemplateName(string $templateName): void
     {
         try {
             $this->standaloneView->setTemplate($templateName);
@@ -403,9 +409,9 @@ class SiteGeneratorController extends ActionController
     }
 
     /**
-     * @return \TYPO3\CMS\Core\Localization\LanguageService | \TYPO3\CMS\Core\Localization\LanguageService
+     * @return \TYPO3\CMS\Core\Localization\LanguageService
      */
-    protected function getLanguageService()
+    protected function getLanguageService(): \TYPO3\CMS\Core\Localization\LanguageService
     {
         return $GLOBALS['LANG'];
     }
@@ -413,15 +419,15 @@ class SiteGeneratorController extends ActionController
     /**
      * Generate URI for a backend module
      *
-     * @param  string $name The name of the route
+     * @param string $name The name of the route
      *
      * @return string
+     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
      */
-    public function buildUriFromRoute($name): string
+    public function buildUriFromRoute(string $name): string
     {
         /** @var UriBuilder $uriBuilder */
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-        $uri = (string) $uriBuilder->buildUriFromRoute($name);
-        return ($uri);
+        return (((string)$uriBuilder->buildUriFromRoute($name)));
     }
 }

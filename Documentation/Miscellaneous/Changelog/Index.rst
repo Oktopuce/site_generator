@@ -7,11 +7,14 @@
 Change log
 ==========
 
-V2.0.0 - 2021/09/23
-------------------
+V2.0.1 - 2022/02/01
+-------------------
 
 ::
-
+* 2022-02-01  [TASK] Manage all data from mappingArrayMerge so that custom extensions can use them (commit: 7926676)
+* 2022-02-01  [BUGFIX] Update of clearCacheCmd in page TSConfig (commit: 283e216)
+* 2022-01-28  [FIX] Fix warning with PHP V8 (commit: 38087fe)
+* 2022-01-28  [TASK] Remove unused property (commit: 2d94acb)
 * 2021-09-24  [DOC] Update documentation (commit: b399656)
 * 2021-09-23  [TASK] Add new supported versions (commit: 04b6637)
 * 2021-09-23  [TASK] Add missing message (commit: 424c814)

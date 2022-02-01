@@ -48,7 +48,7 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
         $pagesUpdated = [];
 
         // Iterates over new pages
-        foreach ($siteData->getMappingArrayMerge() as $pageId) {
+        foreach ($siteData->getMappingArrayMerge('pages') as $pageId) {
             $update = false;
 
             // Get record data
@@ -65,11 +65,12 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
                         $commands = GeneralUtility::trimExplode(',', $matches[3], true);
                         $clearCacheCommands = array_unique($commands);
 
-                        foreach ($clearCacheCommands as &$clearCacheCommand) {
-                            $clearCacheCommand = ($siteData->getMappingArrayMerge()[$clearCacheCommand] ?? '');
+                        $clearCacheCommandNew = [];
+                        foreach ($clearCacheCommands as $clearCacheCommand) {
+                            $clearCacheCommandNew[] = ($siteData->getMappingArrayMerge('pages')[$clearCacheCommand] ?? '');
                         }
 
-                        $newsTSConfig .= str_replace($matches[0], $matches[1] . ' = ' . implode(',', $clearCacheCommands), $line) . PHP_EOL;
+                        $newsTSConfig .= str_replace($matches[0], $matches[1] . ' = ' . implode(',', $clearCacheCommandNew), $line) . PHP_EOL;
                         $update = true;
                     } else {
                         $newsTSConfig .= $line . PHP_EOL;

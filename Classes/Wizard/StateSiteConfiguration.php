@@ -17,6 +17,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Configuration\SiteConfiguration;
 use TYPO3\CMS\Core\Log\LogLevel;
+use TYPO3\CMS\Backend\Exception\SiteValidationErrorException;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 
@@ -51,7 +52,7 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
 
             /** @var PagesRepository $pagesRepository */
             $pagesRepository = GeneralUtility::makeInstance(PagesRepository::class);
-            $uids = $siteData->getMappingArrayMerge();
+            $uids = $siteData->getMappingArrayMerge('pages');
             $rootSiteId = $pagesRepository->getRootSiteId($uids);
 
             if ($rootSiteId) {
@@ -93,7 +94,7 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
                         $siteData->getDomain()
                     ]));
                 } catch (SiteValidationErrorException $e) {
-                    $this->log(LogLevel::ERROR, 'Cannont create site configuration for domain : ' . $siteData->getDomain());
+                    $this->log(LogLevel::ERROR, 'Cannot create site configuration for domain : ' . $siteData->getDomain());
                     throw new \Exception($this->translate('wizard.createSiteConfiguration.error'));
                 }
             } else {

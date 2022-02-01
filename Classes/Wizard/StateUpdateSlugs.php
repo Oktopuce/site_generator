@@ -60,7 +60,7 @@ class StateUpdateSlugs extends StateBase implements SiteGeneratorStateInterface
         /* @var $pagesRepository PagesRepository */
         $pagesRepository = GeneralUtility::makeInstance(PagesRepository::class);
 
-        foreach ($siteData->getMappingArrayMerge() as $sitePid) {
+        foreach ($siteData->getMappingArrayMerge('pages') as $sitePid) {
             $origRow = BackendUtility::getRecord('pages', $sitePid);
             $slug = $slugHelper->generate($origRow, $origRow['pid']);
 
