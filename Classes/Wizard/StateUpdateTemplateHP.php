@@ -56,7 +56,7 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
 
             foreach ($objReg as $key => $rawP) {
                 $value = GeneralUtility::trimExplode('=', $templateService->raw[$rawP]);
-                foreach ($siteData->getMappingArrayMerge() as $modelPid => $sitePid) {
+                foreach ($siteData->getMappingArrayMerge('pages') as $modelPid => $sitePid) {
                     if ($modelPid === (int)$value[1]) {
                         $templateService->ext_putValueInConf($key, $sitePid);
                     }

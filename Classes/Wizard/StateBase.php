@@ -66,6 +66,6 @@ class StateBase
      */
     public function getExtensionConfiguration(): array
     {
-        return $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator']);
+        return $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator'];
     }
 }

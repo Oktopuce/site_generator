@@ -48,7 +48,7 @@ class StateSetPageBeGroup extends StateBase implements SiteGeneratorStateInterfa
     {
         if ($siteData->getBeGroupId()) {
             $pages = [];
-            foreach ($siteData->getMappingArrayMerge() as $sitePid) {
+            foreach ($siteData->getMappingArrayMerge('pages') as $sitePid) {
                 /* @var $pagesRepository PagesRepository */
                 $pagesRepository = GeneralUtility::makeInstance(PagesRepository::class);
 

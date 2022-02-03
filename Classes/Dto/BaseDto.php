@@ -165,11 +165,12 @@ class BaseDto
     /**
      * Get mappingArrayMerge : relation beetween original pid / new pid after model copy
      *
+     * @param string $key The key to use 'page', 'tt_content', etc. if empty, return all data
      * @return array
      */
-    public function getMappingArrayMerge(): array
+    public function getMappingArrayMerge(string $key = ''): array
     {
-        return $this->mappingArrayMerge;
+        return (empty($key) ? $this->mappingArrayMerge : ($this->mappingArrayMerge[$key] ?? []));
     }
 
     /**

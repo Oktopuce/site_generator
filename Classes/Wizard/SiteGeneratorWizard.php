@@ -39,14 +39,14 @@ class SiteGeneratorWizard
     /**
      * @var array States list from TS
      */
-    private static $states = [];
+    private static array $states = [];
 
     /**
      * Contains the settings of the current extension
      *
      * @var array
      */
-    protected $settings = [];
+    protected array $settings = [];
 
     /**
      * Constructor of this class : set first wizard step and store site data from forms

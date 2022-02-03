@@ -61,7 +61,8 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
             'tables_select' => ($extensionConfiguration['tablesSelect'] ?: null),
             'tables_modify' => ($extensionConfiguration['tablesModify'] ?: null),
             'explicit_allowdeny' => ($extensionConfiguration['explicitAllowdeny'] ?: null),
-            'TSconfig' => 'options.defaultUploadFolder = 1:' . ($siteData->getBaseFolderName() ? $siteData->getBaseFolderName() . '/' : '') . strtolower($siteData->getTitleSanitize()) . '/'
+            'TSconfig' => 'options.defaultUploadFolder = 1:' . ($siteData->getBaseFolderName() ? $siteData->getBaseFolderName() . '/' : '') . strtolower($siteData->getTitleSanitize()) . '/',
+            'file_mountpoints' => ''
         ];
 
         // Set common mountpoint
