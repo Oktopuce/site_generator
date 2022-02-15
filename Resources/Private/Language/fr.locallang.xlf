@@ -112,6 +112,10 @@
 				<source>- A new file mount has been set : %s (uid = %d)</source>
 				<target>- Un nouveau point de montage de fichier a été généré : %s (uid = %d)</target>
 			</trans-unit>
+			<trans-unit id="generate.success.templateHpUpdated">
+				<source>- Update home page template with new uids done</source>
+				<target>- Le template de la page d'accueil a été mis à jour avec les nouveau identifiants (uid)</target>
+			</trans-unit>
 
             <trans-unit id="generate.success">
 				<source>The new site creation/tree model duplication was finished.</source>

@@ -11,6 +11,10 @@ services:
     public: true
     shared: false
 
+  Oktopuce\SiteGenerator\Wizard\StateUpdateTemplateHP:
+    public: true
+    shared: false
+
   Oktopuce\SiteGenerator\Hook\BackendControllerHook:
     public: true
     shared: false
