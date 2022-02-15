@@ -1,10 +1,4 @@
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../Includes.txt
-
+.. include:: /Includes.rst.txt
 
 .. _developer:
 
@@ -22,13 +16,52 @@ The **site_generator** extension is highly customizable, this chapter describes 
 
 The site_generator wizard is based on State Design Pattern :
 
-.. figure:: ../Images/SiteGenerator.png
-   :class: with-shadow
-   :alt: Start the wizard
+.. uml::
 
-   Site generator model
+   class SiteGeneratorDto {
+   }
 
-The wizard get states from **Typoscript Setup** and form data through **SiteGeneraorDto**.
+   class StateBase {
+   }
+
+   class SiteGeneratorWizard {
+      # setNextWizardState()
+      __ protected data __
+      #StateBase currentState
+      #BaseDto siteData
+   }
+
+   class StateCopyModelSite {
+      + process($context:SiteGeneratorWizard)
+   }
+
+   class StateCreateFileMount {
+      + process($context:SiteGeneratorWizard)
+   }
+
+   class StateCreateFolder {
+      + process($context:SiteGeneratorWizard)
+   }
+
+   class StateCreateFeGroup {
+      + process($context:SiteGeneratorWizard)
+   }
+
+   SiteGeneratorDto --* SiteGeneratorWizard
+   SiteGeneratorWizard o-- StateBase : currentState
+   StateBase <|- StateCreateFeGroup
+   StateBase <|-- StateCreateFolder
+   StateBase <|-- StateCreateFileMount
+   StateCopyModelSite -|> StateBase
+
+   note left of SiteGeneratorWizard::currentState
+      States comes from TypoScript Setup
+   end note
+
+   class SiteGeneratorDto
+   note right: Data Transfer Object From forms wizard
+
+The wizard get states from **TypoScript Setup** and form data through **SiteGeneraorDto**.
 
 For full customization, I suggest to create your own extension, this is how it is suppose to be in following section, the tree structure looks like this :
 

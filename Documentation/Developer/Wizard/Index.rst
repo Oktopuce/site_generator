@@ -1,10 +1,4 @@
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../../Includes.txt
-
+.. include:: /Includes.rst.txt
 
 .. _wizard:
 
@@ -14,7 +8,7 @@ Wizard
 
 In *Wizard* folder we add all our custom states for the wizard, in this example we add a custom state for FE user generation.
 
-All states are declared in :ref:`Typoscript Setup <screenshots>` for the wizard to know about them.
+All states are declared in :ref:`TypoScript Setup <screenshots>` for the wizard to know about them.
 
 .. code-block:: php
 

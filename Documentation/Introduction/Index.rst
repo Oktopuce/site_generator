@@ -1,10 +1,4 @@
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../Includes.txt
-
+.. include:: /Includes.rst.txt
 
 .. _introduction:
 
@@ -18,19 +12,33 @@ What does it do?
 ================
 
 This extension provide an easy way to create mini-websites or duplicate a tree in the backend.
+For this purpose, the extension uses a :ref:`model <model>` that you defined according to your own needs which can be tailored through forms.
 
-Once the tree is duplicated, the extension will automatically :
+Once the model is duplicated, the extension will automatically :
 
 * create associated BE/FE groups
 * set access group for created tree
 * create directories and files mount
 * add domain name
 * create site configuration
-* update Typoscript configuration (folders/pages ID and TCEMAIN.clearCacheCmd)
+* update TypoScript configuration (folders/pages ID and TCEMAIN.clearCacheCmd)
 * update slugs for URL rewriting
 
 .. hint::
    The *site_generator* extension is highly customizable : you can remove unnecessary states and add your own states to fit your own needs.
+
+.. _model:
+
+What a model is ?
+=================
+
+A model is a dedicated parts of TYPO3 tree with pages, content elements, plugins, templates.
+
+You can use as many models as you want.
+
+.. figure:: ../Images/Model.png
+   :class: with-shadow
+   :alt: Sample model
 
 .. _screenshots:
 

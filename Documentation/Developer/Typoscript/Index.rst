@@ -1,15 +1,9 @@
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../../Includes.txt
-
+.. include:: /Includes.rst.txt
 
 .. _typoscript:
 
 ==========
-Typoscript
+TypoScript
 ==========
 
 Configure you extension in order to use your own forms and customize the wizard states.
@@ -77,10 +71,10 @@ ext_typoscript_setup.typoscript
        }
    }
 
+.. code-block:: typoscript
+
+   20 = Oktopuce\SiteGeneratorCustomized\Wizard\StateCreateFeGroup
+
 .. important::
 
    Reset all default wizard states, reuse existing states and add your customized state
-
-   .. code-block:: typoscript
-
-      20 = Oktopuce\SiteGeneratorCustomized\Wizard\StateCreateFeGroup

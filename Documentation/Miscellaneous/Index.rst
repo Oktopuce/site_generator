@@ -1,9 +1,4 @@
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../Includes.txt
+.. include:: /Includes.rst.txt
 
 .. _miscellaneous:
 
@@ -11,8 +6,8 @@ Miscellaneous
 =============
 
 .. toctree::
-	:maxdepth: 2
-	:titlesonly:
+   :maxdepth: 2
+   :titlesonly:
    :glob:
 
    Changelog/Index

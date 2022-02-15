@@ -1,5 +1,3 @@
-.. include:: ../../Includes.txt
-
 
 .. _changelog:
 
@@ -11,6 +9,7 @@ V2.0.1 - 2022/02/02
 -------------------
 
 ::
+
 * 2022-02-02  [TASK] Upgrade typo3/cms-core to version 11.5.0 because of vulnerabilities in version less than 11.5.0 (commit: 1b1ad76)
 * 2022-02-01  [TASK] Manage all data from mappingArrayMerge so that custom extensions can use them (commit: 4f8306b)
 * 2022-02-01  [BUGFIX] Update of clearCacheCmd in page TSConfig (commit: 283e216)

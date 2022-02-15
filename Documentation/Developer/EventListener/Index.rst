@@ -1,10 +1,4 @@
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../../Includes.txt
-
+.. include:: /Includes.rst.txt
 
 .. _EventListener:
 
@@ -12,15 +6,18 @@
 Event listener (PSR-14 Events)
 ================================
 
-The are two event dispatchers used in the extension, those events are used to assign data to the Fluid Template forms.
+The are three event dispatchers used in the extension, two of them are used to assign data to the Fluid Template forms and the
+third one is used to customize mapping of home page constants with custom directives.
 
-+-------------------------------------+---------------------------------+
-| Event                               |  Description                    |
-+=====================================+=================================+
-| BeforeRenderingFirstStepViewEvent   | Assign data to first form       |
-+-------------------------------------+---------------------------------+
-| BeforeRenderingSecondStepViewEvent  | Assign data to second form      |
-+-------------------------------------+---------------------------------+
++-------------------------------------+-------------------------------------------------------+
+| Event                               |  Description                                          |
++=====================================+=======================================================+
+| BeforeRenderingFirstStepViewEvent   | Assign data to first form                             |
++-------------------------------------+-------------------------------------------------------+
+| BeforeRenderingSecondStepViewEvent  | Assign data to second form                            |
++-------------------------------------+-------------------------------------------------------+
+| UpdateTemplateHPEvent               | Custom directives for constants in home page template |
++-------------------------------------+-------------------------------------------------------+
 
 Implementing an event listener in your extension
 ================================================
@@ -49,6 +46,12 @@ Register event listener as follow ...
             - name: event.listener
             identifier: 'customizeSecondtStep'
             event: Oktopuce\SiteGenerator\Wizard\Event\BeforeRenderingSecondStepViewEvent
+
+      Oktopuce\SiteGeneratorCustomized\EventListener\UpdateTemplateHP:
+         tags:
+            - name: event.listener
+              identifier: 'updateTemplateHP'
+              event: Oktopuce\SiteGenerator\Wizard\Event\UpdateTemplateHPEvent
 
 Classes/EventListener/VariablesForFirstView.php
 -----------------------------------------------
@@ -112,4 +115,57 @@ Classes/EventListener/VariablesForFirstView.php
 
 In this example, we assigned *feUsers* variable to first Fluid Template form.
 
-Have a look at `Typo3 documentation <https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ApiOverview/Hooks/EventDispatcher/Index.html#implementing-an-event-listener-in-your-extension>`__ for more information on event listener.
+Custom directives for constants in home page template
+-----------------------------------------------------
+
+Sample customize directives for TypoScript constants mapping with some TypoScript directives in home page model template.
+
+TypoScript constants in home page model template
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: typoscript
+
+   plugin.tx_myplugin {
+     settings {
+         # ext=SiteGenerator; action=customAction; parameters=custom parameters
+         forACustomAction = 515,516
+     }
+   }
+
+
+Classes/EventListener/UpdateTemplateHP.php
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: php
+
+   declare(strict_types=1);
+
+   namespace Oktopuce\SiteGeneratorCustomized\EventListener;
+
+   use Oktopuce\SiteGenerator\Wizard\Event\UpdateTemplateHPEvent;
+
+   class UpdateTemplateHP
+   {
+       /**
+        * __invoke
+        *
+        * @param UpdateTemplateHPEvent $event
+        * @return void
+        */
+       public function __invoke(UpdateTemplateHPEvent $event): void
+       {
+           $action = $event->getAction();
+           if ($action == 'customAction') {
+               $parameters = $event->getParameters();
+               $value = $event->getValue();
+               $dataMapping = $event->getFilteredMapping();
+               $updatedValue = "params = $parameters - value = $value - dataMapping = " . implode(',', $dataMapping);
+
+               $event->setUpdatedValue($updatedValue);
+           }
+       }
+   }
+
+.. tip::
+
+   Have a look at `TYPO3 documentation <https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ApiOverview/Hooks/EventDispatcher/Index.html#implementing-an-event-listener-in-your-extension>`__ for more information on event listener.

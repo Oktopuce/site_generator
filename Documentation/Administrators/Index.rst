@@ -1,11 +1,10 @@
-.. include:: ../Includes.txt
-
+.. include:: /Includes.rst.txt
 
 .. _configuration:
 
-=============
-Configuration
-=============
+==================
+For administrators
+==================
 
 Target group: **Developers, Integrators**
 
@@ -18,11 +17,11 @@ Minimal setup
 #. If FE group creation is needed :
 
    - Create a folder page for FE group creation
-   - Set FE group folder pid in Typoscript Constants : pidFeGroup
+   - Set FE group folder pid in TypoScript Constants : pidFeGroup
 
 #. Then you can call the wizard on 'Sites Pid' pages
 
-Set pidFeGroup in Typoscript Constants :
+Set pidFeGroup in TypoScript Constants :
 
 .. code-block:: typoscript
 
@@ -38,7 +37,7 @@ Set pidFeGroup in Typoscript Constants :
 
 .. _configuration-typoscript:
 
-If you only need Tree Duplication, you can change Typoscript Setup like this :
+If you only need Tree Duplication, you can change TypoScript Setup like this :
 
 .. code-block:: typoscript
 
@@ -59,8 +58,9 @@ If you only need Tree Duplication, you can change Typoscript Setup like this :
        }
    }
 
-.. _configuration-typoscript:
+.. Important::
 
+   Module TypoScript configuration like :typoscript:`module.tx_sitegenerator` can only be changed through custom extension
 
 Configuration
 -------------
@@ -74,5 +74,5 @@ Configuration
    :titlesonly:
 
    TypoScript/Index
-   TsConfig/Index
    ExtensionManager/Index
+   UpdateTemplate/Index

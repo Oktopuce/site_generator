@@ -12,7 +12,6 @@
 .. --------------------------------------------------
 
 .. role::   typoscript(code)
-
 .. role::   ts(typoscript)
    :class:  typoscript
 

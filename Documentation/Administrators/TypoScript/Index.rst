@@ -1,16 +1,11 @@
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../../../Includes.txt
+.. include:: /Includes.rst.txt
 
 .. _ts:
 
 TypoScript
 ==========
 
-Here you can find the module configuration available in Typoscript.
+Here you can find the module configuration available in TypoScript.
 
 Any setting needs to be prefixed with  :typoscript:`module.tx_sitegenerator.settings.siteGenerator.wizard.`.
 

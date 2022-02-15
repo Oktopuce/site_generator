@@ -1,10 +1,4 @@
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../../Includes.txt
-
+.. include:: /Includes.rst.txt
 
 .. _templates:
 
@@ -38,7 +32,7 @@ First form used for mandatory data, copy/paste Fluid Template from **site_genera
            <div class="form-control-clearable">
                <f:form.select property="feUser" value="{siteDto.feUser}" options="{feUsers}"
                               optionValueField="uid" optionLabelField="name"
-                              class="form-control form-control-adapt" />
+                              class="form-control form-control-adapt form-select" />
            </div>
        </div>
    </div>
