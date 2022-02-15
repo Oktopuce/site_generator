@@ -16,7 +16,7 @@ namespace Oktopuce\SiteGenerator\Wizard;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Configuration\SiteConfiguration;
-use TYPO3\CMS\Core\Log\LogLevel;
+use Psr\Log\LogLevel;
 use TYPO3\CMS\Backend\Exception\SiteValidationErrorException;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
@@ -32,6 +32,7 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
      *
      * @param SiteGeneratorWizard $context
      * @return void
+     * @throws \Exception
      */
     public function process(SiteGeneratorWizard $context): void
     {
@@ -44,7 +45,7 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
      *
      * @param BaseDto $siteData New site data
      * @throws \Exception
-     * @return int The id of the domain created
+     * @return void
      */
     protected function createSiteConfiguration(BaseDto $siteData): void
     {
@@ -95,7 +96,7 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
                     ]));
                 } catch (SiteValidationErrorException $e) {
                     $this->log(LogLevel::ERROR, 'Cannot create site configuration for domain : ' . $siteData->getDomain());
-                    throw new \Exception($this->translate('wizard.createSiteConfiguration.error'));
+                    throw new SiteValidationErrorException($this->translate('wizard.createSiteConfiguration.error'));
                 }
             } else {
                 $this->log(LogLevel::WARNING, 'The selected model does not contains root pages, no site configuration created');

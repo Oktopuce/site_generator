@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Oktopuce\SiteGenerator\Wizard;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Log\LogLevel;
+use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
 
@@ -29,6 +29,7 @@ class StateSetPageBeGroup extends StateBase implements SiteGeneratorStateInterfa
      *
      * @param SiteGeneratorWizard $context
      * @return void
+     * @throws \Exception
      */
     public function process(SiteGeneratorWizard $context): void
     {

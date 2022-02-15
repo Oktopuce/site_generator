@@ -15,7 +15,7 @@ namespace Oktopuce\SiteGenerator\Wizard\Event;
 
 /**
  * This event is fired before rendering the first form for gathering data
- * It is usefull when you use your own template and want to assign more variables to the view
+ * It is useful when you use your own template and want to assign more variables to the view
  */
 final class BeforeRenderingFirstStepViewEvent
 {

@@ -17,7 +17,7 @@ use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderAccessPermissionsExcepti
 use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
-use TYPO3\CMS\Core\Log\LogLevel;
+use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 
 /**
@@ -28,8 +28,11 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
     /**
      * @var ResourceFactory
      */
-    private $resourceFactory;
+    private ResourceFactory$resourceFactory;
 
+    /**
+     * @param ResourceFactory $resourceFactory
+     */
     public function __construct(ResourceFactory $resourceFactory)
     {
         parent::__construct();
@@ -41,6 +44,7 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
      *
      * @param SiteGeneratorWizard $context
      * @return void
+     * @throws \Exception
      */
     public function process(SiteGeneratorWizard $context): void
     {
@@ -77,7 +81,7 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
                     $siteData->addMessage($this->translate('generate.success.folderCreated', [$currentFolder]));
                 } else {
                     $baseFolder = $storage->getFolder($baseFolderName);
-                    if (!empty($baseFolderName) && !empty($baseFolder)) {
+                    if (!empty($baseFolderName) && $baseFolder !== null) {
                         // @extensionScannerIgnoreLine
                         $siteData->addMessage($this->translate('generate.success.folderExist', [$currentFolder]));
                     }
@@ -102,16 +106,16 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
                 foreach ($subFolderNames as $subFolderName) {
                     $currentFolder = $baseSubFolder . '/' . $subFolderName;
                     if (!$storage->hasFolderInFolder($subFolderName, $siteFolder)) {
-                        $subFolder = $storage->createFolder($subFolderName, $siteFolder);
+                        $storage->createFolder($subFolderName, $siteFolder);
                         $siteData->addMessage($this->translate('generate.success.folderCreated', [$currentFolder]));
                     }
                 }
-            } catch (InsufficientFolderAccessPermissionsException $e) {
-                $this->log(LogLevel::ERROR, 'You don\'t have full access to the destination directory "%s"!', [$currentFolder]);
-                throw new \Exception($this->translate('wizard.folderCreation.error', [$currentFolder]));
             } catch (InsufficientFolderWritePermissionsException $e) {
                 $this->log(LogLevel::ERROR, 'You are not allowed to create directories! ("%s")', [$currentFolder]);
-                throw new \Exception($this->translate('wizard.folderCreation.error', [$currentFolder]));
+                throw new \RuntimeException($this->translate('wizard.folderCreation.error', [$currentFolder]));
+            } catch (InsufficientFolderAccessPermissionsException $e) {
+                $this->log(LogLevel::ERROR, 'You don\'t have full access to the destination directory "%s"!', [$currentFolder]);
+                throw new \RuntimeException($this->translate('wizard.folderCreation.error', [$currentFolder]));
             }
 
             $this->log(LogLevel::NOTICE, 'Folder creation successfull');

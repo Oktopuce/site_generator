@@ -26,35 +26,42 @@ class BaseDto
      *
      * @var string
      */
-    protected $title = '';
+    protected string $title = '';
 
     /**
      * Page UID where model will be copied
      *
      * @var int
      */
-    protected $pid = 0;
+    protected int $pid = 0;
 
     /**
      * Model Pid to copy
      *
      * @var int
      */
-    protected $modelPid = 0;
+    protected int $modelPid = 0;
 
     /**
      * Contains the relation between pid before copy (I.E. model pid) / after copy (i.e. newsite pid)
      *
      * @var array
      */
-    protected $mappingArrayMerge = [];
+    protected array $mappingArrayMerge = [];
 
     /**
      * Success message displayed when process finished
      *
      * @var string
      */
-    protected $message = '';
+    protected string $message = '';
+
+    /**
+     * Home page id
+     *
+     * @var int
+     */
+    protected int $hpPid = 0;
 
     /**
      * Title
@@ -152,7 +159,7 @@ class BaseDto
     }
 
     /**
-     * Set the mapping array merge : relation beetween original pid / new pid after model copy
+     * Set the mapping array merge : relation between original pid / new pid after model copy
      *
      * @param array $mappingArrayMerge
      * @return void
@@ -163,7 +170,7 @@ class BaseDto
     }
 
     /**
-     * Get mappingArrayMerge : relation beetween original pid / new pid after model copy
+     * Get mappingArrayMerge : relation between original pid / new pid after model copy
      *
      * @param string $key The key to use 'page', 'tt_content', etc. if empty, return all data
      * @return array

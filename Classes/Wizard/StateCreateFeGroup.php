@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Oktopuce\SiteGenerator\Wizard;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Log\LogLevel;
+use Psr\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 
@@ -29,6 +29,7 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
      *
      * @param SiteGeneratorWizard $context
      * @return void
+     * @throws \Exception
      */
     public function process(SiteGeneratorWizard $context): void
     {
@@ -76,8 +77,8 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
                 // @extensionScannerIgnoreLine
                 $siteData->addMessage($this->translate('generate.success.feGroupCreated', [$groupName, $groupId]));
             } else {
-                $this->log(LogLevel::ERROR, 'Create FE group error, check if module.tx_sitegenerator.settings.wizard.pidFeGroup is a folder');
-                throw new \Exception($this->translate('wizard.feGroup.error'));
+                $this->log(LogLevel::ERROR, 'Create FE group error, check the value of module.tx_sitegenerator.settings.wizard.pidFeGroup');
+                throw new \UnexpectedValueException($this->translate('wizard.feGroup.error'));
             }
         } else {
             $this->log(LogLevel::WARNING, "FE Group couldn't be created because module.tx_sitegenerator.settings.wizard.pidFeGroup is not defined");

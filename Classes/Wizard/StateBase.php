@@ -35,7 +35,7 @@ class StateBase
     /*
      * Adds a log record
      *
-     * @param int|string $level Log level. Value according to \TYPO3\CMS\Core\Log\LogLevel. Alternatively accepts a string.
+     * @param int|string $level Log level. Value according to \Psr\Log\LogLevel. Alternatively accepts a string.
      * @param string $message Log message.
      * @param array $data Additional data to log
      * @return void

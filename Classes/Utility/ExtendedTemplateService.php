@@ -27,7 +27,6 @@ class ExtendedTemplateService extends \TYPO3\CMS\Core\TypoScript\ExtendedTemplat
      */
     public function getObjReg()
     {
-        return($this->objReg);
+        return ($this->objReg);
     }
-
 }

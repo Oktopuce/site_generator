@@ -15,7 +15,6 @@ namespace Oktopuce\SiteGenerator\Wizard;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Context\Context;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
@@ -29,12 +28,12 @@ class SiteGeneratorWizard
     /**
      * @var BaseDto
      */
-    protected $siteData = null;
+    protected BaseDto $siteData;
 
     /**
      * @var object
      */
-    protected $currentState = null;
+    protected $currentState;
 
     /**
      * @var array States list from TS
@@ -51,14 +50,12 @@ class SiteGeneratorWizard
     /**
      * Constructor of this class : set first wizard step and store site data from forms
      *
-     * @param BaseDto $siteData Data coming from forms : mandatory and optional data
      * @param ConfigurationManagerInterface $configurationManager
-     * @return void
+     * @throws \Exception
      */
     public function __construct(ConfigurationManagerInterface $configurationManager)
     {
-        $this->configurationManager = $configurationManager;
-        $this->settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS, 'SiteGenerator');
+        $this->settings = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS, 'SiteGenerator');
 
         $this->getStates();
         $this->setNextWizardState();
@@ -92,8 +89,10 @@ class SiteGeneratorWizard
      * @param BaseDto $siteData Data coming from forms : mandatory and optional data
      *
      * @return void
+     * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
+     * @throws \Exception
      */
-    public function startWizard(object $siteData): void
+    public function startWizard(BaseDto $siteData): void
     {
         // Set data coming from form
         $this->siteData = $siteData;
@@ -107,7 +106,7 @@ class SiteGeneratorWizard
         $GLOBALS['BE_USER']->user['admin'] = true;
 
         // Process all steps : steps are defined in setup TS, field wizardSteps
-        while ($this->currentState != NULL) {
+        while ($this->currentState !== NULL) {
             $this->currentState->process($this);
             $this->setNextWizardState();
         }
@@ -120,6 +119,7 @@ class SiteGeneratorWizard
      * Set next wizard state
      *
      * @return void
+     * @throws \Exception
      */
     public function setNextWizardState(): void
     {

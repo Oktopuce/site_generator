@@ -15,7 +15,7 @@ namespace Oktopuce\SiteGenerator\Wizard;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Log\LogLevel;
+use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 
 /**
@@ -28,7 +28,8 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
      *
      * @param SiteGeneratorWizard $context
      * @return void
-    */
+     * @throws \Exception
+     */
     public function process(SiteGeneratorWizard $context): void
     {
         // Create file mount for site
@@ -75,7 +76,7 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
         }
         else {
             $this->log(LogLevel::ERROR, 'Create file mount error');
-            throw new \Exception($this->translate('wizard.fileMount.error'));
+            throw new \RuntimeException($this->translate('wizard.fileMount.error'));
         }
 
         return ($mountId);

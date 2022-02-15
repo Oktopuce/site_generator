@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Oktopuce\SiteGenerator\Wizard;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Log\LogLevel;
+use Psr\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 
@@ -28,7 +28,8 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
      *
      * @param SiteGeneratorWizard $context
      * @return void
-    */
+     * @throws \Exception
+     */
     public function process(SiteGeneratorWizard $context): void
     {
         // Create BE group

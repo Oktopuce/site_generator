@@ -303,7 +303,7 @@ class SiteGeneratorController extends ActionController
             'rules' => '[{"type":"required"}]'
         ];
 
-        // Add event to assign more variables to the view (usefull when using your own template)
+        // Add event to assign more variables to the view (useful when using your own template)
         $event = $this->eventDispatcher->dispatch(new BeforeRenderingFirstStepViewEvent($viewVariables));
 
         $this->standaloneView->assignMultiple($event->getViewVariables());
@@ -332,7 +332,7 @@ class SiteGeneratorController extends ActionController
             'returnurl' => $this->conf['returnurl'],
         ];
 
-        // Add event to assign more variables to the view (usefull when using your own template)
+        // Add event to assign more variables to the view (useful when using your own template)
         $event = $this->eventDispatcher->dispatch(new BeforeRenderingSecondStepViewEvent($viewVariables));
 
         $this->standaloneView->assignMultiple($event->getViewVariables());

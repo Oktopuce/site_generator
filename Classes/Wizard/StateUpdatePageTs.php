@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Oktopuce\SiteGenerator\Wizard;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Log\LogLevel;
+use Psr\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use Oktopuce\SiteGenerator\Dto\BaseDto;

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Oktopuce\SiteGenerator\Wizard;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Log\LogLevel;
+use Psr\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
@@ -70,5 +70,4 @@ class StateUpdateSlugs extends StateBase implements SiteGeneratorStateInterface
         }
         $this->log(LogLevel::INFO, 'Slugs updated for all pages');
     }
-
 }

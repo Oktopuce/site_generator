@@ -58,7 +58,7 @@ class PagesRepository
      *
      * @return array
      */
-    public function getPages($uids): array
+    public function getPages(string $uids): array
     {
         /** @var \TYPO3\CMS\Core\Database\Query\QueryBuilder $queryBuilder */
         $queryBuilder = $this->getQueryBuilder();
