@@ -13,7 +13,7 @@ Update TypoScript constant in Home Page template
 
 The model home page template could have many TypoScript constants defined for pages, tt_content, custom tables, etc.
 
-You can add some comments in the model constant template in order to give some directives for the mapping between old uid and new uid.
+You can add some comments in the model constant template in order to give some directives for the mapping between old uid and new uid. You can also defined your own directives, have a look at :ref:`event listener <eventListener>`.
 
 Sample
 ------
@@ -46,13 +46,6 @@ Sample
 
 The available directives are :
 
-.. confval:: ext
-
-   :Required: true
-   :Description: Must be set in order to get directives
-   :Sample: ext=SiteGenerator
-
-
 .. t3-field-list-table::
    :header-rows: 1
 
@@ -72,8 +65,8 @@ The available directives are :
       :Mandatory:    No
 
    -  :Directive:    action
-      :Description:  The action, exclude = exclude the row | mapInList : map values in a list like 1,2,3 | mapInString map values in a string like addList(1,2,3)
-      :Sample:       action=exclude
+      :Description:  There are three actions available, **exclude** : exclude the row - **mapInList** : map values in a list like "1,2,3" - **mapInString** map values in a string like "addList(1,2,3)"
+      :Sample:       action=mapInList
       :Mandatory:    No
 
    -  :Directive:    ignoreUids
@@ -81,6 +74,12 @@ The available directives are :
       :Sample:       ignoreUids=777,888
       :Mandatory:    No
 
+.. important::
+
+   Rather use **mapInList** whenever possible instead of **mapInString**, the second one could lead to wrong mapping for example with value like **addList(123,1234)** and uid to map is **123**.
+
 .. tip::
 
-   If nothing is set in comment directives, assuming that the uid is a page ID
+   If nothing is set in comment directives, assuming that the uids are page IDs and default action is **mapInList**.
+
+   You can also add your own directives, have a look at :ref:`event listener <eventListener>`.
