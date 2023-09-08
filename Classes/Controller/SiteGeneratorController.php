@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Controller;
 
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -103,7 +106,9 @@ class SiteGeneratorController extends ActionController
         EventDispatcherInterface $eventDispatcher,
         ConfigurationManagerInterface $configurationManager,
         SiteGeneratorWizard $siteGeneratorWizard,
-        ModuleTemplate $moduleTemplate
+        ModuleTemplate $moduleTemplate,
+        IconFactory $iconFactory,
+        private PageRenderer $pageRenderer
     ) {
         // Dependency injection
         $this->eventDispatcher = $eventDispatcher;
@@ -124,15 +129,15 @@ class SiteGeneratorController extends ActionController
 
         // Initialize module template
 //        $this->moduleTemplate = GeneralUtility::makeInstance(ModuleTemplate::class);
-        $this->iconFactory = $this->moduleTemplate->getIconFactory();
+        $this->iconFactory = $this->iconFactory;
         $this->buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
         // Load JS for context menu and site generator validation
-        $this->moduleTemplate->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/Backend/ContextMenu');
-        $this->moduleTemplate->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/SiteGenerator/SiteGeneratorForm');
+        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Backend/ContextMenu');
+        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/SiteGenerator/SiteGeneratorForm');
 
         // Add JS labels
-        $this->moduleTemplate->getPageRenderer()->addInlineLanguageLabelArray([
+        $this->pageRenderer->addInlineLanguageLabelArray([
             'alert' => $this->getLanguageService()->sL('LLL:EXT:site_generator/Resources/Private/Language/backend.xlf:alert'),
             'mandatory_fields' => $this->getLanguageService()->sL('LLL:EXT:site_generator/Resources/Private/Language/backend.xlf:allfieldsMandatory'),
             'ok' => $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_common.xlf:ok')
@@ -140,6 +145,7 @@ class SiteGeneratorController extends ActionController
 
         // Standalone view initialisation
         $this->initStandaloneView();
+        $this->iconFactory = $iconFactory;
     }
 
     /**
@@ -224,7 +230,7 @@ class SiteGeneratorController extends ActionController
      * @param ?ResponseInterface $response (removed in V10)
      *
      * @return ResponseInterface the response with the content
-     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+     * @throws RouteNotFoundException
      */
     public function dispatch(ServerRequestInterface $request, ?ResponseInterface $response = null): ResponseInterface
     {
@@ -275,7 +281,7 @@ class SiteGeneratorController extends ActionController
             $returnButton = $this->buttonBar->makeLinkButton()
                 ->setHref($this->conf['returnurl'])
                 ->setTitle($lang->sL($gobackLabel))
-                ->setIcon($this->moduleTemplate->getIconFactory()->getIcon('actions-view-go-back', Icon::SIZE_SMALL));
+                ->setIcon($this->iconFactory->getIcon('actions-view-go-back', Icon::SIZE_SMALL));
             $this->buttonBar->addButton($returnButton, ButtonBar::BUTTON_POSITION_LEFT, 10);
         }
     }
@@ -284,7 +290,7 @@ class SiteGeneratorController extends ActionController
      * Display a form to gather data (first step)
      *
      * @return string The rendered view
-     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+     * @throws RouteNotFoundException
      */
     protected function getDataFirstStepAction(): string
     {
@@ -319,7 +325,7 @@ class SiteGeneratorController extends ActionController
      * Display a form to gather data (second step)
      *
      * @return string The rendered view
-     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+     * @throws RouteNotFoundException
      */
     protected function getDataSecondStepAction(): string
     {
@@ -410,9 +416,9 @@ class SiteGeneratorController extends ActionController
     }
 
     /**
-     * @return \TYPO3\CMS\Core\Localization\LanguageService
+     * @return LanguageService
      */
-    protected function getLanguageService(): \TYPO3\CMS\Core\Localization\LanguageService
+    protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
     }
@@ -423,7 +429,7 @@ class SiteGeneratorController extends ActionController
      * @param string $name The name of the route
      *
      * @return string
-     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+     * @throws RouteNotFoundException
      */
     public function buildUriFromRoute(string $name): string
     {

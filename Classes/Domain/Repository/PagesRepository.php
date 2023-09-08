@@ -60,7 +60,7 @@ class PagesRepository
      */
     public function getPages(string $uids): array
     {
-        /** @var \TYPO3\CMS\Core\Database\Query\QueryBuilder $queryBuilder */
+        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
 
@@ -84,7 +84,7 @@ class PagesRepository
      */
     public function getRootSiteId(array $uids): int
     {
-        /** @var \TYPO3\CMS\Core\Database\Query\QueryBuilder $queryBuilder */
+        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
 
