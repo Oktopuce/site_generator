@@ -13,11 +13,6 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Utility;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-/**
- * ExtendedTemplateService
- */
 class TemplateDirectivesService
 {
     /** @var array */

@@ -7,8 +7,8 @@ use Oktopuce\SiteGenerator\Controller\SiteGeneratorController;
  */
 return [
     // Register click menu entry point
-    'wizard_sitegenerator' => [
-        'path' => '/wizard/sitegenerator/',
-        'target' => SiteGeneratorController::class . '::dispatch'
+    'tx_wizard_sitegenerator' => [
+        'path' => '/wizard/sitegenerator',
+        'target' => SiteGeneratorController::class . '::dispatch',
     ]
 ];

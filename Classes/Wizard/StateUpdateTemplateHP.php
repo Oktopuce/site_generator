@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
-use Oktopuce\SiteGenerator\Utility\ExtendedTemplateService;
+use Oktopuce\SiteGenerator\Utility\TemplateService;
 use Oktopuce\SiteGenerator\Wizard\Event\UpdateTemplateHPEvent;
 
 /**
@@ -27,33 +27,19 @@ use Oktopuce\SiteGenerator\Wizard\Event\UpdateTemplateHPEvent;
  */
 class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInterface
 {
-    /** @var TemplateDirectivesService */
-    protected TemplateDirectivesService $templateDirectivesService;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
-
-    /**
-     * @var ExtendedTemplateService
-     */
-    protected $templateService;
-
     /**
      * @param TemplateDirectivesService $templateDirectivesService
      * @param EventDispatcherInterface $eventDispatcher
-     * @param ExtendedTemplateService $templateService
+     * @param TemplateService $templateService
+     * @param DataHandler $dataHandler
      */
     public function __construct(
-        TemplateDirectivesService $templateDirectivesService,
-        EventDispatcherInterface $eventDispatcher,
-        ExtendedTemplateService $templateService
+        readonly protected TemplateDirectivesService $templateDirectivesService,
+        readonly protected EventDispatcherInterface $eventDispatcher,
+        readonly protected TemplateService $templateService,
+        readonly protected DataHandler $dataHandler
     ) {
         parent::__construct();
-        $this->templateDirectivesService = $templateDirectivesService;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->templateService = $templateService;
     }
 
     /**
@@ -69,26 +55,29 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
     }
 
     /**
-     * Update site template to set new uids
+     * Update site templates to set new uids
      *
      * @param BaseDto $siteData New site data
      * @return void
      */
     protected function updateTemplate(BaseDto $siteData): void
     {
-        // Get the row of the first VISIBLE template of the page. where clause like the frontend.
-        $templateRow = $this->templateService->ext_getFirstTemplate($siteData->getHpPid());
+        // Cf. app/vendor/typo3/cms-tstemplate/Classes/Controller/ConstantEditorController.php
+        $allTemplatesOnPage = $this->templateService->getAllTemplateRecordsOnPage($siteData->getHpPid());
 
-        if (!empty($templateRow)) {
-            $this->templateService->ext_regObjectPositions($templateRow['constants']);
-            $objReg = $this->templateService->getObjReg();
+        foreach ($allTemplatesOnPage as $template) {
+            $rawTemplateConstantsArray = explode(LF, $template['constants']);
+            $constantPositions = $this->templateService->calculateConstantPositions($rawTemplateConstantsArray);
 
-            foreach ($objReg as $key => $rawP) {
+            $updatedTemplateConstantsArray = [];
+
+            // For all constants, check if we need to update it
+            foreach ($constantPositions as $key => $rawP) {
                 // Looking for directives in comments
-                $this->templateDirectivesService->lookForDirectives(($rawP > 0 ? $this->templateService->raw[$rawP - 1] : ''));
+                $this->templateDirectivesService->lookForDirectives(($rawP > 0 ? $rawTemplateConstantsArray[$rawP - 1] : ''));
                 $table = $this->templateDirectivesService->getTable('pages');
 
-                $value = GeneralUtility::trimExplode('=', $this->templateService->raw[$rawP]);
+                $value = GeneralUtility::trimExplode('=', $rawTemplateConstantsArray[$rawP]);
 
                 $uidsToExclude = GeneralUtility::trimExplode(',',
                     $this->templateDirectivesService->getIgnoreUids(), true);
@@ -117,25 +106,29 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
                     default :
                         // Call custom action if there is one
                         $parameters = $this->templateDirectivesService->getParameters();
-                        $event = $this->eventDispatcher->dispatch(new UpdateTemplateHPEvent($action, $parameters, $value[1], $filteredMapping, $this->templateDirectivesService));
+                        $event = $this->eventDispatcher->dispatch(new UpdateTemplateHPEvent($action, $parameters,
+                            $value[1], $filteredMapping, $this->templateDirectivesService));
                         $updatedValue = $event->getUpdatedValue();
                         break;
                 }
 
                 if (!empty($updatedValue)) {
-                    $this->templateService->ext_putValueInConf($key, $updatedValue);
+                    $updatedTemplateConstantsArray[$rawP] = $updatedValue;
                 }
             }
 
-            if ($this->templateService->changed) {
+            if ($updatedTemplateConstantsArray) {
+                foreach ($updatedTemplateConstantsArray as $rowP => $updatedTemplateConstant) {
+                    $rawTemplateConstantsArray[$rowP] = $this->templateService->updateValueInConf($rawTemplateConstantsArray[$rowP], $updatedTemplateConstant);
+                }
+
                 // Set the data to be saved
-                $recData = [];
-                $saveId = $templateRow['uid'];
-                $recData['sys_template'][$saveId]['constants'] = implode(LF, $this->templateService->raw);
+                $recordData = [];
+                $templateUid = $template['_ORIG_uid'] ?? $template['uid'];
+                $recordData['sys_template'][$templateUid]['constants'] = implode(LF, $rawTemplateConstantsArray);
                 // Create new  tce-object
-                $tce = GeneralUtility::makeInstance(DataHandler::class);
-                $tce->start($recData, []);
-                $tce->process_datamap();
+                $this->dataHandler->start($recordData, []);
+                $this->dataHandler->process_datamap();
 
                 // @extensionScannerIgnoreLine
                 $siteData->addMessage($this->translate('generate.success.templateHpUpdated'));
@@ -196,7 +189,7 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
             $updateConstant = ($updateConstant || $count > 0);
         }
         if ($updateConstant) {
-            return($value);
+            return ($value);
         }
         return ('');
     }

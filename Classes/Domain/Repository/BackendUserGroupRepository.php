@@ -13,9 +13,8 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Domain\Repository;
 
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\BackendUserGroupRepository
 {
@@ -26,7 +25,7 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
      * @param string $customOptions The new custom options
      * @return void
      */
-    public function setCustomOptions($uid, $customOptions)
+    public function setCustomOptions(int $uid, string $customOptions): void
     {
         $queryBuilder = $this->getQueryBuilder();
 
@@ -34,28 +33,23 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
            ->update('be_groups')
            ->where(
               $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
-           )
-           ->set('custom_options', $customOptions)
-           ->execute();
+           )->set('custom_options', $customOptions)->executeStatement();
     }
 
     /**
      * Gets the custom options field.
      *
-     * @param int $uid  The uid of the group
+     * @param int $uid The uid of the group
      * @return string The current custom options
+     * @throws Exception
      */
-    public function getCustomOptions($uid): string
+    public function getCustomOptions(int $uid): string
     {
         $queryBuilder = $this->getQueryBuilder();
 
         $row = $queryBuilder->select('custom_options')
-            ->from('be_groups')
-            ->where(
-                $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
-            )
-            ->execute()
-            ->fetch();
+            ->from('be_groups')->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)))->executeQuery()
+            ->fetchAssociative();
 
         return ($row['custom_options'] ?? '');
     }
@@ -67,7 +61,7 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
      * @param string $fileMounts The new custom file mounts
      * @return void
      */
-    public function setFileMounts($uid, $fileMounts)
+    public function setFileMounts(int $uid, string $fileMounts): void
     {
         $queryBuilder = $this->getQueryBuilder();
 
@@ -75,42 +69,24 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
            ->update('be_groups')
            ->where(
               $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
-           )
-           ->set('file_mountpoints', $fileMounts)
-           ->execute();
+           )->set('file_mountpoints', $fileMounts)->executeStatement();
     }
 
     /**
      * Gets the file mountpoints field.
      *
-     * @param int $uid  The uid of the group
+     * @param int $uid The uid of the group
      * @return string The current file mounts
+     * @throws Exception
      */
-    public function getFileMounts($uid): string
+    public function getFileMounts(int $uid): string
     {
         $queryBuilder = $this->getQueryBuilder();
 
         $row = $queryBuilder->select('file_mountpoints')
-            ->from('be_groups')
-            ->where(
-                $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
-            )
-            ->execute()
-            ->fetch();
+            ->from('be_groups')->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)))->executeQuery()
+            ->fetchAssociative();
 
         return ($row['file_mountpoints'] ?? '');
     }
-
-    /**
-	 * Returns an instance of the QueryBuilder.
-	 *
-	 * @return QueryBuilder
-	 */
-	public function getQueryBuilder(): QueryBuilder
-	{
-		/** @var ConnectionPool $pool */
-		$pool = GeneralUtility::makeInstance(ConnectionPool::class);
-		return $pool->getQueryBuilderForTable('be_groups');
-	}
-
 }

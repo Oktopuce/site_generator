@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Domain\Repository;
 
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -22,11 +23,11 @@ class SysTemplateRepository
     /**
      * Find a systemplate by pid (consider there's only one template)
      *
-     * @param int $pid  The page id where the template is located
-     * @param array $updateValues  The columns/values to set
+     * @param int $pid The page id where the template is located
      * @return array
+     * @throws Exception
      */
-    public function findByPid($pid): array
+    public function findByPid(int $pid): array
     {
         $queryBuilder = $this->getQueryBuilder();
 
@@ -35,8 +36,8 @@ class SysTemplateRepository
             ->where(
                 $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($pid, \PDO::PARAM_INT))
             )
-            ->execute()
-            ->fetch();
+            ->executeQuery()
+            ->fetchAssociative();
 
         return (($row !== false) ? $row : []);
     }
@@ -44,33 +45,33 @@ class SysTemplateRepository
     /**
      * SetConstants
      *
-     * @param int $uid  The uid of the template to update
+     * @param int $uid The uid of the template to update
      * @param string $constants The new constants
      * @return void
      */
-    public function setConstants($uid, $constants)
+    public function setConstants(int $uid, string $constants): void
     {
         $queryBuilder = $this->getQueryBuilder();
 
         $queryBuilder
-           ->update('sys_template')
-           ->where(
-              $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
-           )
-           ->set('constants', $constants)
-           ->execute();
+            ->update('sys_template')
+            ->where(
+                $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+            )
+            ->set('constants', $constants)
+            ->executeStatement();
     }
 
     /**
-	 * Returns an instance of the QueryBuilder.
-	 *
-	 * @return QueryBuilder
-	 */
-	public function getQueryBuilder(): QueryBuilder
-	{
-		/** @var ConnectionPool $pool */
-		$pool = GeneralUtility::makeInstance(ConnectionPool::class);
-		return $pool->getQueryBuilderForTable('sys_template');
-	}
+     * Returns an instance of the QueryBuilder.
+     *
+     * @return QueryBuilder
+     */
+    public function getQueryBuilder(): QueryBuilder
+    {
+        /** @var ConnectionPool $pool */
+        $pool = GeneralUtility::makeInstance(ConnectionPool::class);
+        return $pool->getQueryBuilderForTable('sys_template');
+    }
 
 }

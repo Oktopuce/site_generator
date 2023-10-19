@@ -26,63 +26,63 @@ class SiteGeneratorDto extends BaseDto
      *
      * @var string
      */
-    protected $domain = '';
+    protected string $domain = '';
 
     /**
      * Mount point uid
      *
      * @var int
      */
-    protected $mountId = 0;
+    protected int $mountId = 0;
 
     /**
      * Group prefix
      *
      * @var string
      */
-    protected $groupPrefix = '';
+    protected string $groupPrefix = '';
 
     /**
      * BE group Uid
      *
      * @var int
      */
-    protected $beGroupId = 0;
+    protected int $beGroupId = 0;
 
     /**
      * Common mount point uid for all groups
      *
      * @var int
      */
-    protected $commonMountPointUid = 0;
+    protected int $commonMountPointUid = 0;
 
     /**
      * Base folder name
      *
      * @var string
      */
-    protected $baseFolderName = '';
+    protected string $baseFolderName = '';
 
     /**
      * Sub folder names
      *
      * @var string
      */
-    protected $subFolderNames = '';
+    protected string $subFolderNames = '';
 
     /**
      * FE group Uid
      *
      * @var int
      */
-    protected $feGroupId = 0;
+    protected int $feGroupId = 0;
 
     /**
      * Pid for FE group
      *
      * @var int
      */
-    protected $feGroupPid = 0;
+    protected int $feGroupPid = 0;
 
     /**
      * Domain

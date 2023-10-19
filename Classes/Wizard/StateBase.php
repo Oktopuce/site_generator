@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
+use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogManager;
@@ -24,9 +25,9 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class StateBase
 {
     /**
-     * @var Logger
+     * @var LoggerInterface|null|Logger
      */
-    protected $logger = null;
+    protected LoggerInterface|null|Logger $logger = null;
 
     public function __construct()
     {

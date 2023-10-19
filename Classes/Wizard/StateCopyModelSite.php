@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Oktopuce\SiteGenerator\Exception\CopyModelException;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
@@ -23,6 +23,11 @@ use Oktopuce\SiteGenerator\Dto\BaseDto;
  */
 class StateCopyModelSite extends StateBase implements SiteGeneratorStateInterface
 {
+    public function __construct(readonly protected DataHandler $dataHandler)
+    {
+        parent::__construct();
+    }
+
     /**
      * Copy model site
      *
@@ -55,17 +60,15 @@ class StateCopyModelSite extends StateBase implements SiteGeneratorStateInterfac
         $cmd = [];
         $cmd['pages'][$modelPid]['copy'] = $sitePage;
 
-        /* @var $tce DataHandler */
-        $tce = GeneralUtility::makeInstance(DataHandler::class);
-        $tce->start([], $cmd);
-        $tce->copyTree = 999;
-        $tce->process_cmdmap();
+        $this->dataHandler->start([], $cmd);
+        $this->dataHandler->copyTree = 999;
+        $this->dataHandler->process_cmdmap();
 
         // Save mapping array merge in context : relation between original pid / new pid
-        $siteData->setMappingArrayMerge($tce->copyMappingArray_merged);
+        $siteData->setMappingArrayMerge($this->dataHandler->copyMappingArray_merged);
 
         // Get the pid of home page copied
-        $homePagePid = $tce->copyMappingArray_merged['pages'][$modelPid];
+        $homePagePid = $this->dataHandler->copyMappingArray_merged['pages'][$modelPid];
 
         if ($homePagePid > 0) {
             $this->log(LogLevel::NOTICE, 'Site model copy successful (pid home page = ' . $homePagePid . ')');
@@ -74,7 +77,7 @@ class StateCopyModelSite extends StateBase implements SiteGeneratorStateInterfac
         }
         else {
             $this->log(LogLevel::ERROR, 'Site model copy error');
-            throw new \Exception($this->translate('wizard.copyModel.error'));
+            throw new CopyModelException($this->translate('wizard.copyModel.error'));
         }
 
         return ($homePagePid);

@@ -1,0 +1,43 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
+
+<h1><f:translate key="title_generator" extensionName="SiteGenerator"/></h1>
+<h4><f:translate key="form.FirstStepData.title" extensionName="SiteGenerator" /></h4>
+
+<div class="form-group">
+    <div class="form-section">
+        <div class="row">
+            <f:if condition="{modelPages -> f:count()} == 1">
+                <f:then>
+                    <input type="hidden" name="modelPid" value="{modelPages.0.uid}" />
+                </f:then>
+                <f:else>
+                    <div class="form-group col-xs-12 col-md-4">
+                        <label class="form-label" for="select-model">
+                            <f:translate key="form.FirstStepData.selectModel" extensionName="SiteGenerator" />
+                        </label>
+                        <div class="form-control-clearable">
+                            <select id="select-model" name="tx_sitegenerator[modelPid]" class="form-select form-control-adapt">
+                                <f:for as="modelPage" each="{modelPages}">
+                                    <option value="{modelPage.uid}" {f:if(condition: '{modelPage.uid} == {siteDto.modelPid}', then: 'selected')}>{modelPage.title}</option>
+                                </f:for>
+                            </select>
+                        </div>
+                    </div>
+                </f:else>
+            </f:if>
+        </div>
+        <div class="row">
+            <div class="form-group col-xs-12 col-md-4">
+                <label class="form-label" for="site-title">
+                    <f:translate key="form.FirstStepData.siteTitle" extensionName="SiteGenerator"/> *
+                </label>
+                <div class="form-control-clearable">
+                    <input type="text" name="tx_sitegenerator[title]" value="{siteDto.title}" required="1"
+                           class="form-control t3js-clearable hasDefaultValue t3js-charcounter-initialized" id="site-title"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

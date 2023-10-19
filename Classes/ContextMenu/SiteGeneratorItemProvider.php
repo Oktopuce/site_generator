@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\ContextMenu;
 
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\ContextMenu\ItemProviders\AbstractProvider;
 
@@ -23,7 +25,7 @@ class SiteGeneratorItemProvider extends AbstractProvider
 {
     /**
      * This array contains configuration for site generator item
-     * @var array
+     * @var array $itemsConfiguration
      */
     protected $itemsConfiguration = [
         'divider10' => [
@@ -66,20 +68,21 @@ class SiteGeneratorItemProvider extends AbstractProvider
     }
 
     /**
-     * Registers the additional JavaScript RequireJS callback-module which will allow to display a notification
-     * whenever the user tries to click on the "Hello World" item.
-     * The method is called from AbstractProvider::prepareItems() for each context menu item.
-     *
-     * @param string $itemName
-     * @return array
+     * Registers custom JS module with item onclick behaviour
+     * @throws RouteNotFoundException
      */
     protected function getAdditionalAttributes(string $itemName): array
     {
-        return [
-            // BEWARE!!! RequireJS MODULES MUST ALWAYS START WITH "TYPO3/CMS/" (and no "Vendor" segment here)
-            'data-callback-module' => 'TYPO3/CMS/SiteGenerator/ContextMenuActions',
-            // Here you can also add any other useful "data-" attribute you'd like to use in your JavaScript (e.g. localized messages)
+        $attributes = [
+            'data-callback-module' => '@oktopuce/site-generator/context-menu-actions',
         ];
+
+        /** @var UriBuilder $uriBuilder */
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+
+        $attributes['data-action-url'] = htmlspecialchars((string)$uriBuilder->buildUriFromRoute('tx_wizard_sitegenerator'));
+
+        return $attributes;
     }
 
     /**
@@ -111,10 +114,8 @@ class SiteGeneratorItemProvider extends AbstractProvider
         }
         $canRender = false;
         switch ($itemName) {
-            case 'siteGenerator':
-                $canRender = true;
-                break;
             case 'divider10':
+            case 'siteGenerator':
                 $canRender = true;
                 break;
         }

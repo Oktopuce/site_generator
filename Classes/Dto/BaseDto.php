@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Oktopuce\SiteGenerator\Dto;
 
 /**
- * BaseDto Base DTO for data exchange beetwen form and Wizard
+ * BaseDto Base DTO for data exchange between form and Wizard
  *
  * @author Florian Rival <florian.typo3@oktopuce.fr>
  */
@@ -43,7 +43,7 @@ class BaseDto
     protected int $modelPid = 0;
 
     /**
-     * Contains the relation between pid before copy (I.E. model pid) / after copy (i.e. newsite pid)
+     * Contains the relation between pid before copy (I.E. model pid) / after copy (i.e. new-site pid)
      *
      * @var array
      */

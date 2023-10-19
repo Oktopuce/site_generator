@@ -13,8 +13,7 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Configuration\SiteConfiguration;
 use Psr\Log\LogLevel;
 use TYPO3\CMS\Backend\Exception\SiteValidationErrorException;
@@ -26,6 +25,14 @@ use Oktopuce\SiteGenerator\Dto\BaseDto;
  */
 class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInterface
 {
+    public function __construct(
+        readonly protected PagesRepository $pagesRepository,
+        readonly protected SiteConfiguration $siteConfiguration,
+        readonly protected DataHandler $dataHandler
+    )
+    {
+        parent::__construct();
+    }
 
     /**
      * Create site management
@@ -44,17 +51,14 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
      * Create a site configuration
      *
      * @param BaseDto $siteData New site data
-     * @throws \Exception
      * @return void
+     * @throws \Exception
      */
     protected function createSiteConfiguration(BaseDto $siteData): void
     {
         if (!empty($siteData->getDomain())) {
-
-            /** @var PagesRepository $pagesRepository */
-            $pagesRepository = GeneralUtility::makeInstance(PagesRepository::class);
             $uids = $siteData->getMappingArrayMerge('pages');
-            $rootSiteId = $pagesRepository->getRootSiteId($uids);
+            $rootSiteId = $this->pagesRepository->getRootSiteId($uids);
 
             if ($rootSiteId) {
                 try {
@@ -82,12 +86,13 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
                     $newSiteConfiguration['baseVariants'] = [];
                     $newSiteConfiguration['languages']['0'] = $language;
 
-                    $siteIdentifier = $extensionConfiguration['siteIdentifierPrefix'] . $rootSiteId;
+                    $siteIdentifier = $extensionConfiguration['siteIdentifierPrefix'] . md5((string)$rootSiteId);
 
                     // Persist the configuration
-                    /** @var SiteConfiguration $siteConfigurationManager */
-                    $siteConfigurationManager = GeneralUtility::makeInstance(SiteConfiguration::class, Environment::getConfigPath() . '/sites');
-                    $siteConfigurationManager->write($siteIdentifier, $newSiteConfiguration);
+                    $this->siteConfiguration->write($siteIdentifier, $newSiteConfiguration);
+
+                    // Update slugs
+                    $this->updateSlugForPage($rootSiteId);
 
                     $this->log(LogLevel::NOTICE, 'Site configuration created');
                     // @extensionScannerIgnoreLine
@@ -95,14 +100,32 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
                         $siteData->getDomain()
                     ]));
                 } catch (SiteValidationErrorException $e) {
-                    $this->log(LogLevel::ERROR, 'Cannot create site configuration for domain : ' . $siteData->getDomain());
+                    $this->log(LogLevel::ERROR,
+                        'Cannot create site configuration for domain : ' . $siteData->getDomain());
                     throw new SiteValidationErrorException($this->translate('wizard.createSiteConfiguration.error'));
                 }
             } else {
-                $this->log(LogLevel::WARNING, 'The selected model does not contains root pages, no site configuration created');
+                $this->log(LogLevel::WARNING,
+                    'The selected model does not contains root pages, no site configuration created');
                 // @extensionScannerIgnoreLine
                 $siteData->addMessage($this->translate('wizard.createSiteConfiguration.error.noRooTPage'));
             }
         }
+    }
+
+    /**
+     * Updates the slug of the given pageId by spinning up a new DataHandler instance.
+     */
+    protected function updateSlugForPage(int $pageId): void
+    {
+        $dataMap = [
+            'pages' => [
+                $pageId => [
+                    'slug' => '',
+                ],
+            ],
+        ];
+        $this->dataHandler->start($dataMap, []);
+        $this->dataHandler->process_datamap();
     }
 }

@@ -15,6 +15,38 @@ services:
     public: true
     shared: false
 
-  Oktopuce\SiteGenerator\Hook\BackendControllerHook:
+  Oktopuce\SiteGenerator\Wizard\StateSiteConfiguration:
+    public: true
+    shared: false
+
+  Oktopuce\SiteGenerator\Wizard\StateCopyModelSite:
+    public: true
+    shared: false
+
+  Oktopuce\SiteGenerator\Wizard\StateUpdatePageTs:
+    public: true
+    shared: false
+
+  Oktopuce\SiteGenerator\Wizard\StateCreateFileMount:
+    public: true
+    shared: false
+
+  Oktopuce\SiteGenerator\Wizard\StateCreateFeGroup:
+    public: true
+    shared: false
+
+  Oktopuce\SiteGenerator\Wizard\StateCreateBeGroup:
+    public: true
+    shared: false
+
+  Oktopuce\SiteGenerator\Wizard\StateUpdateHomePage:
+    public: true
+    shared: false
+
+  Oktopuce\SiteGenerator\Wizard\StateSetPageBeGroup:
+    public: true
+    shared: false
+
+  Oktopuce\SiteGenerator\Controller\SiteGeneratorController:
     public: true
     shared: false

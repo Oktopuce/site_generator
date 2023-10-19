@@ -26,7 +26,6 @@ use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
  */
 class StateUpdateSlugs extends StateBase implements SiteGeneratorStateInterface
 {
-
     /**
      * Update slugs for new tree structure
      *

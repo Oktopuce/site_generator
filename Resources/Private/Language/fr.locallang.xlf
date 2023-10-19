@@ -78,11 +78,11 @@
 			</trans-unit>
             <trans-unit id="generate.success.noFeGroupCreated">
 				<source>- FE group couldn't be created because module.tx_sitegenerator.settings.siteGenerator.wizard.pidFeGroup (Cf TS constants) is not defined</source>
-				<target>- Le group FE ne peut pas être créé car module.tx_sitegenerator.settings.siteGenerator.wizard.pidFeGroup (Cf constantes TS) n'est pas définie</target>
+				<target>- Le group FE ne peut pas être créé, car module.tx_sitegenerator.settings.siteGenerator.wizard.pidFeGroup (Cf constantes TS) n'est pas définie</target>
 			</trans-unit>
             <trans-unit id="generate.success.folderExist">
 				<source>- Folder '%s' hasn't been created because it already exists</source>
-				<target>- Le dossier '%s' n'a pas été crée car il existe déjà</target>
+				<target>- Le dossier '%s' n'a pas été crée, car il existe déjà</target>
 			</trans-unit>
             <trans-unit id="generate.success.folderCreated">
 				<source>- Folder '%s' has been created</source>
@@ -114,7 +114,7 @@
 			</trans-unit>
 			<trans-unit id="generate.success.templateHpUpdated">
 				<source>- Update home page template with new uids done</source>
-				<target>- Le template de la page d'accueil a été mis à jour avec les nouveau identifiants (uid)</target>
+				<target>- Le template de la page d'accueil a été mis à jour avec les nouveaux identifiants (uid)</target>
 			</trans-unit>
 
             <trans-unit id="generate.success">
@@ -132,7 +132,7 @@
 			</trans-unit>
             <trans-unit id="wizard.createSiteConfiguration.error.noRooTPage">
 				<source>- The site configuration couldn't be created because model contains no root page.</source>
-				<target>- Impossible de créer la configuration du site car le modèle ne contient pas de page racine.</target>
+				<target>- Impossible de créer la configuration du site, car le modèle ne contient pas de page racine.</target>
 			</trans-unit>
             <trans-unit id="wizard.copyModel.error">
 				<source>Site model copy error.</source>

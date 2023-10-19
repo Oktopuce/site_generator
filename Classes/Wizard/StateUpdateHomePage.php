@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
@@ -23,6 +22,11 @@ use Oktopuce\SiteGenerator\Dto\BaseDto;
  */
 class StateUpdateHomePage extends StateBase implements SiteGeneratorStateInterface
 {
+    public function __construct(readonly protected PagesRepository $pagesRepository)
+    {
+        parent::__construct();
+    }
+
     /**
      * Update home page with new name
      *
@@ -52,9 +56,7 @@ class StateUpdateHomePage extends StateBase implements SiteGeneratorStateInterfa
             'hidden' => $hideHomePage
         ];
 
-        /* @var $pagesRepository PagesRepository */
-        $pagesRepository = GeneralUtility::makeInstance(PagesRepository::class);
-        $pagesRepository->updatePage($siteData->getHpPid(), $updateValues);
+        $this->pagesRepository->updatePage($siteData->getHpPid(), $updateValues);
 
         $this->log(LogLevel::NOTICE, 'Update home page with form informations done');
         // @extensionScannerIgnoreLine

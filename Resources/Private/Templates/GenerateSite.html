@@ -1,0 +1,30 @@
+<html xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
+
+    <f:layout name="Module" />
+
+    <f:section name="Before">
+        <f:be.pageRenderer includeJavaScriptModules="{
+            0: '@typo3/backend/context-menu.js',
+            1: '@oktopuce/site-generator/site-generator-form.js'
+        }"/>
+    </f:section>
+
+    <f:section name="Content">
+        <h1><f:translate key="title_generator" extensionName="SiteGenerator"/></h1>
+        <f:if condition="{errorMessage}">
+            <f:then>
+                <f:be.infobox state="2">{errorMessage}</f:be.infobox>
+            </f:then>
+            <f:else>
+                <f:be.infobox state="0"><f:translate key="generate.success" extensionName="SiteGenerator"/></f:be.infobox>
+                <div>
+                    <f:format.nl2br value="{sucessMessage}" />
+                </div>
+            </f:else>
+        </f:if>
+
+    </f:section>
+</html>
+
+

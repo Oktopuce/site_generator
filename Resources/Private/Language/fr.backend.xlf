@@ -4,8 +4,8 @@
 		<header/>
 		<body>
 			<trans-unit id="itemProvider.siteGenerator" xml:pace="preserve">
-				<source>Site generator</source>
-				<target>Générateur de site</target>
+				<source>Site generator / tree model duplicator</source>
+				<target>Générateur de site / duplicateur d'arborescence</target>
 			</trans-unit>
             <trans-unit id="alert">
 				<source>Alert</source>
@@ -13,7 +13,7 @@
 			</trans-unit>
             <trans-unit id="allfieldsMandatory">
 				<source>All fields with an asterisk are mandatory</source>
-				<target>Tous les champs avec une astérisque sont obligatoires</target>
+				<target>Tous les champs avec un astérisque sont obligatoires</target>
 			</trans-unit>
 		</body>
 	</file>

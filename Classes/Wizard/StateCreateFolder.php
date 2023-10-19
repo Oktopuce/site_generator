@@ -26,17 +26,11 @@ use Oktopuce\SiteGenerator\Dto\BaseDto;
 class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
 {
     /**
-     * @var ResourceFactory
-     */
-    private ResourceFactory$resourceFactory;
-
-    /**
      * @param ResourceFactory $resourceFactory
      */
-    public function __construct(ResourceFactory $resourceFactory)
+    public function __construct(readonly protected ResourceFactory $resourceFactory)
     {
         parent::__construct();
-        $this->resourceFactory = $resourceFactory;
     }
 
     /**
@@ -75,7 +69,7 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
             try {
                 $currentFolder = $baseFolderName;
                 if (!$storage->hasFolder($currentFolder)) {
-                    // Folder does not exists : create it
+                    // Folder does not exist : create it
                     $baseFolder = $storage->createFolder($baseFolderName);
                     // @extensionScannerIgnoreLine
                     $siteData->addMessage($this->translate('generate.success.folderCreated', [$currentFolder]));

@@ -24,6 +24,10 @@ use Oktopuce\SiteGenerator\Dto\BaseDto;
  */
 class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
 {
+    public function __construct(readonly protected DataHandler $dataHandler)
+    {
+        parent::__construct();
+    }
 
     /**
      * Update Page TS with the new uids (i.e. : for TCEMAIN.clearCacheCmd)
@@ -83,9 +87,8 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
                     $recData = [];
                     $recData['pages'][$pageId]['TSconfig'] = $newsTSConfig;
                     // Create new  tce-object
-                    $tce = GeneralUtility::makeInstance(DataHandler::class);
-                    $tce->start($recData, []);
-                    $tce->process_datamap();
+                    $this->dataHandler->start($recData, []);
+                    $this->dataHandler->process_datamap();
 
                     $pagesUpdated[] = $pageId;
                 }

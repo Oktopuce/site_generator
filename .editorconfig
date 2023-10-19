@@ -4,7 +4,6 @@
 #   https://github.com/TYPO3-Documentation/TYPO3CMS-Guide-HowToDocument/blob/master/.editorconfig
 
 # top-most EditorConfig file
-root = false
 
 [{*.rst,*.rst.txt}]
 charset = utf-8

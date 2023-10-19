@@ -68,7 +68,6 @@ All states are declared in :ref:`TypoScript Setup <screenshots>` for the wizard 
 
          /* @var $tce DataHandler */
          $tce = GeneralUtility::makeInstance(DataHandler::class);
-         $tce->stripslashes_values = 0;
          $tce->start($data, []);
          $tce->process_datamap();
 

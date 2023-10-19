@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Domain\Repository;
 
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -30,7 +31,7 @@ class PagesRepository
      * @param array $updateValues  The columns/values to set
      * @return void
      */
-    public function updatePage($uid, $updateValues): void
+    public function updatePage(int $uid, array $updateValues): void
     {
         $queryBuilder = $this->getQueryBuilder();
 
@@ -48,19 +49,19 @@ class PagesRepository
             $queryBuilder->set($identifier, $value);
         }
 
-        $queryBuilder->execute();
+        $queryBuilder->executeStatement();
     }
 
     /**
      * Get pages title
      *
-     * @param  string $uids Uid comma separated
+     * @param string $uids Uid comma separated
      *
      * @return array
+     * @throws Exception
      */
     public function getPages(string $uids): array
     {
-        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
 
@@ -69,8 +70,8 @@ class PagesRepository
             ->where(
                 $queryBuilder->expr()->in('uid', $queryBuilder->createNamedParameter(GeneralUtility::intExplode(',', $uids, true), Connection::PARAM_INT_ARRAY))
             )
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         return ($pages);
     }
@@ -78,13 +79,13 @@ class PagesRepository
     /**
      * Find a root site id between a set of pages
      *
-     * @param array $uids   The pages ids to look for a root line
+     * @param array $uids The pages ids to look for a root line
      *
      * @return int
+     * @throws Exception
      */
     public function getRootSiteId(array $uids): int
     {
-        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
 
@@ -92,11 +93,10 @@ class PagesRepository
             ->from('pages')
             ->setMaxResults(1)
             ->where(
-                $queryBuilder->expr()->in('uid', $queryBuilder->createNamedParameter($uids, Connection::PARAM_INT_ARRAY)),
-                $queryBuilder->expr()->eq('is_siteroot', true)
+                $queryBuilder->expr()->in('uid', $queryBuilder->createNamedParameter($uids, Connection::PARAM_INT_ARRAY)), $queryBuilder->expr()->eq('is_siteroot', true)
             )
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         return ((!empty($rootPage) ? $rootPage[0]['uid'] : 0));
     }

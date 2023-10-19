@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
@@ -23,6 +22,11 @@ use Oktopuce\SiteGenerator\Dto\BaseDto;
  */
 class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterface
 {
+    public function __construct(readonly protected DataHandler $dataHandler)
+    {
+        parent::__construct();
+    }
+
     /**
      * Create file mount for foler create in previous step
      *
@@ -60,14 +64,11 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
             'pid' => 0
         ];
 
-        /* @var $dataHandler DataHandler */
-        $tce = GeneralUtility::makeInstance(DataHandler::class);
-        $tce->stripslashes_values = 0;
-        $tce->start($data, []);
-        $tce->process_datamap();
+        $this->dataHandler->start($data, []);
+        $this->dataHandler->process_datamap();
 
         // Retrieve uid of mount point created
-        $mountId = $tce->substNEWwithIDs[$newUniqueId];
+        $mountId = $this->dataHandler->substNEWwithIDs[$newUniqueId];
 
         if ($mountId > 0) {
             $this->log(LogLevel::NOTICE, 'Create file mount successfull (uid = ' . $mountId);

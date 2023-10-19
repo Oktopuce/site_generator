@@ -1,19 +1,5 @@
 # Module configuration
 module.tx_sitegenerator {
-    view {
-        templateRootPaths {
-            0 = EXT:site_generator/Resources/Private/Templates/
-            1 = {$module.tx_sitegenerator.view.templateRootPath}
-        }
-        partialRootPaths {
-            0 = EXT:site_generator/Resources/Private/Partials/
-            1 = {$module.tx_sitegenerator.view.partialRootPath}
-        }
-        layoutRootPaths {
-            0 = EXT:site_generator/Resources/Private/Layouts/
-            1 = {$module.tx_sitegenerator.view.layoutRootPath}
-        }
-    }
     settings {
         siteGenerator {
             wizard {

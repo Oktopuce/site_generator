@@ -1,0 +1,46 @@
+<html xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
+
+    <f:layout name="Module" />
+
+    <f:section name="Before">
+        <f:be.pageRenderer includeJavaScriptModules="{
+            0: '@typo3/backend/context-menu.js',
+            1: '@oktopuce/site-generator/site-generator-form.js'
+        }"/>
+    </f:section>
+
+    <f:section name="Content">
+        <h1><f:translate key="title_generator" extensionName="SiteGenerator"/></h1>
+        <h4><f:translate key="form.SecondStepData.title" extensionName="SiteGenerator"/></h4>
+        <form action="{f:be.uri(route:'tx_wizard_sitegenerator')}" method="post" name="tx_sitegenerator" class="form-optional-data"
+        id="SiteGeneratorController">
+            <input type="hidden" name="action" value="{action}" />
+            <input type="hidden" name="returnurl" value="{returnurl}" />
+            <input type="hidden" name="siteDtoSaved" value="{siteDtoSaved}" />
+            <f:comment><!--id is required to retrieve the right Typoscript configuration--></f:comment>
+            <input type="hidden" name="id" value="{siteDto.pid}" />
+
+            <f:render partial="SecondStepForm" arguments="{_all}"></f:render>
+
+            <div class="form-group">
+                <a href="{f:be.uri(
+                    route:'tx_wizard_sitegenerator',
+                    parameters:{action: 'get_data_first_step', returnurl: returnurl, siteDtoSaved: siteDtoSaved, id: siteDto.pid})}"
+                   class="btn btn-default">
+                    <f:translate key="form.previousStep" extensionName="SiteGenerator"/>
+                </a>
+                <button type="submit" class="btn btn-default">
+                    {f:translate(key: 'form.nexStep', extensionName: 'site_generator')}
+                </button>
+            </div>
+        </form>
+        <div class="spinner module-body t3js-module-body">
+            <div id="t3js-ui-block" class="ui-block">
+                <core:icon identifier="spinner-circle-light" size="large" />
+            </div>
+        </div>
+    </f:section>
+</html>
+
+

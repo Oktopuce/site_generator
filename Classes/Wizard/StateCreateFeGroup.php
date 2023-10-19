@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
@@ -23,6 +22,10 @@ use Oktopuce\SiteGenerator\Dto\BaseDto;
  */
 class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterface
 {
+    public function __construct(readonly protected DataHandler $dataHandler)
+    {
+        parent::__construct();
+    }
 
     /**
      * Create FE user group
@@ -63,14 +66,11 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
                 'title' => $groupName
             ];
 
-            /* @var $tce DataHandler */
-            $tce = GeneralUtility::makeInstance(DataHandler::class);
-            $tce->stripslashes_values = 0;
-            $tce->start($data, []);
-            $tce->process_datamap();
+            $this->dataHandler->start($data, []);
+            $this->dataHandler->process_datamap();
 
             // Retrieve uid of user group created
-            $groupId = $tce->substNEWwithIDs[$newUniqueId];
+            $groupId = $this->dataHandler->substNEWwithIDs[$newUniqueId];
 
             if ($groupId > 0) {
                 $this->log(LogLevel::NOTICE, 'Create FE group successful (uid = ' . $groupId);

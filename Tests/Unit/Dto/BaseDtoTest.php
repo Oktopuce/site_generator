@@ -13,9 +13,9 @@ use Oktopuce\SiteGenerator\Dto\BaseDto;
 class BaseDtoTest extends TestCase
 {
     /**
-     * @var BaseDto
+     * @var ?BaseDto
      */
-    protected $baseDto = null;
+    protected ?BaseDto $baseDto = null;
 
     protected function setUp(): void
     {

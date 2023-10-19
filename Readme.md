@@ -33,8 +33,8 @@ Download and install the extension with the extension manager module.
 
 1) Install the extension
 2) Create your model and a root page for site generation
-2) Within extension configuration, set 'Models Pid' and 'Sites Pid'
-3) Then you can call the wizard on 'Sites Pid' pages
+3) Within extension configuration, set 'Models Pid' and 'Sites Pid'
+4) Then you can call the wizard on 'Sites Pid' pages
 
 ## Reporting bugs / Contributions
 Anyone is welcome to contribute to Site Generator.

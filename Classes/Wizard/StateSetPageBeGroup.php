@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
@@ -23,6 +22,10 @@ use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
  */
 class StateSetPageBeGroup extends StateBase implements SiteGeneratorStateInterface
 {
+    public function __construct(readonly protected PagesRepository $pagesRepository)
+    {
+        parent::__construct();
+    }
 
     /**
      * Set group BE to all pages
@@ -50,13 +53,10 @@ class StateSetPageBeGroup extends StateBase implements SiteGeneratorStateInterfa
         if ($siteData->getBeGroupId()) {
             $pages = [];
             foreach ($siteData->getMappingArrayMerge('pages') as $sitePid) {
-                /* @var $pagesRepository PagesRepository */
-                $pagesRepository = GeneralUtility::makeInstance(PagesRepository::class);
-
                 $updateValues = [
                     'perms_groupid' => $siteData->getBeGroupId()
                 ];
-                $pagesRepository->updatePage($sitePid, $updateValues);
+                $this->pagesRepository->updatePage($sitePid, $updateValues);
                 $pages[] = $sitePid;
             }
             $this->log(LogLevel::INFO, 'BE Group #' . $siteData->getBeGroupId() . ' sets to pages');

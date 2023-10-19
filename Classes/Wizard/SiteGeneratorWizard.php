@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
+use Oktopuce\SiteGenerator\Exception\TsConfigException;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -32,9 +33,9 @@ class SiteGeneratorWizard
     protected BaseDto $siteData;
 
     /**
-     * @var object
+     * @var ?object
      */
-    protected $currentState;
+    protected ?object $currentState = null;
 
     /**
      * @var array States list from TS
@@ -64,7 +65,7 @@ class SiteGeneratorWizard
 
     /**
      *
-     * Get extension setings from TS
+     * Get extension settings from TypoScript
      *
      * @return array
      */
@@ -133,7 +134,7 @@ class SiteGeneratorWizard
                 next(self::$states);
             }
         } else {
-            throw new \Exception(LocalizationUtility::translate('wizard.tsConfig.error', 'site_generator'));
+            throw new TsConfigException(LocalizationUtility::translate('wizard.tsConfig.error', 'site_generator'));
         }
     }
 
