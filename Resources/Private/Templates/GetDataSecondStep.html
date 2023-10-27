@@ -11,30 +11,22 @@
     </f:section>
 
     <f:section name="Content">
-        <h1><f:translate key="title_generator" extensionName="SiteGenerator"/></h1>
-        <h4><f:translate key="form.SecondStepData.title" extensionName="SiteGenerator"/></h4>
-        <form action="{f:be.uri(route:'tx_wizard_sitegenerator')}" method="post" name="tx_sitegenerator" class="form-optional-data"
-        id="SiteGeneratorController">
-            <input type="hidden" name="action" value="{action}" />
-            <input type="hidden" name="returnurl" value="{returnurl}" />
-            <input type="hidden" name="siteDtoSaved" value="{siteDtoSaved}" />
-            <f:comment><!--id is required to retrieve the right Typoscript configuration--></f:comment>
-            <input type="hidden" name="id" value="{siteDto.pid}" />
+        <h1><f:translate key="title_generator" /></h1>
+        <h4><f:translate key="form.SecondStepData.title" /></h4>
+        <f:form action="{moduleUrl}" method="POST" name="tx_sitegenerator" class="form-optional-data" id="SiteGeneratorController">
+            <f:form.hidden name="action" value="{action}" />
+            <f:form.hidden name="returnurl" value="{returnurl}" />
+            <f:form.hidden name="siteDtoSaved" value="{siteDtoSaved}" />
+            <f:comment>id is required to retrieve the right Typoscript configuration</f:comment>
+            <f:form.hidden name="id" value="{siteDto.pid}" />
 
             <f:render partial="SecondStepForm" arguments="{_all}"></f:render>
 
             <div class="form-group">
-                <a href="{f:be.uri(
-                    route:'tx_wizard_sitegenerator',
-                    parameters:{action: 'get_data_first_step', returnurl: returnurl, siteDtoSaved: siteDtoSaved, id: siteDto.pid})}"
-                   class="btn btn-default">
-                    <f:translate key="form.previousStep" extensionName="SiteGenerator"/>
-                </a>
-                <button type="submit" class="btn btn-default">
-                    {f:translate(key: 'form.nexStep', extensionName: 'site_generator')}
-                </button>
+                <f:link.action additionalParams="{action: 'getDataFirstStep', siteDtoSaved: siteDtoSaved, returnurl: returnurl}" class="btn btn-default"><f:translate key="form.previousStep"/></f:link.action>
+                <f:form.submit value="{f:translate(key: 'form.nexStep')}" class="btn btn-default" />
             </div>
-        </form>
+        </f:form>
         <div class="spinner module-body t3js-module-body">
             <div id="t3js-ui-block" class="ui-block">
                 <core:icon identifier="spinner-circle-light" size="large" />
@@ -42,5 +34,4 @@
         </div>
     </f:section>
 </html>
-
 

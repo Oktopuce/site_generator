@@ -58,4 +58,4 @@ Second form used for optional data.
 
    .. code-block:: html
 
-      <f:link.action additionalParams="{action: 'get_data_first_step', siteDtoSaved: siteDtoSaved}" class="btn btn-default"><f:translate key="form.previousStep"/></f:link.action>
+      <f:link.action additionalParams="{action: 'getDataFirstStep', siteDtoSaved: siteDtoSaved}" class="btn btn-default"><f:translate key="form.previousStep"/></f:link.action>

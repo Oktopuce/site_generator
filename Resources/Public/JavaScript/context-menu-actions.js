@@ -10,10 +10,9 @@ class ContextMenuActions {
   }
 
   siteGenerator(table, uid, dataset) {
-    // @TODO : ajouter les pages de type folder
     if (table === 'pages') {
       top.TYPO3.Backend.ContentContainer.setUrl(
-          dataset.actionUrl  + '&action=get_data_first_step&id=' + uid + '&tx_sitegenerator[pid]=' + uid + '&returnurl=' + ContextMenuActions.getReturnUrl()
+          dataset.actionUrl  + '&action=getDataFirstStep&id=' + uid + '&tx_sitegenerator[pid]=' + uid + '&returnurl=' + ContextMenuActions.getReturnUrl()
       );
     }
   };

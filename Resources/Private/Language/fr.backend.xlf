@@ -15,6 +15,10 @@
 				<source>All fields with an asterisk are mandatory</source>
 				<target>Tous les champs avec un astérisque sont obligatoires</target>
 			</trans-unit>
+            <trans-unit id="abort">
+				<source>Abort</source>
+				<target>Abandonner</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

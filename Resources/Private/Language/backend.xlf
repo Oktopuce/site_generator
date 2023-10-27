@@ -12,6 +12,9 @@
             <trans-unit id="allfieldsMandatory">
 				<source>All fields with an asterisk are mandatory</source>
 			</trans-unit>
+			<trans-unit id="abort">
+				<source>Abort</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

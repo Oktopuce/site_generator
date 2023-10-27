@@ -1,15 +1,13 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
 
+
 <div class="form-group">
     <div class="form-section">
         <div class="row">
             <div class="form-group col-xs-12 col-md-4">
-                <label class="form-label" for="group-prefix">
-                    <f:translate key="form.SecondStepData.groupPrefix" extensionName="SiteGenerator"/>
-                </label>
+                <label class="t3js-formengine-label"><f:translate key="form.SecondStepData.groupPrefix" /></label>
                 <div class="form-control-clearable">
-                    <input type="text" name="tx_sitegenerator[groupPrefix]" value="{siteDto.groupPrefix}"
-                           class="form-control t3js-clearable hasDefaultValue t3js-charcounter-initialized" id="group-prefix"/>
+                    <f:form.textfield property="groupPrefix" value="{siteDto.groupPrefix}" class="form-control t3js-clearable hasDefaultValue t3js-charcounter-initialized"/>
                 </div>
             </div>
         </div>
@@ -18,13 +16,10 @@
 <div class="form-group">
     <div class="form-section">
         <div class="row">
-            <div class="form-group col-xs-12 col-md-6">
-                <label class="form-label" for="domain">
-                    <f:translate key="form.SecondStepData.domain" extensionName="SiteGenerator"/>
-                </label>
+            <div class="form-group col-xs-12 col-md-4">
+                <label class="t3js-formengine-label"><f:translate key="form.SecondStepData.domain" /></label>
                 <div class="form-control-clearable">
-                    <input type="text" name="tx_sitegenerator[domain]" value="{siteDto.domain}"
-                           class="form-control t3js-clearable hasDefaultValue t3js-charcounter-initialized" id="domain"/>
+                    <f:form.textfield property="domain" value="{siteDto.domain}" class="form-control t3js-clearable hasDefaultValue t3js-charcounter-initialized"/>
                 </div>
             </div>
         </div>
@@ -34,24 +29,18 @@
     <div class="form-section">
         <div class="row">
             <div class="form-group col-xs-12">
-                <f:translate key="form.SecondStepData.newFolderCreation" extensionName="SiteGenerator"/>
+                <f:translate key="form.SecondStepData.newFolderCreation"/>
             </div>
             <div class="form-group col-xs-12 col-md-4">
-                <label class="form-label" for="base-folder-name">
-                    <f:translate key="form.SecondStepData.baseFolderName" extensionName="SiteGenerator"/>
-                </label>
+                <label class="t3js-formengine-label"><f:translate key="form.SecondStepData.baseFolderName" /></label>
                 <div class="form-control-clearable">
-                    <input type="text" name="tx_sitegenerator[baseFolderName]" value="{siteDto.baseFolderName}"
-                           class="form-control t3js-clearable hasDefaultValue t3js-charcounter-initialized" id="base-folder-name"/>
+                    <f:form.textfield property="baseFolderName" value="{siteDto.baseFolderName}" class="form-control t3js-clearable hasDefaultValue t3js-charcounter-initialized"/>
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-md-4">
-                <label class="form-label" for="subfolder-names">
-                    <f:translate key="form.SecondStepData.subFolderNames" extensionName="SiteGenerator"/>
-                </label>
+            <div class="form-group col-xs-12 col-md-8">
+                <label class="t3js-formengine-label"><f:translate key="form.SecondStepData.subFolderNames" /></label>
                 <div class="form-control-clearable">
-                    <input type="text" name="tx_sitegenerator[subFolderNames]" value="{siteDto.subFolderNames}"
-                           class="form-control t3js-clearable hasDefaultValue t3js-charcounter-initialized" id="subfolder-names"/>
+                    <f:form.textfield property="subFolderNames" value="{siteDto.subFolderNames}" class="form-control t3js-clearable hasDefaultValue t3js-charcounter-initialized"/>
                 </div>
             </div>
         </div>

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Controller;
 
-use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Imaging\Icon;
@@ -22,12 +21,9 @@ use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Imaging\IconFactory;
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
-
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -36,12 +32,13 @@ use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
 use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
 use Oktopuce\SiteGenerator\Wizard\Event\BeforeRenderingFirstStepViewEvent;
 use Oktopuce\SiteGenerator\Wizard\Event\BeforeRenderingSecondStepViewEvent;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * SiteGeneratorController
  */
 //class SiteGeneratorController extends ActionController
-class SiteGeneratorController
+class SiteGeneratorController  extends ActionController
 {
     /**
      * The local configuration array
@@ -64,22 +61,16 @@ class SiteGeneratorController
      */
     protected array $extensionConfiguration = [];
 
-    private array $settings;
-
     /**
      * The constructor of this class
      *
      * @param ModuleTemplateFactory $moduleTemplateFactory
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param ConfigurationManagerInterface $configurationManager
      * @param SiteGeneratorWizard $siteGeneratorWizard
      * @param IconFactory $iconFactory
      * @param PageRenderer $pageRenderer
      */
     public function __construct(
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
-        protected readonly EventDispatcherInterface $eventDispatcher,
-        protected readonly ConfigurationManagerInterface $configurationManager,
         protected readonly SiteGeneratorWizard $siteGeneratorWizard,
         protected readonly IconFactory $iconFactory,
         private readonly PageRenderer $pageRenderer
@@ -90,19 +81,16 @@ class SiteGeneratorController
      * @throws \ReflectionException
      * @throws \JsonException
      */
-    protected function init(ServerRequestInterface $request): void
+    protected function initializeAction()
     {
         // Get translations
         $this->getLanguageService()->includeLLFile('EXT:site_generator/Resources/Private/Language/locallang.xlf');
 
-        $this->settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
-            'SiteGenerator');
-
         // Store DTO data from form
-        $this->storeDtoData($request);
+        $this->storeDtoData();
 
-        $queryParams = $request->getQueryParams();
-        $parsedBody = $request->getParsedBody();
+        $queryParams = $this->request->getQueryParams();
+        $parsedBody = $this->request->getParsedBody();
 
         $this->conf['action'] = $parsedBody['action'] ?? $queryParams['action'] ?? null;
         $this->conf['returnurl'] = $parsedBody['returnurl'] ?? $queryParams['returnurl'] ?? null;
@@ -118,17 +106,16 @@ class SiteGeneratorController
     /**
      * Store DTO Data from form
      *
-     * @param ServerRequestInterface $request
      * @return void
-     * @throws \ReflectionException
      * @throws \JsonException
+     * @throws \ReflectionException
      */
-    public function storeDtoData(ServerRequestInterface $request): void
+    public function storeDtoData(): void
     {
-        $queryParams = $request->getQueryParams();
-        $parsedBody = $request->getParsedBody();
+        $queryParams = $this->request->getQueryParams();
+        $parsedBody = $this->request->getParsedBody();
 
-        // Retrieve data from fositeDtoSavedrm
+        // Retrieve data from siteDtoSaved
         $parameters = $parsedBody['tx_sitegenerator'] ?? $queryParams['tx_sitegenerator'] ?? [];
         $siteDtoSaved = $parsedBody['siteDtoSaved'] ?? $queryParams['siteDtoSaved'] ?? [];
 
@@ -168,55 +155,20 @@ class SiteGeneratorController
     }
 
     /**
-     * Injects the request object for the current request and gathers all data
-     *
-     * @param ServerRequestInterface $request the current request
-     * @param ?ResponseInterface $response (removed in V10)
-     *
-     * @return ResponseInterface the response with the content
-     * @throws RouteNotFoundException|\Doctrine\DBAL\Exception
-     */
-    public function dispatch(ServerRequestInterface $request, ?ResponseInterface $response = null): ResponseInterface
-    {
-        // Initialisations
-        $this->init($request);
-
-        if ($response === null) {
-            $response = new HtmlResponse('');
-        }
-        $response->withHeader('Content-Type', 'text/html; charset=utf-8');
-
-        // The pid is mandatory
-        if ($this->siteGeneratorDto->getPid() <= 0) {
-            $response->getBody()->write('This script cannot be called directly');
-            return $response->withStatus(500);
-        }
-
-        $content = '';
-        switch ($this->conf['action']) {
-            case 'get_data_first_step':
-                $content = $this->getDataFirstStepAction($request);
-                break;
-            case 'get_data_second_step':
-                $content = $this->getDataSecondStepAction($request);
-                break;
-            case 'generate_site':
-                $content = $this->generateSiteAction($request);
-                break;
-        }
-
-        // Write response
-        return $content;
-    }
-
-    /**
      * Display a form to gather data (first step)
      *
      * @return ResponseInterface The rendered view
      * @throws RouteNotFoundException|\Doctrine\DBAL\Exception
      */
-    protected function getDataFirstStepAction(ServerRequestInterface $request): ResponseInterface
+    protected function getDataFirstStepAction(): ResponseInterface
     {
+        // The pid is mandatory
+        if ($this->siteGeneratorDto->getPid() <= 0) {
+            $response = $this->responseFactory->createResponse();
+            $response->getBody()->write('This script cannot be called directly');
+            return $response->withStatus(500);
+        }
+
         /* @var $pagesRepository PagesRepository */
         $pagesRepository = GeneralUtility::makeInstance(PagesRepository::class);
         $modelPages = $pagesRepository->getPages($this->getExtensionConfiguration('modelsPid'));
@@ -228,7 +180,7 @@ class SiteGeneratorController
             'siteDto' => $this->siteGeneratorDto,
             'siteDtoSaved' => json_encode(serialize($this->siteGeneratorDto)),
             'modelPages' => $modelPages,
-            'action' => ($this->getExtensionConfiguration('onlyOneFormPage') ? 'generate_site' : 'get_data_second_step'),
+            'action' => ($this->getExtensionConfiguration('onlyOneFormPage') ? 'generateSite' : 'getDataSecondStep'),
             'returnurl' => $this->conf['returnurl'],
             'rules' => '[{"type":"required"}]'
         ];
@@ -236,7 +188,7 @@ class SiteGeneratorController
         // Add event to assign more variables to the view (useful when using your own template)
         $event = $this->eventDispatcher->dispatch(new BeforeRenderingFirstStepViewEvent($viewVariables));
 
-        $view = $this->moduleTemplateFactory->create($request);
+        $view = $this->moduleTemplateFactory->create($this->request);
         $view->assignMultiple($event->getViewVariables());
         $view->setModuleName('');
         $this->addDocHeaderBackButton($view);
@@ -250,24 +202,32 @@ class SiteGeneratorController
      * @return ResponseInterface The rendered view
      * @throws RouteNotFoundException
      */
-    protected function getDataSecondStepAction(ServerRequestInterface $request): ResponseInterface
+    protected function getDataSecondStepAction(): ResponseInterface
     {
+        // The pid is mandatory
+        if ($this->siteGeneratorDto->getPid() <= 0) {
+            $response = $this->responseFactory->createResponse();
+            $response->getBody()->write('This script cannot be called directly');
+            return $response->withStatus(500);
+        }
+
         $nextStep = $this->buildUriFromRoute('tx_wizard_sitegenerator');
 
         $viewVariables = [
             'moduleUrl' => $nextStep,
             'siteDto' => $this->siteGeneratorDto,
             'siteDtoSaved' => json_encode(serialize($this->siteGeneratorDto)),
-            'action' => 'generate_site',
+            'action' => 'generateSite',
             'returnurl' => $this->conf['returnurl'],
         ];
 
         // Add event to assign more variables to the view (useful when using your own template)
         $event = $this->eventDispatcher->dispatch(new BeforeRenderingSecondStepViewEvent($viewVariables));
 
-        $view = $this->moduleTemplateFactory->create($request);
+        $view = $this->moduleTemplateFactory->create($this->request);
         $view->assignMultiple($event->getViewVariables());
         $view->setModuleName('');
+        $this->addDocHeaderBackButton($view);
 
         return $view->renderResponse('GetDataSecondStep');
     }
@@ -277,7 +237,7 @@ class SiteGeneratorController
      *
      * @return ResponseInterface The rendered view
      */
-    protected function generateSiteAction(ServerRequestInterface $request): ResponseInterface
+    protected function generateSiteAction(): ResponseInterface
     {
         $errorMessage = '';
 
@@ -296,7 +256,7 @@ class SiteGeneratorController
         // Update page tree
         BackendUtility::setUpdateSignal('updatePageTree');
 
-        $view = $this->moduleTemplateFactory->create($request);
+        $view = $this->moduleTemplateFactory->create($this->request);
         $view->assignMultiple($viewVariables);
         $view->setModuleName('');
 
@@ -344,14 +304,15 @@ class SiteGeneratorController
     protected function addDocHeaderBackButton(ModuleTemplate $view): void
     {
         $lang = $this->getLanguageService();
-        $gobackLabel = 'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.goBack';
+        $label = 'LLL:EXT:site_generator/Resources/Private/Language/backend.xlf:abort';
 
         $buttonBar = $view->getDocHeaderComponent()->getButtonBar();
 
         $viewButton = $buttonBar->makeLinkButton()
             ->setHref($this->conf['returnurl'])
-            ->setTitle($lang->sL($gobackLabel))
-            ->setIcon($this->iconFactory->getIcon('actions-view-go-back', Icon::SIZE_SMALL));
+            ->setTitle($lang->sL($label))
+            ->setShowLabelText(true)
+            ->setIcon($this->iconFactory->getIcon('actions-close', Icon::SIZE_SMALL));
         $buttonBar->addButton($viewButton, ButtonBar::BUTTON_POSITION_LEFT, 10);
     }
 }
