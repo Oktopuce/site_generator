@@ -85,10 +85,9 @@ For full customization, I suggest to create your own extension, this is how it i
    ├── ext_typoscript_setup.typoscript
    └── Resources
        └── Private
-           └── Templates
-               └── SiteGenerator
-                   ├── GetDataFirstStep.html
-                   └── GetDataSecondStep.html
+           └── Partials
+                ├── FirstStepForm.html
+                └── SecondStepForm.html
 
 File details
 ============

@@ -5,11 +5,24 @@
 Change log
 ==========
 
+V3.0.0 - 2023/10/27
+-------------------
+
+::
+
+* 2023-10-27 16:31:54 [DOC] Update documentation for version 3 (commit: 4664b06)
+* 2023-10-27 13:18:19 [TASK] Use extbase ViewHelpers in Fluid Templates (commit: 53a81d5)
+* 2023-10-19 17:59:14 [TASK] Migration to TYPO3 V12 (commit: 76789ea)
+* 2023-09-08 16:07:41 [TASK] Upgrade with rector TYPO3 V11 & PHP 8.1 (commit: 46fa03c)
+
 V2.0.1 - 2022/02/02
 -------------------
 
 ::
 
+* 2022-01-05 [TASK] Make settings available in fluid (commit: 3857c19)
+* 2022-02-15 [DOCS] Update documentation for constant mapping (commit: 4ba56f2)
+* 2022-02-15 [TASK] Add new feature test cases for constants mapping in home page template (commit: b470a47)
 * 2022-02-15  [DOCS] Update documentation for new features and according to TYPO3 Extension Award Team feedback (commit: a2fcb27)
 * 2022-02-15  [FEATURE] Manage directives for constants mapping customization in home page template (commit: 3f8c0ee)
 * 2022-02-15  [TASK] Add types, type hint, optimisation, dependency injections and correct typo (commit: 4776cdc)

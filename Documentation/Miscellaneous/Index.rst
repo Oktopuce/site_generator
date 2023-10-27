@@ -6,10 +6,11 @@ Miscellaneous
 =============
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :titlesonly:
    :glob:
 
    Changelog/Index
    Upgrade/V2/Index
+   Upgrade/V3/Index
    KnownProblems/Index

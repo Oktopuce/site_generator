@@ -16,11 +16,6 @@ ext_typoscript_constants.typoscript
 .. code-block:: typoscript
 
    module.tx_sitegenerator {
-       view {
-           templateRootPath = EXT:site_generator_customized/Resources/Private/Templates/
-           partialRootPath = EXT:site_generator_customized/Resources/Private/Partials/
-           layoutRootPath = EXT:site_generator_customized/Resources/Private/Layouts/
-       }
        settings {
            siteGenerator {
                wizard {
