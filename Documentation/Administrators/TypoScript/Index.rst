@@ -7,7 +7,7 @@ TypoScript
 
 Here you can find the module configuration available in TypoScript.
 
-Any setting needs to be prefixed with  :typoscript:`module.tx_sitegenerator.settings.siteGenerator.wizard.`.
+Any setting needs to be prefixed with  :typoscript:`module.tx_sitegenerator.settings.siteGenerator.wizard.`
 
 .. _formDto:
 
@@ -84,3 +84,9 @@ hideHomePage
 
    Description
          Set this to '1' if you want to set home page as hidden
+
+.. New::
+   Since version 3.1 TypoScript configuration (setup only) can also be overridden with Page TSConfig
+
+..  seealso::
+    *   :ref:`pagets`

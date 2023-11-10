@@ -20,12 +20,11 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use Oktopuce\SiteGenerator\Wizard\SiteGeneratorWizard;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
@@ -37,8 +36,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 /**
  * SiteGeneratorController
  */
-//class SiteGeneratorController extends ActionController
-class SiteGeneratorController  extends ActionController
+class SiteGeneratorController extends ActionController
 {
     /**
      * The local configuration array
@@ -83,6 +81,8 @@ class SiteGeneratorController  extends ActionController
      */
     protected function initializeAction()
     {
+        $this->overrideSettingsWithPageTsConfig();
+
         // Get translations
         $this->getLanguageService()->includeLLFile('EXT:site_generator/Resources/Private/Language/locallang.xlf');
 
@@ -101,6 +101,32 @@ class SiteGeneratorController  extends ActionController
             'mandatory_fields' => $this->getLanguageService()->sL('LLL:EXT:site_generator/Resources/Private/Language/backend.xlf:allfieldsMandatory'),
             'ok' => $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_common.xlf:ok')
         ]);
+    }
+
+    /**
+     * Settings could be overwritten with Page TsConfig
+     *
+     * @return void
+     */
+    protected function overrideSettingsWithPageTsConfig(): void
+    {
+        $currentPageId = $this->request->getQueryParams()['id'] ?? 0;
+
+        // Retrieve page TSconfig for current page
+        $pageTsConfig = BackendUtility::getPagesTSconfig($currentPageId);
+        $settingsOverrule = GeneralUtility::removeDotsFromTS((array)($pageTsConfig['module.']['tx_sitegenerator.']['settings.'] ?? []));
+
+        if (!empty($settingsOverrule)) {
+            if (isset($settingsOverrule['siteGenerator']['wizard']['steps']['clear'])
+                && (int)$settingsOverrule['siteGenerator']['wizard']['steps']['clear'] === 1) {
+                // Clear all steps
+                $clearAllSteps['siteGenerator']['wizard']['steps'] = '__UNSET';
+                ArrayUtility::mergeRecursiveWithOverrule($this->settings, $clearAllSteps);
+                unset($settingsOverrule['siteGenerator']['wizard']['steps']['clear']);
+            }
+            // Override settings with settings in Page TsConfig
+            ArrayUtility::mergeRecursiveWithOverrule($this->settings, $settingsOverrule);
+        }
     }
 
     /**
@@ -243,7 +269,7 @@ class SiteGeneratorController  extends ActionController
 
         try {
             // Start the wizard
-            $this->siteGeneratorWizard->startWizard($this->siteGeneratorDto);
+            $this->siteGeneratorWizard->startWizard($this->siteGeneratorDto, $this->settings);
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
         }

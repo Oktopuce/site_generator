@@ -70,7 +70,7 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
             $this->dataHandler->process_datamap();
 
             // Retrieve uid of user group created
-            $groupId = $this->dataHandler->substNEWwithIDs[$newUniqueId];
+            $groupId = $this->dataHandler->substNEWwithIDs[$newUniqueId] ?? 0;
 
             if ($groupId > 0) {
                 $this->log(LogLevel::NOTICE, 'Create FE group successful (uid = ' . $groupId);

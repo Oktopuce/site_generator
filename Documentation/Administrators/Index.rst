@@ -58,9 +58,13 @@ If you only need Tree Duplication, you can change TypoScript Setup like this :
        }
    }
 
-.. Important::
+.. Tip::
 
-   Module TypoScript configuration like :typoscript:`module.tx_sitegenerator` can only be changed through custom extension
+   Before version 3.1 module TypoScript configuration like :typoscript:`module.tx_sitegenerator` can only be changed through custom extension.
+
+.. Tip::
+
+   Since version **3.1** TypoScript configuration (setup only) can also be overridden with :ref:`pagets`.
 
 Configuration
 -------------
@@ -76,3 +80,4 @@ Configuration
    TypoScript/Index
    ExtensionManager/Index
    UpdateTemplate/Index
+   TSConfig/Index

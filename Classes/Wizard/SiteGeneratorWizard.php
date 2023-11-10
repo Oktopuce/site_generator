@@ -50,20 +50,6 @@ class SiteGeneratorWizard
     protected array $settings = [];
 
     /**
-     * Constructor of this class : set first wizard step and store site data from forms
-     *
-     * @param ConfigurationManagerInterface $configurationManager
-     * @throws \Exception
-     */
-    public function __construct(ConfigurationManagerInterface $configurationManager)
-    {
-        $this->settings = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS, 'SiteGenerator');
-
-        $this->getStates();
-        $this->setNextWizardState();
-    }
-
-    /**
      *
      * Get extension settings from TypoScript
      *
@@ -79,7 +65,7 @@ class SiteGeneratorWizard
      *
      * @return void
      */
-    public function getStates(): void
+    protected function getStates(): void
     {
         ksort($this->settings['siteGenerator']['wizard']['steps']);
         self::$states = $this->settings['siteGenerator']['wizard']['steps'];
@@ -88,14 +74,20 @@ class SiteGeneratorWizard
 
     /**
      * Start site generation wizard
-     * @param BaseDto $siteData Data coming from forms : mandatory and optional data
      *
+     * @param BaseDto $siteData Data coming from forms : mandatory and optional data
+     * @param array $settings Settings from TypoScript configuration (could have been override with Page TsConfig)
      * @return void
      * @throws AspectNotFoundException
      * @throws \Exception
      */
-    public function startWizard(BaseDto $siteData): void
+    public function startWizard(BaseDto $siteData, array $settings): void
     {
+        $this->settings = $settings;
+
+        $this->getStates();
+        $this->setNextWizardState();
+
         // Set data coming from form
         $this->siteData = $siteData;
 

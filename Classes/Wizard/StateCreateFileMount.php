@@ -68,7 +68,7 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
         $this->dataHandler->process_datamap();
 
         // Retrieve uid of mount point created
-        $mountId = $this->dataHandler->substNEWwithIDs[$newUniqueId];
+        $mountId = $this->dataHandler->substNEWwithIDs[$newUniqueId] ?? 0;
 
         if ($mountId > 0) {
             $this->log(LogLevel::NOTICE, 'Create file mount successfull (uid = ' . $mountId);
