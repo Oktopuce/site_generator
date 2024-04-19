@@ -30,9 +30,9 @@ class TemplateDirectivesService
      * ignoreUids=777,888 : list of uids to ignore
      *
      * @param string $lineFromConstant The constant line
-     * @return void
+     * @return true
      */
-    public function lookForDirectives(string $lineFromConstant): void
+    public function lookForDirectives(string $lineFromConstant): bool
     {
         // Remove all spaces and line feed from input line
         $inputLine = trim(str_replace(' ', '', $lineFromConstant));
@@ -47,7 +47,9 @@ class TemplateDirectivesService
                     $this->directives[$matchDirective[$i]] = $matchDirective[$i + 1];
                 }
             }
+            return true;
         }
+        return false;
     }
 
     /**

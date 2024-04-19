@@ -80,6 +80,9 @@
             <trans-unit id="generate.success.updatePageTS">
 				<source>- Update page TSConfig (TCEMAIN.clearCacheCmd) done for pages : %s</source>
 			</trans-unit>
+            <trans-unit id="generate.success.updatePageTSonIdentifiers">
+				<source>- Update page TSConfig on identifiers done for pages : %s</source>
+			</trans-unit>
             <trans-unit id="generate.success.createSiteConfiguration">
 				<source>- The site configuration for domain '%s' has been created</source>
 			</trans-unit>

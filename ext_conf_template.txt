@@ -8,6 +8,7 @@
 # customsubcategory=140=Folder
 # customsubcategory=150=BE Group access lists
 # customsubcategory=160=Site configuration
+# customsubcategory=170=TypoScript code update
 
 # cat=Basic/100/10_ModelPid; type=string; label=Models PID: Models page uid used to generate the new site (comma separated for multiple models)
 modelsPid =
@@ -20,6 +21,10 @@ commonMountPointUid =
 
 # cat=Basic/120/10_OneForm; type=boolean; label=Only one form page for data: Check this if you want only one form page to gather data
 onlyOneFormPage = false
+
+# cat=Basic/170/10_RemoveDirectivesFromOutput; type=boolean; label=Remove update directives from output: Check this if you don't want update directives in the output
+removeDirectivesFromOutput = true
+
 
 # cat=Label/130/10_PageTitle; type=string; label=Home page title: The title used for the home page (can be overridden in form)
 homePageTitle = Home
