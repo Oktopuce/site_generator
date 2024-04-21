@@ -221,7 +221,12 @@ class TemplateService
         string $value,
         array $filteredMapping
     ): string {
+        $functionName = '';
         // Check if the value in constant is a list of int - 78,125,98 - or just an int
+        if (preg_match('/^\\s*([[:alpha:]]+)\\s*\\((.*)\\).*/', $value, $match)) {
+            $functionName = $match[1];
+            $value = $match[2];
+        }
         if (preg_match('/^\d+(?:,\d+)*$/', $value)) {
             $updateConstant = false;
 
@@ -235,9 +240,12 @@ class TemplateService
                         $updateConstant = true;
                     }
                 });
-
             if ($updateConstant) {
-                return implode(',', $listOfInt);
+                $newList = implode(',', $listOfInt);
+                if($functionName) {
+                    $newList = "$functionName($newList)";
+                }
+                return $newList;
             }
         }
         return ('');
