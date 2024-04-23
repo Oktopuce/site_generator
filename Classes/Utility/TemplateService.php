@@ -89,7 +89,7 @@ class TemplateService
                 $operatorPosition = strcspn($line, ' {=<');
                 $key = substr($line, 0, $operatorPosition);
                 $line = ltrim(substr($line, $operatorPosition));
-                if ($line[0] === '=') {
+                if ($line[0] === '=' || $line[0] === ':') {
                     $constantPositions[$prefix . $key . "_" . $lineCounter] = $lineCounter - 1;
                 } elseif ($line[0] === '{') {
                     $braceLevel++;
