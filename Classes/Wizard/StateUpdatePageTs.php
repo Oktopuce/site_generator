@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
+use Oktopuce\SiteGenerator\Utility\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -24,7 +25,10 @@ use Oktopuce\SiteGenerator\Dto\BaseDto;
  */
 class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
 {
-    public function __construct(readonly protected DataHandler $dataHandler)
+    public function __construct(
+        readonly protected DataHandler     $dataHandler,
+        readonly protected TemplateService $templateService
+    )
     {
         parent::__construct();
     }
@@ -50,6 +54,7 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
     protected function updatePageTS(BaseDto $siteData): void
     {
         $pagesUpdated = [];
+        $pagesUpdatedOnIdentifiers = [];
 
         // Iterates over new pages
         foreach ($siteData->getMappingArrayMerge('pages') as $pageId) {
@@ -57,6 +62,12 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
 
             // Get record data
             $origRow = BackendUtility::getRecord('pages', $pageId);
+
+            if($this->templateService->updateContent('pages', $origRow, 'TSconfig', $siteData)) {
+                $pagesUpdatedOnIdentifiers[] = $pageId;
+                // Get record data
+                $origRow = BackendUtility::getRecord('pages', $pageId);
+            }
 
             if ($origRow['TSconfig']) {
                 $newsTSConfig = '';
@@ -99,6 +110,12 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
             $this->log(LogLevel::NOTICE, 'Update page TSConfig : TCEMAIN.clearCacheCmd done for pages : ' . implode(',', $pagesUpdated));
             // @extensionScannerIgnoreLine
             $siteData->addMessage($this->translate('generate.success.updatePageTS', [implode(',', $pagesUpdated)]));
+        }
+
+        if (!empty($pagesUpdatedOnIdentifiers)) {
+            $this->log(LogLevel::NOTICE, 'Update page TSConfig : updating identifiers done for pages : ' . implode(',', $pagesUpdatedOnIdentifiers));
+            // @extensionScannerIgnoreLine
+            $siteData->addMessage($this->translate('generate.success.updatePageTSonIdentifiers', [implode(',', $pagesUpdatedOnIdentifiers)]));
         }
     }
 }

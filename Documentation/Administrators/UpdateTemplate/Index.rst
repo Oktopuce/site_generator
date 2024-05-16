@@ -35,7 +35,7 @@ Sample
 
          # Map all values in the string and exclude some of them
          # ext=SiteGenerator; table=tt_content; action=mapInString; ignoreUids=29,30
-         multipleCeWithIgnore = addInList(28,29,30)
+         multipleCeWithIgnore := addInList(28,29,30)
 
          # For custom action you must used the event UpdateTemplateHPEvent
          # ext=SiteGenerator; action=customAction; parameters=custom parameters
