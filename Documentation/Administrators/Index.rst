@@ -60,9 +60,13 @@ If you only need Tree Duplication, you can change TypoScript Setup like this :
 
 .. Tip::
 
-   Before version 3.1 module TypoScript configuration like :typoscript:`module.tx_sitegenerator` can only be changed through custom extension.
+   If you want to use the module for non-admin users, you have to allow it like any other TYPO3 modules.
+
+   If applicable, in the "Access Rights" panel for **user** or for **user group**, check the "Web > Site generator / tree model duplicator [tx_wizard_sitegenerator]".
 
 .. Tip::
+
+   Before version **3.1** module TypoScript configuration like :typoscript:`module.tx_sitegenerator` can only be changed through custom extension.
 
    Since version **3.1** TypoScript configuration (setup only) can also be overridden with :ref:`pagets`.
 

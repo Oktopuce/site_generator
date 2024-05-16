@@ -71,3 +71,22 @@ with:
 .. hint::
 
    You can now also :ref:`use a partial <customizeTemplates>` for content form data.
+
+Use the wizard for non-admin users
+==================================
+
+Description
+-----------
+
+Since TYPO3 version 12 the way to call the wizard from page tree has been modified and need some access rights for non-admin users.
+
+Impact
+-----------
+
+If you don't add access rights for the module you will have a message "No module access".
+
+Migration
+-----------
+
+In the "Access Rights" panel for **user** or for **user group**, check the "Web > Site generator / tree model duplicator [tx_wizard_sitegenerator]" to allow this module for user.
+

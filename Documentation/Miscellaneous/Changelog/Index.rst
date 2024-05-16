@@ -20,7 +20,13 @@ V2.0.1 - 2022/02/02
 
 ::
 
-* 2022-01-05 [TASK] Make settings available in fluid (commit: 3857c19)
+* 2024-05-16  [BUGFIX][DOC] FIX-24 Allow module access for non-admin users (commit: 413d5fe)
+* 2023-11-10  [TASK] Add Page TsConfig configuration (commit: e69cb2e)
+* 2023-10-27  [DOC] Update documentation for version 3 (commit: 972f72c)
+* 2023-10-27  [TASK] Use extbase ViewHelpers in Fluid Templates (commit: 53a81d5)
+* 2023-10-19  [TASK] Migration to TYPO3 V12 (commit: 76789ea)
+* 2023-09-08  [TASK] Upgrade with rector TYPO3 V11 & PHP 8.1 (commit: 46fa03c)
+* 2022-01-05  [TASK] Make settings available in fluid (commit: 3857c19)
 * 2022-02-15 [DOCS] Update documentation for constant mapping (commit: 4ba56f2)
 * 2022-02-15 [TASK] Add new feature test cases for constants mapping in home page template (commit: b470a47)
 * 2022-02-15  [DOCS] Update documentation for new features and according to TYPO3 Extension Award Team feedback (commit: a2fcb27)
@@ -44,3 +50,5 @@ V2.0.1 - 2022/02/02
 * 2021-09-06  [TASK] V11 migration tasks (commit: 37fbf59)
 * 2021-09-03  [TASK] Add version 11 (commit: 49da7dd)
 * 2021-09-03  [TASK] Prepare V1 migration (commit: 1ed975a)
+
+This list has been created by using git log --date=iso --pretty=format:'%ad%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08 %s (commit: %h)'.
