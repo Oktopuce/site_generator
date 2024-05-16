@@ -80,7 +80,7 @@ class TemplateService
                 $key = substr($line, 0, $operatorPosition);
                 $line = ltrim(substr($line, $operatorPosition));
                 if ($line[0] === '=' || str_starts_with($line, ':=')) {
-                    $constantPositions[$prefix . $key] = $lineCounter - 1;
+                    $constantPositions[$prefix . $key . "_" . $lineCounter] = $lineCounter - 1;
                 } elseif ($line[0] === '{') {
                     $braceLevel++;
                     $this->calculateConstantPositions($rawTemplateConstantsArray, $constantPositions, $prefix . $key . '.', $braceLevel, $lineCounter);
