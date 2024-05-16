@@ -20,7 +20,10 @@ V2.0.1 - 2022/02/02
 
 ::
 
-* 2024-05-16  [BUGFIX][DOC] FIX-24 Allow module access for non-admin users (commit: 413d5fe)
+* 2024-05-16  [FEATURE][DOC] FIX-21 Make mapInList also work with functions (Thanks to Stig Nørgaard Færch) (commit: d7e014e)
+* 2024-05-16  [BUGFIX][DOC] FIX-22 Manage multiline with same constant key - with and without condition for example (Thanks to Stig Nørgaard Færch) (commit: e4f5d6f)
+* 2024-05-16  [BUGFIX][DOC] FIX-20 Manage ":=" for TypoScript update (Thanks to Stig Nørgaard Færch) (commit: c4de908)
+* 2024-05-16  [BUGFIX][DOC] FIX-24 Allow module access for non-admin users (commit: a0e3954)
 * 2023-11-10  [TASK] Add Page TsConfig configuration (commit: e69cb2e)
 * 2023-10-27  [DOC] Update documentation for version 3 (commit: 972f72c)
 * 2023-10-27  [TASK] Use extbase ViewHelpers in Fluid Templates (commit: 53a81d5)
