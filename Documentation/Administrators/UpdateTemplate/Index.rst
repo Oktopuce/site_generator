@@ -65,7 +65,7 @@ The available directives are :
       :Mandatory:    No
 
    -  :Directive:    action
-      :Description:  There are three actions available, **exclude** : exclude the row - **mapInList** : map values in a list like "1,2,3" - **mapInString** map values in a string like "addList(1,2,3)"
+      :Description:  There are three actions available, **exclude** : exclude the row - **mapInList** : map values in a list like "1,2,3" or addToList(4,6,7,48) - **mapInString** map values in a string like "temp.link = t3://page?uid=54&my=param&will=get&added=here"
       :Sample:       action=mapInList
       :Mandatory:    No
 

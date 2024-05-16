@@ -77,7 +77,7 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
                 $this->templateDirectivesService->lookForDirectives(($rawP > 0 ? $rawTemplateConstantsArray[$rawP - 1] : ''));
                 $table = $this->templateDirectivesService->getTable('pages');
 
-                $value = GeneralUtility::trimExplode('=', $rawTemplateConstantsArray[$rawP]);
+                $value = GeneralUtility::trimExplode('=', $rawTemplateConstantsArray[$rawP], false, 2);
 
                 $uidsToExclude = GeneralUtility::trimExplode(',',
                     $this->templateDirectivesService->getIgnoreUids(), true);
@@ -119,7 +119,8 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
 
             if ($updatedTemplateConstantsArray) {
                 foreach ($updatedTemplateConstantsArray as $rowP => $updatedTemplateConstant) {
-                    $rawTemplateConstantsArray[$rowP] = $this->templateService->updateValueInConf($rawTemplateConstantsArray[$rowP], $updatedTemplateConstant);
+                    $rawTemplateConstantsArray[$rowP] = $this->templateService->updateValueInConf($rawTemplateConstantsArray[$rowP],
+                        $updatedTemplateConstant);
                 }
 
                 // Set the data to be saved
@@ -148,7 +149,14 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
         string $value,
         array $filteredMapping
     ): string {
+        $functionName = '';
+
         // Check if the value in constant is a list of int - 78,125,98 - or just an int
+        if (preg_match('/^\\s*([[:alpha:]]+)\\s*\\((.*)\\).*/', $value, $match)) {
+            $functionName = $match[1];
+            $value = $match[2];
+        }
+
         if (preg_match('/^\d+(?:,\d+)*$/', $value)) {
             $updateConstant = false;
 
@@ -164,7 +172,12 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
                 });
 
             if ($updateConstant) {
-                return implode(',', $listOfInt);
+//                return implode(',', $listOfInt);
+                $newList = implode(',', $listOfInt);
+                if ($functionName) {
+                    $newList = "$functionName($newList)";
+                }
+                return $newList;
             }
         }
         return ('');
@@ -184,6 +197,8 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
         $updateConstant = false;
         $count = 0;
 
+        # A replacement could occur many times, for example, with $filteredMapping = [7 => 61, 6 => 62]
+        # The result for addToList(6,7) will be addToList(62,621) instead of addToList(62,61)
         foreach ($filteredMapping as $modelUid => $siteUid) {
             $value = str_replace((string)$modelUid, (string)$siteUid, $value, $count);
             $updateConstant = ($updateConstant || $count > 0);
