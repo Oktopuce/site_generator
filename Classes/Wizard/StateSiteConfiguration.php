@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Configuration\SiteConfiguration;
 use Psr\Log\LogLevel;
-use TYPO3\CMS\Backend\Exception\SiteValidationErrorException;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
+use TYPO3\CMS\Backend\Exception\SiteValidationErrorException;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * StateSiteConfiguration
@@ -27,7 +29,6 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
 {
     public function __construct(
         readonly protected PagesRepository $pagesRepository,
-        readonly protected SiteConfiguration $siteConfiguration,
         readonly protected DataHandler $dataHandler
     )
     {
@@ -52,7 +53,7 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
      *
      * @param BaseDto $siteData New site data
      * @return void
-     * @throws \Exception
+     * @throws \Exception|Exception
      */
     protected function createSiteConfiguration(BaseDto $siteData): void
     {
@@ -88,8 +89,16 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
 
                     $siteIdentifier = $extensionConfiguration['siteIdentifierPrefix'] . md5((string)$rootSiteId);
 
+                    $typo3VersionNumber = VersionNumberUtility::getNumericTypo3Version();
+
+                    /** @var \TYPO3\CMS\Core\Configuration\SiteWriter $siteConfiguration */
+                    $siteConfiguration = GeneralUtility::makeInstance(
+                    version_compare($typo3VersionNumber, '13.0.0', '<')
+                        ? \TYPO3\CMS\Core\Configuration\SiteConfiguration::class
+                        : \TYPO3\CMS\Core\Configuration\SiteWriter::class);
+
                     // Persist the configuration
-                    $this->siteConfiguration->write($siteIdentifier, $newSiteConfiguration);
+                    $siteConfiguration->write($siteIdentifier, $newSiteConfiguration);
 
                     // Update slugs
                     $this->updateSlugForPage($rootSiteId);
@@ -99,7 +108,7 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
                     $siteData->addMessage($this->translate('generate.success.createSiteConfiguration', [
                         $siteData->getDomain()
                     ]));
-                } catch (SiteValidationErrorException $e) {
+                } catch (SiteValidationErrorException) {
                     $this->log(LogLevel::ERROR,
                         'Cannot create site configuration for domain : ' . $siteData->getDomain());
                     throw new SiteValidationErrorException($this->translate('wizard.createSiteConfiguration.error'));

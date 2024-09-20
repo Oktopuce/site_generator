@@ -31,7 +31,7 @@ class StateBase
 
     public function __construct()
     {
-        $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+        $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(self::class);
     }
 
     /*

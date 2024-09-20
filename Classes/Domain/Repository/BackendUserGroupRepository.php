@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Oktopuce\SiteGenerator\Domain\Repository;
 
 use Doctrine\DBAL\Exception;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Database\Connection;
 
 class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\BackendUserGroupRepository
 {
@@ -32,7 +32,7 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
         $queryBuilder
            ->update('be_groups')
            ->where(
-              $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+              $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT))
            )->set('custom_options', $customOptions)->executeStatement();
     }
 
@@ -48,7 +48,7 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
         $queryBuilder = $this->getQueryBuilder();
 
         $row = $queryBuilder->select('custom_options')
-            ->from('be_groups')->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)))->executeQuery()
+            ->from('be_groups')->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)))->executeQuery()
             ->fetchAssociative();
 
         return ($row['custom_options'] ?? '');
@@ -68,7 +68,7 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
         $queryBuilder
            ->update('be_groups')
            ->where(
-              $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+              $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT))
            )->set('file_mountpoints', $fileMounts)->executeStatement();
     }
 
@@ -84,7 +84,7 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
         $queryBuilder = $this->getQueryBuilder();
 
         $row = $queryBuilder->select('file_mountpoints')
-            ->from('be_groups')->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)))->executeQuery()
+            ->from('be_groups')->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)))->executeQuery()
             ->fetchAssociative();
 
         return ($row['file_mountpoints'] ?? '');

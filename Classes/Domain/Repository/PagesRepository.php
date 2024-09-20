@@ -42,7 +42,7 @@ class PagesRepository
 
         $queryBuilder->update('pages')
             ->where(
-                $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+                $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT))
             );
 
         foreach ($updateValues as $identifier => $value) {

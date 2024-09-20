@@ -66,7 +66,7 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
         $allTemplatesOnPage = $this->templateService->getAllTemplateRecordsOnPage($siteData->getHpPid());
 
         foreach ($allTemplatesOnPage as $template) {
-            $rawTemplateConstantsArray = explode(LF, $template['constants']);
+            $rawTemplateConstantsArray = explode(LF, (string)$template['constants']);
             $constantPositions = $this->templateService->calculateConstantPositions($rawTemplateConstantsArray);
 
             $updatedTemplateConstantsArray = [];
@@ -85,9 +85,8 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
 
                 // Manage uids to exclude
                 if (!empty($uidsToExclude)) {
-                    $filteredMapping = array_filter($mapping, static function ($key) use ($uidsToExclude) {
-                        return !in_array((string)$key, $uidsToExclude, true);
-                    }, ARRAY_FILTER_USE_KEY);
+                    $filteredMapping = array_filter($mapping,
+                        static fn($key) => !in_array((string)$key, $uidsToExclude, true), ARRAY_FILTER_USE_KEY);
                 }
 
                 $action = $this->templateDirectivesService->getAction('mapInList');

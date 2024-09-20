@@ -112,13 +112,9 @@ class SiteGeneratorItemProvider extends AbstractProvider
         if (in_array($itemName, $this->disabledItems, true)) {
             return false;
         }
-        $canRender = false;
-        switch ($itemName) {
-            case 'divider10':
-            case 'siteGenerator':
-                $canRender = true;
-                break;
-        }
-        return $canRender;
+        return match ($itemName) {
+            'divider10', 'siteGenerator' => true,
+            default => false,
+        };
     }
 }

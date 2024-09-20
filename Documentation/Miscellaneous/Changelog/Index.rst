@@ -5,6 +5,29 @@
 Change log
 ==========
 
+V3.2.0 - 2024/09/20
+-------------------
+
+::
+
+* 2024-09-20  [TASK] Migration to TYPO3 V13 (commit: 737e24d)
+
+V3.1.1 - 2024/05/16
+-------------------
+
+::
+
+* 2024-05-16  [FEATURE][DOC] FIX-21 Make mapInList also work with functions (Thanks to Stig Nørgaard Færch) (commit: 54db0d2)
+* 2024-05-16  [BUGFIX][DOC] FIX-22 Manage multiline with same constant key - with and without condition for example (Thanks to Stig Nørgaard Færch) (commit: e4f5d6f)
+* 2024-05-16  [BUGFIX][DOC] FIX-20 Manage ":=" for TypoScript update (Thanks to Stig Nørgaard Færch) (commit: c4de908)
+* 2024-05-16  [BUGFIX][DOC] FIX-24 Allow module access for non-admin users (commit: a0e3954)
+
+V3.1.0 - 2023/11/10
+-------------------
+
+::
+* 2023-11-10  [TASK] Add Page TsConfig configuration (commit: e69cb2e)
+
 V3.0.0 - 2023/10/27
 -------------------
 

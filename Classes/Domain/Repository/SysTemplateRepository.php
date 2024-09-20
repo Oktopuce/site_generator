@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Oktopuce\SiteGenerator\Domain\Repository;
 
 use Doctrine\DBAL\Exception;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -34,7 +35,7 @@ class SysTemplateRepository
         $row = $queryBuilder->select('uid', 'constants')
             ->from('sys_template')
             ->where(
-                $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($pid, \PDO::PARAM_INT))
+                $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($pid, Connection::PARAM_INT))
             )
             ->executeQuery()
             ->fetchAssociative();
@@ -56,7 +57,7 @@ class SysTemplateRepository
         $queryBuilder
             ->update('sys_template')
             ->where(
-                $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+                $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT))
             )
             ->set('constants', $constants)
             ->executeStatement();

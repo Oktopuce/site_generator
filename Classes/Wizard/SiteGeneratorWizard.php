@@ -126,7 +126,7 @@ class SiteGeneratorWizard
                 next(self::$states);
             }
         } else {
-            throw new TsConfigException(LocalizationUtility::translate('wizard.tsConfig.error', 'site_generator'));
+            throw new TsConfigException(LocalizationUtility::translate('wizard.tsConfig.error', 'SiteGenerator'));
         }
     }
 

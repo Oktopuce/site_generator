@@ -15,7 +15,6 @@ namespace Oktopuce\SiteGenerator\Controller;
 
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Core\Localization\LanguageService;
@@ -79,7 +78,7 @@ class SiteGeneratorController extends ActionController
      * @throws \ReflectionException
      * @throws \JsonException
      */
-    protected function initializeAction()
+    protected function initializeAction(): void
     {
         $this->overrideSettingsWithPageTsConfig();
 
@@ -147,7 +146,7 @@ class SiteGeneratorController extends ActionController
 
         if ($siteDtoSaved) {
             // Restore saved form data
-            $this->siteGeneratorDto = unserialize(json_decode($siteDtoSaved, false, 512, JSON_THROW_ON_ERROR), [true]);
+            $this->siteGeneratorDto = unserialize(json_decode((string) $siteDtoSaved, false, 512, JSON_THROW_ON_ERROR), [true]);
         } else {
             // Store form data in DTO
             $this->siteGeneratorDto = GeneralUtility::makeInstance($this->settings['siteGenerator']['wizard']['formDto']);
@@ -165,10 +164,10 @@ class SiteGeneratorController extends ActionController
 
         if ($parameters) {
             foreach ($parameters as $key => $value) {
-                $setter = 'set' . ucfirst($key);
+                $setter = 'set' . ucfirst((string) $key);
 
                 // Retrieve method parameter type
-                $reflectionFunc = new \ReflectionMethod(get_class($this->siteGeneratorDto), $setter);
+                $reflectionFunc = new \ReflectionMethod($this->siteGeneratorDto::class, $setter);
                 $reflectionParams = $reflectionFunc->getParameters();
 
                 if ($reflectionParams[0]->getType() && $reflectionParams[0]->getType()->getName()) {
@@ -338,7 +337,7 @@ class SiteGeneratorController extends ActionController
             ->setHref($this->conf['returnurl'])
             ->setTitle($lang->sL($label))
             ->setShowLabelText(true)
-            ->setIcon($this->iconFactory->getIcon('actions-close', Icon::SIZE_SMALL));
+            ->setIcon($this->iconFactory->getIcon('actions-close'));
         $buttonBar->addButton($viewButton, ButtonBar::BUTTON_POSITION_LEFT, 10);
     }
 }

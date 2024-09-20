@@ -104,10 +104,10 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
                         $siteData->addMessage($this->translate('generate.success.folderCreated', [$currentFolder]));
                     }
                 }
-            } catch (InsufficientFolderWritePermissionsException $e) {
+            } catch (InsufficientFolderWritePermissionsException) {
                 $this->log(LogLevel::ERROR, 'You are not allowed to create directories! ("%s")', [$currentFolder]);
                 throw new \RuntimeException($this->translate('wizard.folderCreation.error', [$currentFolder]));
-            } catch (InsufficientFolderAccessPermissionsException $e) {
+            } catch (InsufficientFolderAccessPermissionsException) {
                 $this->log(LogLevel::ERROR, 'You don\'t have full access to the destination directory "%s"!', [$currentFolder]);
                 throw new \RuntimeException($this->translate('wizard.folderCreation.error', [$currentFolder]));
             }

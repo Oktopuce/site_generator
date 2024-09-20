@@ -69,7 +69,7 @@ class TemplateService
         int &$lineCounter = 0
     ): array {
         while (isset($rawTemplateConstantsArray[$lineCounter])) {
-            $line = ltrim($rawTemplateConstantsArray[$lineCounter]);
+            $line = ltrim((string) $rawTemplateConstantsArray[$lineCounter]);
             $lineCounter++;
             if (!$line || $line[0] === '[') {
                 // Ignore empty lines and conditions

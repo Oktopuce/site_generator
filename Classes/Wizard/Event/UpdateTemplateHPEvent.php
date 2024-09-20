@@ -27,44 +27,19 @@ final class UpdateTemplateHPEvent
     private string $updatedValue = '';
 
     /**
-     * @var string
-     */
-    private string $action;
-
-    /**
-     * @var string
-     */
-    private string $parameters;
-
-    /**
-     * @var array
-     */
-    private array $filteredMapping;
-
-    /**
-     * @var string
-     */
-    private string $value;
-
-    /**
-     * @var TemplateDirectivesService
-     */
-    private TemplateDirectivesService $templateDirectivesService;
-
-    /**
      * @param string $action The action
      * @param string $parameters The parameter
      * @param string $value Current value
      * @param array $filteredMapping Mapping filtered - i.e. ignoredUids already removed
      * @param TemplateDirectivesService $templateDirectivesService
      */
-    public function __construct(string $action, string $parameters, string $value, array $filteredMapping, TemplateDirectivesService $templateDirectivesService)
-    {
-        $this->action = $action;
-        $this->parameters = $parameters;
-        $this->value = $value;
-        $this->filteredMapping = $filteredMapping;
-        $this->templateDirectivesService = $templateDirectivesService;
+    public function __construct(
+        private readonly string $action,
+        private readonly string $parameters,
+        private readonly string $value,
+        private readonly array $filteredMapping,
+        private readonly TemplateDirectivesService $templateDirectivesService
+    ) {
     }
 
     /**

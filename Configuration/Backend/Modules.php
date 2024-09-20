@@ -10,6 +10,9 @@ return [
         'path' => '/wizard/sitegenerator',
         'extensionName' => 'SiteGenerator',
         'access' => 'user',
+        'appearance' => [
+            'renderInModuleMenu' => false,
+        ],
         'labels' => [
             'title' => 'LLL:EXT:site_generator/Resources/Private/Language/backend.xlf:itemProvider.siteGenerator',
         ],
