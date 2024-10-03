@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
+use Doctrine\DBAL\Exception;
 use Oktopuce\SiteGenerator\Utility\TemplateDirectivesService;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -59,6 +60,7 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
      *
      * @param BaseDto $siteData New site data
      * @return void
+     * @throws Exception
      */
     protected function updateTemplate(BaseDto $siteData): void
     {
@@ -133,6 +135,10 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
                 // @extensionScannerIgnoreLine
                 $siteData->addMessage($this->translate('generate.success.templateHpUpdated'));
                 $this->log(LogLevel::NOTICE, 'Update home page template with new uids done');
+            }
+            else {
+                // @extensionScannerIgnoreLine
+                $siteData->addMessage($this->translate('generate.warning.templateHpUpdated'));
             }
         }
     }

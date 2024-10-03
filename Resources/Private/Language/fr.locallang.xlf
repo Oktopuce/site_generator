@@ -113,8 +113,12 @@
 				<target>- Un nouveau point de montage de fichier a été généré : %s (uid = %d)</target>
 			</trans-unit>
 			<trans-unit id="generate.success.templateHpUpdated">
-				<source>- Update home page template with new uids done</source>
-				<target>- Le template de la page d'accueil a été mis à jour avec les nouveaux identifiants (uid)</target>
+				<source>- Update home page templates with new uids done</source>
+				<target>- Le(s) template(s) de la page d'accueil a été mis à jour avec les nouveaux identifiants (uid)</target>
+			</trans-unit>
+			<trans-unit id="generate.warning.templateHpUpdated">
+				<source>- No uid updated in the home page templates</source>
+				<target>- Aucun identifiant (uid) mis à jour dans les templates de la page d'accueil</target>
 			</trans-unit>
 
             <trans-unit id="generate.success">
