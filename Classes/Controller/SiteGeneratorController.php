@@ -15,11 +15,16 @@ namespace Oktopuce\SiteGenerator\Controller;
 
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Site\SiteFinder;
+use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
@@ -59,18 +64,27 @@ class SiteGeneratorController extends ActionController
     protected array $extensionConfiguration = [];
 
     /**
+     * Current page ID
+     *
+     * @var int
+     */
+    protected int $id = 0;
+
+    /**
      * The constructor of this class
      *
      * @param ModuleTemplateFactory $moduleTemplateFactory
      * @param SiteGeneratorWizard $siteGeneratorWizard
      * @param IconFactory $iconFactory
      * @param PageRenderer $pageRenderer
+     * @param SiteFinder $siteFinder
      */
     public function __construct(
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
         protected readonly SiteGeneratorWizard $siteGeneratorWizard,
         protected readonly IconFactory $iconFactory,
-        private readonly PageRenderer $pageRenderer
+        private readonly PageRenderer $pageRenderer,
+        private readonly SiteFinder $siteFinder
     ) {
     }
 
@@ -80,6 +94,8 @@ class SiteGeneratorController extends ActionController
      */
     protected function initializeAction(): void
     {
+        $this->id = (int)($this->request->getQueryParams()['id'] ?? $this->request->getParsedBody()['id'] ?? 0);
+
         $this->overrideSettingsWithPageTsConfig();
 
         // Get translations
@@ -146,7 +162,8 @@ class SiteGeneratorController extends ActionController
 
         if ($siteDtoSaved) {
             // Restore saved form data
-            $this->siteGeneratorDto = unserialize(json_decode((string) $siteDtoSaved, false, 512, JSON_THROW_ON_ERROR), [true]);
+            $this->siteGeneratorDto = unserialize(json_decode((string)$siteDtoSaved, false, 512, JSON_THROW_ON_ERROR),
+                [true]);
         } else {
             // Store form data in DTO
             $this->siteGeneratorDto = GeneralUtility::makeInstance($this->settings['siteGenerator']['wizard']['formDto']);
@@ -164,7 +181,7 @@ class SiteGeneratorController extends ActionController
 
         if ($parameters) {
             foreach ($parameters as $key => $value) {
-                $setter = 'set' . ucfirst((string) $key);
+                $setter = 'set' . ucfirst((string)$key);
 
                 // Retrieve method parameter type
                 $reflectionFunc = new \ReflectionMethod($this->siteGeneratorDto::class, $setter);
@@ -213,12 +230,7 @@ class SiteGeneratorController extends ActionController
         // Add event to assign more variables to the view (useful when using your own template)
         $event = $this->eventDispatcher->dispatch(new BeforeRenderingFirstStepViewEvent($viewVariables));
 
-        $view = $this->moduleTemplateFactory->create($this->request);
-        $view->assignMultiple($event->getViewVariables());
-        $view->setModuleName('');
-        $this->addDocHeaderBackButton($view);
-
-        return $view->renderResponse('GetDataFirstStep');
+        return $this->createView($event->getViewVariables())->renderResponse('GetDataFirstStep');
     }
 
     /**
@@ -249,12 +261,7 @@ class SiteGeneratorController extends ActionController
         // Add event to assign more variables to the view (useful when using your own template)
         $event = $this->eventDispatcher->dispatch(new BeforeRenderingSecondStepViewEvent($viewVariables));
 
-        $view = $this->moduleTemplateFactory->create($this->request);
-        $view->assignMultiple($event->getViewVariables());
-        $view->setModuleName('');
-        $this->addDocHeaderBackButton($view);
-
-        return $view->renderResponse('GetDataSecondStep');
+        return $this->createView($event->getViewVariables())->renderResponse('GetDataSecondStep');
     }
 
     /**
@@ -289,7 +296,7 @@ class SiteGeneratorController extends ActionController
     }
 
     /**
-     * Get data from extension configuration
+     * Get data from extension configuration or override by site configuration (new data can also be added)
      *
      * @param string $name Name of data to retrieve from configuration
      *
@@ -299,8 +306,23 @@ class SiteGeneratorController extends ActionController
     {
         if (empty($this->extensionConfiguration)) {
             $this->extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator'];
+
+            try {
+                // Retrieve site generator configuration in site configuration
+                $site = $this->siteFinder->getSiteByPageId((int)$this->request->getArgument('id'));
+                $siteConfiguration = $site->getConfiguration();
+
+                // Override data with site configuration
+                foreach ($siteConfiguration['siteGenerator'] as $key => $value) {
+                    $this->extensionConfiguration[$key] = (string)$value;
+                }
+            }
+            catch (SiteNotFoundException $exception) {
+                // No site configuration for this page
+            }
         }
-        return ($this->extensionConfiguration[$name]);
+
+        return ($this->extensionConfiguration[$name] ?? '');
     }
 
     /**
@@ -337,7 +359,32 @@ class SiteGeneratorController extends ActionController
             ->setHref($this->conf['returnurl'])
             ->setTitle($lang->sL($label))
             ->setShowLabelText(true)
-            ->setIcon($this->iconFactory->getIcon('actions-close'));
+            ->setIcon($this->iconFactory->getIcon('actions-close', IconSize::SMALL));
         $buttonBar->addButton($viewButton, ButtonBar::BUTTON_POSITION_LEFT, 10);
+    }
+
+    /**
+     * Creation of the view
+     *
+     * @param array $variables Variables for the view
+     * @return ModuleTemplate
+     */
+    protected function createView(array $variables): ModuleTemplate
+    {
+        $view = $this->moduleTemplateFactory->create($this->request);
+        $view->assignMultiple($variables);
+        $view->setModuleName('siteGenerator');
+        $this->addDocHeaderBackButton($view);
+
+        $pageAccess = BackendUtility::readPageAccess($this->id, $this->getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW));
+        if ($pageAccess !== []) {
+            $view->getDocHeaderComponent()->setMetaInformation($pageAccess);
+        }
+        return ($view);
+    }
+
+    protected function getBackendUser(): BackendUserAuthentication
+    {
+        return $GLOBALS['BE_USER'];
     }
 }

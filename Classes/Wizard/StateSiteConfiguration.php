@@ -40,7 +40,7 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
      *
      * @param SiteGeneratorWizard $context
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void
     {

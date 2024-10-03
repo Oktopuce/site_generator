@@ -87,7 +87,10 @@
 				<source>- A new file mount has been set : %s (uid = %d)</source>
 			</trans-unit>
 			<trans-unit id="generate.success.templateHpUpdated">
-				<source>- Update home page template with new uids done</source>
+				<source>- Update home page templates with new uids done</source>
+			</trans-unit>
+			<trans-unit id="generate.warning.templateHpUpdated">
+				<source>- No uid updated in the home page templates</source>
 			</trans-unit>
 
             <trans-unit id="generate.success">

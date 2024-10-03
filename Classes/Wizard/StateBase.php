@@ -13,8 +13,11 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Log\Logger;
+use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -28,10 +31,16 @@ class StateBase
      * @var LoggerInterface|null|Logger
      */
     protected LoggerInterface|null|Logger $logger = null;
+    protected readonly SiteFinder $siteFinder;
 
     public function __construct()
     {
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(self::class);
+    }
+
+    public function injectSiteFinder(SiteFinder $siteFinder): void
+    {
+        $this->siteFinder = $siteFinder;
     }
 
     /*
@@ -62,12 +71,37 @@ class StateBase
     }
 
     /**
-     * Get data from extension configuration
+     * Get data from extension configuration, data can be override by site configuration
      *
      * @return array
      */
     public function getExtensionConfiguration(): array
     {
-        return $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator'];
+        $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator'];
+
+        try {
+            $request = $this->getRequest();
+            $id = (int)($request->getQueryParams()['id'] ?? $request->getParsedBody()['id'] ?? 0);
+
+            if ($id) {
+                // Retrieve site generator configuration in site configuration
+                $site = $this->siteFinder->getSiteByPageId($id);
+                $siteConfiguration = $site->getConfiguration();
+
+                // Override data with site configuration
+                foreach ($siteConfiguration['siteGenerator'] as $key => $value) {
+                    $extensionConfiguration[$key] = (string)$value;
+                }
+            }
+        } catch (SiteNotFoundException $exception) {
+            // No site configuration for this page
+        }
+
+        return ($extensionConfiguration);
+    }
+
+    private function getRequest(): ServerRequestInterface
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
     }
 }

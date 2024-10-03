@@ -1,5 +1,5 @@
 
-.. _upgrade-v2:
+.. _upgrade-v3:
 
 =====================
 Upgrade to version V3

@@ -83,5 +83,6 @@ Configuration
 
    TypoScript/Index
    ExtensionManager/Index
+   SiteConfiguration/Index
    UpdateTemplate/Index
    TSConfig/Index

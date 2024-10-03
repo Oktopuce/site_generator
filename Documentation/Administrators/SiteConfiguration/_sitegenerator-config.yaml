@@ -1,0 +1,8 @@
+rootPageId: 12
+base: 'https://example.org/'
+websiteTitle: Example
+siteGenerator:
+  modelsPid: 61,71
+  commonMountPointUid: 8
+  homePageTitle: The page title overloaded
+  onlyOneFormPage: 0
