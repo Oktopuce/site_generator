@@ -45,7 +45,7 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
         $settings = $context->getSettings();
 
         // Create folders in storage
-        $this->createFolders($context->getSiteData(), (int)$settings['siteGenerator']['wizard']['storageUid']);
+        $this->createFolders($context->getSiteData(), (int)($settings['siteGenerator']['wizard']['storageUid'] ?? 0));
     }
 
     /**

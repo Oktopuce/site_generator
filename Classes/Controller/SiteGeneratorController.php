@@ -313,7 +313,7 @@ class SiteGeneratorController extends ActionController
                 $siteConfiguration = $site->getConfiguration();
 
                 // Override data with site configuration
-                foreach ($siteConfiguration['siteGenerator'] as $key => $value) {
+                foreach ($siteConfiguration['siteGenerator'] ?? [] as $key => $value) {
                     $this->extensionConfiguration[$key] = (string)$value;
                 }
             }
@@ -355,11 +355,14 @@ class SiteGeneratorController extends ActionController
 
         $buttonBar = $view->getDocHeaderComponent()->getButtonBar();
 
+        // @TODO For V12 compatibility, should be remove when V12 compatibility won't be supported
+        $iconSize = class_exists(IconSize::class) ? IconSize::SMALL : 'small';
+
         $viewButton = $buttonBar->makeLinkButton()
             ->setHref($this->conf['returnurl'])
             ->setTitle($lang->sL($label))
             ->setShowLabelText(true)
-            ->setIcon($this->iconFactory->getIcon('actions-close', IconSize::SMALL));
+            ->setIcon($this->iconFactory->getIcon('actions-close', $iconSize));
         $buttonBar->addButton($viewButton, ButtonBar::BUTTON_POSITION_LEFT, 10);
     }
 

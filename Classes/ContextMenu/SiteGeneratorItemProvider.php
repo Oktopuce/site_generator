@@ -13,8 +13,12 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\ContextMenu;
 
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
+use TYPO3\CMS\Core\Http\ServerRequest;
+use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\ContextMenu\ItemProviders\AbstractProvider;
 
@@ -23,6 +27,17 @@ use TYPO3\CMS\Backend\ContextMenu\ItemProviders\AbstractProvider;
  */
 class SiteGeneratorItemProvider extends AbstractProvider
 {
+    protected ServerRequest $serverRequest;
+
+    /**
+     * @param SiteFinder $siteFinder
+     */
+    public function __construct(
+        private readonly SiteFinder $siteFinder
+    ) {
+        parent::__construct();
+    }
+
     /**
      * This array contains configuration for site generator item
      * @var array $itemsConfiguration
@@ -46,9 +61,36 @@ class SiteGeneratorItemProvider extends AbstractProvider
      */
     public function canHandle(): bool
     {
-        $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator'];
-        $sitesPid = GeneralUtility::trimExplode(',', $extensionConfiguration['sitesPid']);
-        return ($this->table === 'pages' && in_array($this->identifier, $sitesPid));
+        $sitesPid = $this->getSitesPid();
+        return ($this->table === 'pages' && in_array($this->identifier, $sitesPid, true));
+    }
+
+    /**
+     * Get sitesPid from extension configuration (can be override by site configuration)
+     *
+     * @return array
+     */
+    public function getSitesPid(): array
+    {
+        $sitesPid = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator']['sitesPid'];
+
+        try {
+            $request = $this->getRequest();
+            $id = (int)($request->getQueryParams()['uid'] ?? $request->getParsedBody()['uid'] ?? 0);
+
+            if ($id) {
+                // Retrieve site generator configuration in site configuration
+                $site = $this->siteFinder->getSiteByPageId($id);
+                $siteConfiguration = $site->getConfiguration();
+
+                $sitesPid = (string)($siteConfiguration['siteGenerator']['sitesPid'] ?? $sitesPid);
+            }
+        }
+        catch (SiteNotFoundException $exception) {
+            // No site configuration for this page
+        }
+
+        return (GeneralUtility::trimExplode(',', $sitesPid));
     }
 
     /**
@@ -116,5 +158,10 @@ class SiteGeneratorItemProvider extends AbstractProvider
             'divider10', 'siteGenerator' => true,
             default => false,
         };
+    }
+
+    private function getRequest(): ServerRequestInterface
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
     }
 }

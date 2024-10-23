@@ -6,7 +6,7 @@
 Site configuration
 ==================
 
-Since version **3.2.0** you can override all extension configuration setting - except **sitesPid** - with site configuration.
+Since version **3.2.0** you can override all extension configuration setting with site configuration.
 
 To override the configuration, you must modify the site configuration file **config.yaml** - property names are the same as :ref:`extension configuration <ExtensionManager>`.
 

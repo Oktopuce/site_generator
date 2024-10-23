@@ -14,13 +14,14 @@ declare(strict_types=1);
 namespace Oktopuce\SiteGenerator\Wizard;
 
 use Doctrine\DBAL\Exception;
+use TYPO3\CMS\Core\Configuration\SiteWriter;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 use TYPO3\CMS\Backend\Exception\SiteValidationErrorException;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * StateSiteConfiguration
@@ -89,16 +90,19 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
 
                     $siteIdentifier = $extensionConfiguration['siteIdentifierPrefix'] . md5((string)$rootSiteId);
 
-                    $typo3VersionNumber = VersionNumberUtility::getNumericTypo3Version();
+                    if (GeneralUtility::makeInstance(Typo3Version::class)->getMajorVersion() <= 12) {
+                        $siteConfiguration = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\SiteConfiguration::class);
 
-                    /** @var \TYPO3\CMS\Core\Configuration\SiteWriter $siteConfiguration */
-                    $siteConfiguration = GeneralUtility::makeInstance(
-                    version_compare($typo3VersionNumber, '13.0.0', '<')
-                        ? \TYPO3\CMS\Core\Configuration\SiteConfiguration::class
-                        : \TYPO3\CMS\Core\Configuration\SiteWriter::class);
+                        // Persist the configuration
+                        $siteConfiguration->write($siteIdentifier, $newSiteConfiguration);
+                    }
+                    else {
+                        $siteConfiguration = GeneralUtility::makeInstance(SiteWriter::class);
 
-                    // Persist the configuration
-                    $siteConfiguration->write($siteIdentifier, $newSiteConfiguration);
+                        // Persist the configuration
+                        $siteConfiguration->createNewBasicSite($siteIdentifier, $newSiteConfiguration['rootPageId'], $newSiteConfiguration['base']);
+                        $siteConfiguration->writeSettings($siteIdentifier, $newSiteConfiguration);
+                    }
 
                     // Update slugs
                     $this->updateSlugForPage($rootSiteId);

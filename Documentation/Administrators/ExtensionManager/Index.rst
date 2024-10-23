@@ -12,7 +12,7 @@ If you need to configure those, switch to the module :guilabel:`Settings > Exten
    **modelsPid** and **sitesPid** are mandatory fields.
 
 ..  seealso::
-   Since version **3.2.0** all extension configuration settings may be overloaded by site configuration except for setting  sitesPid_.
+   Since version **3.2.0** all extension configuration settings may be overloaded by site configuration.
 
    See :ref:`Overriding extension configuration with Site configuration <SiteConfiguration>`.
 

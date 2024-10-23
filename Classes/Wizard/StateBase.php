@@ -89,7 +89,7 @@ class StateBase
                 $siteConfiguration = $site->getConfiguration();
 
                 // Override data with site configuration
-                foreach ($siteConfiguration['siteGenerator'] as $key => $value) {
+                foreach ($siteConfiguration['siteGenerator'] ?? [] as $key => $value) {
                     $extensionConfiguration[$key] = (string)$value;
                 }
             }

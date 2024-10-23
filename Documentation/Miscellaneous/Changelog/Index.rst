@@ -5,12 +5,19 @@
 Change log
 ==========
 
+V3.2.1
+------
+
+::
+
+   2024-10-04  [TASK] Change version number for TER (commit: 970ecd5 by Florian RIVAL)
+
 V3.2.0
 ------
 
 ::
 
-   2024-10-03 [FEATURE][DOC] Override extension configuration with site configuration (Commit f6b9631 by Florian RIVAL)
+   2024-10-03 [FEATURE][DOC] Override extension configuration with site configuration (Commit beccc73 by Florian RIVAL)
    2024-09-20 [TASK] Migration to TYPO3 V13 (Commit 0d01bce by Florian RIVAL)
 
 V3.1.1

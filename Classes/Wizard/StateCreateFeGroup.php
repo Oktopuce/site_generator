@@ -39,7 +39,7 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
         $settings = $context->getSettings();
 
         // Create FE group
-        $groupId = $this->createFeGroup($context->getSiteData(), (int)$settings['siteGenerator']['wizard']['pidFeGroup']);
+        $groupId = $this->createFeGroup($context->getSiteData(), (int)($settings['siteGenerator']['wizard']['pidFeGroup'] ?? 0));
         $context->getSiteData()->setFeGroupId($groupId);
     }
 

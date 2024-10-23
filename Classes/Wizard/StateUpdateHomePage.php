@@ -38,7 +38,7 @@ class StateUpdateHomePage extends StateBase implements SiteGeneratorStateInterfa
         $settings = $context->getSettings();
 
         // Update the home page with the form data
-        $this->updateHomePage($context->getSiteData(), (int)$settings['siteGenerator']['wizard']['hideHomePage']);
+        $this->updateHomePage($context->getSiteData(), (int)($settings['siteGenerator']['wizard']['hideHomePage'] ?? 0));
     }
 
     /**
