@@ -16,6 +16,8 @@ namespace Oktopuce\SiteGenerator\Wizard;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
+use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * StateCreateFileMount
@@ -57,10 +59,11 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
         $data = [];
         $newUniqueId = 'NEW' . uniqid();
         $path = '/' . ($baseFolderName ? $baseFolderName . '/' : '') . strtolower($siteData->getTitleSanitize()) . '/';
+
         $data['sys_filemounts'][$newUniqueId] = [
             'title' => $siteData->getTitle(),
-            'base' => 1,    /* fileadmin */
-            'path' => $path,
+            /* 1 = fileadmin */
+            'identifier' => '1:' . $path,
             'pid' => 0
         ];
 
