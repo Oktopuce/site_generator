@@ -16,6 +16,7 @@ namespace Oktopuce\SiteGenerator\Wizard;
 use Psr\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
+use TYPO3\CMS\Core\Utility\StringUtility;
 
 /**
  * StateCreateFeGroup
@@ -59,7 +60,7 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
         if ($pidFeGroup) {
             // Create a new FE group
             $data = [];
-            $newUniqueId = 'NEW' . uniqid();
+            $newUniqueId = StringUtility::getUniqueId('NEW');
             $groupName = ($siteData->getGroupPrefix() ? $siteData->getGroupPrefix() . ' - ' : '') . $siteData->getTitle();
             $data['fe_groups'][$newUniqueId] = [
                 'pid' => $pidFeGroup,

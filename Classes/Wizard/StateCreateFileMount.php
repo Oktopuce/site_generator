@@ -18,6 +18,7 @@ use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
 
 /**
  * StateCreateFileMount
@@ -48,8 +49,8 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
      * Create file mount for site
      *
      * @param BaseDto $siteData New site data
-     * @throws \Exception
      * @return int The uid of the mounted file
+     * @throws \Exception
      */
     protected function createFileMount(BaseDto $siteData): int
     {
@@ -57,7 +58,7 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
 
         // Create a new file mount at root page
         $data = [];
-        $newUniqueId = 'NEW' . uniqid();
+        $newUniqueId = StringUtility::getUniqueId('NEW');
         $path = '/' . ($baseFolderName ? $baseFolderName . '/' : '') . strtolower($siteData->getTitleSanitize()) . '/';
 
         $data['sys_filemounts'][$newUniqueId] = [
@@ -77,8 +78,7 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
             $this->log(LogLevel::NOTICE, 'Create file mount successfull (uid = ' . $mountId);
             // @extensionScannerIgnoreLine
             $siteData->addMessage($this->translate('generate.success.createFileMount', [$path, $mountId]));
-        }
-        else {
+        } else {
             $this->log(LogLevel::ERROR, 'Create file mount error');
             throw new \RuntimeException($this->translate('wizard.fileMount.error'));
         }

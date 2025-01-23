@@ -16,6 +16,7 @@ namespace Oktopuce\SiteGenerator\Wizard;
 use Psr\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
+use TYPO3\CMS\Core\Utility\StringUtility;
 
 /**
  * StateCreateBeGroup
@@ -56,7 +57,7 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
 
         // Create a new group with filemount at root page
         $data = [];
-        $newUniqueId = 'NEW' . uniqid();
+        $newUniqueId = StringUtility::getUniqueId('NEW');
         $groupName = ($siteData->getGroupPrefix() ? $siteData->getGroupPrefix() . ' - ' : '') . $siteData->getTitle();
         $data['be_groups'][$newUniqueId] = [
             'pid' => 0,
