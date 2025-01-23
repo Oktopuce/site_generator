@@ -28,8 +28,6 @@ class StateUpdateSlugs extends StateBase implements SiteGeneratorStateInterface
 {
     /**
      * Update slugs for new tree structure.
-     *
-     * @param SiteGeneratorWizard $context
      */
     public function process(SiteGeneratorWizard $context): void
     {

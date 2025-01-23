@@ -27,8 +27,6 @@ class SysTemplateRepository
      * @param int $pid The page id where the template is located
      *
      * @throws Exception
-     *
-     * @return array
      */
     public function findByPid(int $pid): array
     {
@@ -66,8 +64,6 @@ class SysTemplateRepository
 
     /**
      * Returns an instance of the QueryBuilder.
-     *
-     * @return QueryBuilder
      */
     public function getQueryBuilder(): QueryBuilder
     {

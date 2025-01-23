@@ -27,9 +27,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class StateBase
 {
-    /**
-     * @var Logger|LoggerInterface|null
-     */
     protected LoggerInterface|null|Logger $logger = null;
     protected readonly SiteFinder $siteFinder;
 
@@ -72,8 +69,6 @@ class StateBase
 
     /**
      * Get data from extension configuration, data can be override by site configuration.
-     *
-     * @return array
      */
     public function getExtensionConfiguration(): array
     {
@@ -83,7 +78,7 @@ class StateBase
             $request = $this->getRequest();
             $id = (int) ($request->getQueryParams()['id'] ?? $request->getParsedBody()['id'] ?? 0);
 
-            if ($id) {
+            if ($id !== 0) {
                 // Retrieve site generator configuration in site configuration
                 $site = $this->siteFinder->getSiteByPageId($id);
                 $siteConfiguration = $site->getConfiguration();

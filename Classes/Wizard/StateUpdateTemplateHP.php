@@ -28,12 +28,6 @@ use Oktopuce\SiteGenerator\Wizard\Event\UpdateTemplateHPEvent;
  */
 class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInterface
 {
-    /**
-     * @param TemplateDirectivesService $templateDirectivesService
-     * @param EventDispatcherInterface  $eventDispatcher
-     * @param TemplateService           $templateService
-     * @param DataHandler               $dataHandler
-     */
     public function __construct(
         readonly protected TemplateDirectivesService $templateDirectivesService,
         readonly protected EventDispatcherInterface $eventDispatcher,
@@ -45,8 +39,6 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
 
     /**
      * Update site template with the new uids.
-     *
-     * @param SiteGeneratorWizard $context
      */
     public function process(SiteGeneratorWizard $context): void
     {
@@ -88,7 +80,7 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
                 $filteredMapping = $mapping = $siteData->getMappingArrayMerge($table);
 
                 // Manage uids to exclude
-                if (!empty($uidsToExclude)) {
+                if ($uidsToExclude !== []) {
                     $filteredMapping = array_filter(
                         $mapping,
                         static fn($key) => !in_array((string) $key, $uidsToExclude, true),
@@ -128,7 +120,7 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
                 }
             }
 
-            if ($updatedTemplateConstantsArray) {
+            if ($updatedTemplateConstantsArray !== []) {
                 foreach ($updatedTemplateConstantsArray as $rowP => $updatedTemplateConstant) {
                     $rawTemplateConstantsArray[$rowP] = $this->templateService->updateValueInConf(
                         $rawTemplateConstantsArray[$rowP],
@@ -157,8 +149,6 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
     /**
      * Update constant in list.
      *
-     * @param string $value
-     * @param array  $filteredMapping
      *
      * @return string Empty string or value updated
      */
@@ -205,8 +195,6 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
     /**
      * Update constants in string.
      *
-     * @param string $value
-     * @param array  $filteredMapping
      *
      * @return string Empty string or value updated
      */

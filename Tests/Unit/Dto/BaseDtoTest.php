@@ -12,9 +12,6 @@ use Oktopuce\SiteGenerator\Dto\BaseDto;
  */
 class BaseDtoTest extends TestCase
 {
-    /**
-     * @var ?BaseDto
-     */
     protected ?BaseDto $baseDto = null;
 
     protected function setUp(): void
@@ -25,7 +22,7 @@ class BaseDtoTest extends TestCase
     /**
      * @test
      */
-    public function testGetTitleSanitize()
+    public function testGetTitleSanitize(): void
     {
         $title = 'é_jfez6(43)0à÷¡÷©ëd©';
         $this->baseDto->setTitle($title);

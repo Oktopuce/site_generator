@@ -33,7 +33,6 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
     /**
      * Create file mount for foler create in previous step.
      *
-     * @param SiteGeneratorWizard $context
      *
      * @throws Exception
      */
@@ -82,7 +81,7 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
             $siteData->addMessage($this->translate('generate.success.createFileMount', [$path, $mountId]));
         } else {
             $this->log(LogLevel::ERROR, 'Create file mount error');
-            throw new RuntimeException($this->translate('wizard.fileMount.error'));
+            throw new RuntimeException($this->translate('wizard.fileMount.error'), 8573337347);
         }
 
         return $mountId;

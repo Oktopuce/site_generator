@@ -22,71 +22,51 @@ class SiteGeneratorDto extends BaseDto
 {
     /**
      * Domain name.
-     *
-     * @var string
      */
     protected string $domain = '';
 
     /**
      * Mount point uid.
-     *
-     * @var int
      */
     protected int $mountId = 0;
 
     /**
      * Group prefix.
-     *
-     * @var string
      */
     protected string $groupPrefix = '';
 
     /**
      * BE group Uid.
-     *
-     * @var int
      */
     protected int $beGroupId = 0;
 
     /**
      * Common mount point uid for all groups.
-     *
-     * @var int
      */
     protected int $commonMountPointUid = 0;
 
     /**
      * Base folder name.
-     *
-     * @var string
      */
     protected string $baseFolderName = '';
 
     /**
      * Sub folder names.
-     *
-     * @var string
      */
     protected string $subFolderNames = '';
 
     /**
      * FE group Uid.
-     *
-     * @var int
      */
     protected int $feGroupId = 0;
 
     /**
      * Pid for FE group.
-     *
-     * @var int
      */
     protected int $feGroupPid = 0;
 
     /**
      * Domain.
-     *
-     * @param string $domain
      */
     public function setDomain(string $domain): void
     {
@@ -95,8 +75,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Get domain.
-     *
-     * @return string
      */
     public function getDomain(): string
     {
@@ -105,8 +83,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Set the mount point ID.
-     *
-     * @param int $mountId
      */
     public function setMountId(int $mountId): void
     {
@@ -115,8 +91,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Get mountId.
-     *
-     * @return int
      */
     public function getMountId(): int
     {
@@ -125,8 +99,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Set the user BE group ID.
-     *
-     * @param int $beGroupId
      */
     public function setBeGroupId(int $beGroupId): void
     {
@@ -135,8 +107,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Get beGroupId.
-     *
-     * @return int
      */
     public function getBeGroupId(): int
     {
@@ -145,8 +115,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Set group prefix.
-     *
-     * @param string $groupPrefix
      */
     public function setGroupPrefix(string $groupPrefix): void
     {
@@ -155,8 +123,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Get groupPrefix.
-     *
-     * @return string
      */
     public function getGroupPrefix(): string
     {
@@ -165,8 +131,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Set baseFolderName.
-     *
-     * @param string $baseFolderName
      */
     public function setBaseFolderName(string $baseFolderName): void
     {
@@ -175,8 +139,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Get baseFolderName.
-     *
-     * @return string
      */
     public function getBaseFolderName(): string
     {
@@ -185,8 +147,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Set commonMountPointUid.
-     *
-     * @param int $commonMountPointUid
      */
     public function setCommonMountPointUid(int $commonMountPointUid): void
     {
@@ -195,8 +155,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Get commonMountPointUid.
-     *
-     * @return int
      */
     public function getCommonMountPointUid(): int
     {
@@ -205,8 +163,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Set subFolderNames.
-     *
-     * @param string $subFolderNames
      */
     public function setSubFolderNames(string $subFolderNames): void
     {
@@ -215,8 +171,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Get subFolderNames.
-     *
-     * @return string
      */
     public function getSubFolderNames(): string
     {
@@ -225,8 +179,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Set the feGroupId.
-     *
-     * @param int $feGroupId
      */
     public function setFeGroupId(int $feGroupId): void
     {
@@ -235,8 +187,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Get feGroupId.
-     *
-     * @return int
      */
     public function getFeGroupId(): int
     {
@@ -245,8 +195,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Set the feGroupPid.
-     *
-     * @param int $feGroupPid
      */
     public function setFeGroupPid(int $feGroupPid): void
     {
@@ -255,8 +203,6 @@ class SiteGeneratorDto extends BaseDto
 
     /**
      * Get feGroupPid.
-     *
-     * @return int
      */
     public function getFeGroupPid(): int
     {

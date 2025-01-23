@@ -15,9 +15,6 @@ namespace Oktopuce\SiteGenerator\Utility;
 
 class TemplateDirectivesService
 {
-    /**
-     * @var array
-     */
     protected array $directives = [];
 
     /**
@@ -55,8 +52,6 @@ class TemplateDirectivesService
      * Return the name of the action in directives.
      *
      * @param string $default Default value
-     *
-     * @return string
      */
     public function getAction(string $default = ''): string
     {
@@ -66,8 +61,6 @@ class TemplateDirectivesService
     /**
      * Get the parameters, for custom extensions, can be used with action
      * # ext=SiteGenerator; action=customAction; parameters=myparams.
-     *
-     * @return string
      */
     public function getParameters(): string
     {
@@ -78,8 +71,6 @@ class TemplateDirectivesService
      * Return the name of the table in directives.
      *
      * @param string $default Default value
-     *
-     * @return string
      */
     public function getTable(string $default = ''): string
     {
@@ -90,8 +81,6 @@ class TemplateDirectivesService
      * Return the list of uids to ignore.
      *
      * @param string $default Default values - comma separated (sample : 12,54)
-     *
-     * @return string
      */
     public function getIgnoreUids(string $default = ''): string
     {

@@ -4,7 +4,7 @@
     "description": "Site generator / tree model duplicator used to generate mini-website or duplicate tree model",
     "homepage": "https://www.oktopuce.fr",
     "license": ["GPL-2.0-or-later"],
-	"version": "3.2.3",
+	"version": "3.2.4",
 	"keywords": [
         "TYPO3 CMS",
         "extension",

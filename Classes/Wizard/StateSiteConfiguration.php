@@ -38,7 +38,6 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
     /**
      * Create site management.
      *
-     * @param SiteGeneratorWizard $context
      *
      * @throws Exception
      */
@@ -61,7 +60,7 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
             $uids = $siteData->getMappingArrayMerge('pages');
             $rootSiteId = $this->pagesRepository->getRootSiteId($uids);
 
-            if ($rootSiteId) {
+            if ($rootSiteId !== 0) {
                 try {
                     // Get extension configuration
                     $extensionConfiguration = $this->getExtensionConfiguration();
@@ -115,7 +114,7 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
                         LogLevel::ERROR,
                         'Cannot create site configuration for domain : ' . $siteData->getDomain()
                     );
-                    throw new SiteValidationErrorException($this->translate('wizard.createSiteConfiguration.error'));
+                    throw new SiteValidationErrorException($this->translate('wizard.createSiteConfiguration.error'), 5937698518);
                 }
             } else {
                 $this->log(

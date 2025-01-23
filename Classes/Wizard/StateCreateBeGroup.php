@@ -32,7 +32,6 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
     /**
      * Create BE user group.
      *
-     * @param SiteGeneratorWizard $context
      *
      * @throws Exception
      */
@@ -96,7 +95,7 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
             $siteData->addMessage($this->translate('generate.success.beGroupCreated', [$groupName, $groupId]));
         } else {
             $this->log(LogLevel::ERROR, 'Create BE group error');
-            throw new Exception($this->translate('wizard.beGroup.error'));
+            throw new Exception($this->translate('wizard.beGroup.error'), 5268815969);
         }
 
         return $groupId;

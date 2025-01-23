@@ -48,8 +48,6 @@ class SiteGeneratorController extends ActionController
 {
     /**
      * The local configuration array.
-     *
-     * @var array
      */
     protected array $conf = [];
 
@@ -62,26 +60,16 @@ class SiteGeneratorController extends ActionController
 
     /**
      * Extension configuration.
-     *
-     * @var array
      */
     protected array $extensionConfiguration = [];
 
     /**
      * Current page ID.
-     *
-     * @var int
      */
     protected int $id = 0;
 
     /**
      * The constructor of this class.
-     *
-     * @param ModuleTemplateFactory $moduleTemplateFactory
-     * @param SiteGeneratorWizard   $siteGeneratorWizard
-     * @param IconFactory           $iconFactory
-     * @param PageRenderer          $pageRenderer
-     * @param SiteFinder            $siteFinder
      */
     public function __construct(
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
@@ -132,7 +120,7 @@ class SiteGeneratorController extends ActionController
         $pageTsConfig = BackendUtility::getPagesTSconfig($currentPageId);
         $settingsOverrule = GeneralUtility::removeDotsFromTS((array) ($pageTsConfig['module.']['tx_sitegenerator.']['settings.'] ?? []));
 
-        if (!empty($settingsOverrule)) {
+        if ($settingsOverrule !== []) {
             if (isset($settingsOverrule['siteGenerator']['wizard']['steps']['clear'])
                 && (int) $settingsOverrule['siteGenerator']['wizard']['steps']['clear'] === 1) {
                 // Clear all steps
@@ -303,12 +291,10 @@ class SiteGeneratorController extends ActionController
      * Get data from extension configuration or override by site configuration (new data can also be added).
      *
      * @param string $name Name of data to retrieve from configuration
-     *
-     * @return string
      */
     public function getExtensionConfiguration(string $name): string
     {
-        if (empty($this->extensionConfiguration)) {
+        if ($this->extensionConfiguration === []) {
             $this->extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['site_generator'];
 
             try {
@@ -328,9 +314,6 @@ class SiteGeneratorController extends ActionController
         return $this->extensionConfiguration[$name] ?? '';
     }
 
-    /**
-     * @return LanguageService
-     */
     protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
@@ -340,11 +323,9 @@ class SiteGeneratorController extends ActionController
      * Generate URI for a backend module.
      *
      * @param string $name       The name of the route
-     * @param array  $parameters
      *
      * @throws RouteNotFoundException
      *
-     * @return string
      */
     public function buildUriFromRoute(string $name, array $parameters = []): string
     {
@@ -375,8 +356,6 @@ class SiteGeneratorController extends ActionController
      * Creation of the view.
      *
      * @param array $variables Variables for the view
-     *
-     * @return ModuleTemplate
      */
     protected function createView(array $variables): ModuleTemplate
     {

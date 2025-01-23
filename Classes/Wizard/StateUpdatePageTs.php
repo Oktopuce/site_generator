@@ -31,8 +31,6 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
 
     /**
      * Update Page TS with the new uids (i.e. : for TCEMAIN.clearCacheCmd).
-     *
-     * @param SiteGeneratorWizard $context
      */
     public function process(SiteGeneratorWizard $context): void
     {
@@ -93,7 +91,7 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
             }
         }
 
-        if (!empty($pagesUpdated)) {
+        if ($pagesUpdated !== []) {
             $this->log(LogLevel::NOTICE, 'Update page TSConfig : TCEMAIN.clearCacheCmd done for pages : ' . implode(',', $pagesUpdated));
             // @extensionScannerIgnoreLine
             $siteData->addMessage($this->translate('generate.success.updatePageTS', [implode(',', $pagesUpdated)]));

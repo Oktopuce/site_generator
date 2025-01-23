@@ -26,14 +26,8 @@ use Exception;
  */
 class SiteGeneratorWizard
 {
-    /**
-     * @var BaseDto
-     */
     protected BaseDto $siteData;
 
-    /**
-     * @var ?object
-     */
     protected ?object $currentState = null;
 
     /**
@@ -43,15 +37,11 @@ class SiteGeneratorWizard
 
     /**
      * Contains the settings of the current extension.
-     *
-     * @var array
      */
     protected array $settings = [];
 
     /**
      * Get extension settings from TypoScript.
-     *
-     * @return array
      */
     public function getSettings(): array
     {
@@ -121,14 +111,12 @@ class SiteGeneratorWizard
                 next(self::$states);
             }
         } else {
-            throw new TsConfigException(LocalizationUtility::translate('wizard.tsConfig.error', 'SiteGenerator'));
+            throw new TsConfigException(LocalizationUtility::translate('wizard.tsConfig.error', 'SiteGenerator'), 5866979200);
         }
     }
 
     /**
      * Get site data (i.e. data from Form/DTO).
-     *
-     * @return BaseDto
      */
     public function getSiteData(): BaseDto
     {

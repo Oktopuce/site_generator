@@ -29,9 +29,6 @@ class SiteGeneratorItemProvider extends AbstractProvider
 {
     protected ServerRequest $serverRequest;
 
-    /**
-     * @param SiteFinder $siteFinder
-     */
     public function __construct(
         private readonly SiteFinder $siteFinder
     ) {
@@ -57,8 +54,6 @@ class SiteGeneratorItemProvider extends AbstractProvider
 
     /**
      * The item is only displayed if we're on a page and the pid is the one for new sites.
-     *
-     * @return bool
      */
     public function canHandle(): bool
     {
@@ -68,8 +63,6 @@ class SiteGeneratorItemProvider extends AbstractProvider
 
     /**
      * Get sitesPid from extension configuration (can be override by site configuration).
-     *
-     * @return array
      */
     public function getSitesPid(): array
     {
@@ -79,7 +72,7 @@ class SiteGeneratorItemProvider extends AbstractProvider
             $request = $this->getRequest();
             $id = (int) ($request->getQueryParams()['uid'] ?? $request->getParsedBody()['uid'] ?? 0);
 
-            if ($id) {
+            if ($id !== 0) {
                 // Retrieve site generator configuration in site configuration
                 $site = $this->siteFinder->getSiteByPageId($id);
                 $siteConfiguration = $site->getConfiguration();
@@ -101,8 +94,6 @@ class SiteGeneratorItemProvider extends AbstractProvider
      *
      * BEWARE: Returned priority should logically not clash with another provider.
      *         Please check @see \TYPO3\CMS\Backend\ContextMenu\ContextMenu::getAvailableProviders() if needed.
-     *
-     * @return int
      */
     public function getPriority(): int
     {
@@ -131,25 +122,19 @@ class SiteGeneratorItemProvider extends AbstractProvider
     /**
      * This method adds the new items at the end of the context menu.
      *
-     * @param array $items
      *
-     * @return array
      */
     public function addItems(array $items): array
     {
         $this->initDisabledItems();
         $localItems = $this->prepareItems($this->itemsConfiguration);
-        $items += $localItems;
-        return $items;
+        return $items + $localItems;
     }
 
     /**
      * This method is called for each item this provider adds and checks if given item can be added.
      *
-     * @param string $itemName
-     * @param string $type
      *
-     * @return bool
      */
     protected function canRender(string $itemName, string $type): bool
     {

@@ -32,7 +32,6 @@ class StateCopyModelSite extends StateBase implements SiteGeneratorStateInterfac
     /**
      * Copy model site.
      *
-     * @param SiteGeneratorWizard $context
      *
      * @throws Exception
      */
@@ -78,7 +77,7 @@ class StateCopyModelSite extends StateBase implements SiteGeneratorStateInterfac
             $siteData->addMessage($this->translate('generate.success.copySuccessfull', [$homePagePid]));
         } else {
             $this->log(LogLevel::ERROR, 'Site model copy error');
-            throw new CopyModelException($this->translate('wizard.copyModel.error'));
+            throw new CopyModelException($this->translate('wizard.copyModel.error'), 3636348140);
         }
 
         return $homePagePid;

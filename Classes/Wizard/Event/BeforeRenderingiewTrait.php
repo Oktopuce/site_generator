@@ -19,9 +19,6 @@ namespace Oktopuce\SiteGenerator\Wizard\Event;
  */
 trait BeforeRenderingiewTrait
 {
-    /**
-     * @var array
-     */
     private array $viewVariables;
 
     public function __construct(array $viewVariables)
@@ -31,8 +28,6 @@ trait BeforeRenderingiewTrait
 
     /**
      * getViewVariables.
-     *
-     * @return array
      */
     public function getViewVariables(): array
     {
@@ -41,8 +36,6 @@ trait BeforeRenderingiewTrait
 
     /**
      * addViewVariables.
-     *
-     * @param array $variables
      */
     public function addViewVariables(array $variables): void
     {

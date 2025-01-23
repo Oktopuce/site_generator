@@ -22,50 +22,36 @@ class BaseDto
 {
     /**
      * First page title.
-     *
-     * @var string
      */
     protected string $title = '';
 
     /**
      * Page UID where model will be copied.
-     *
-     * @var int
      */
     protected int $pid = 0;
 
     /**
      * Model Pid to copy.
-     *
-     * @var int
      */
     protected int $modelPid = 0;
 
     /**
      * Contains the relation between pid before copy (I.E. model pid) / after copy (i.e. new-site pid).
-     *
-     * @var array
      */
     protected array $mappingArrayMerge = [];
 
     /**
      * Success message displayed when process finished.
-     *
-     * @var string
      */
     protected string $message = '';
 
     /**
      * Home page id.
-     *
-     * @var int
      */
     protected int $hpPid = 0;
 
     /**
      * Title.
-     *
-     * @param string $title
      */
     public function setTitle(string $title): void
     {
@@ -74,8 +60,6 @@ class BaseDto
 
     /**
      * Get title.
-     *
-     * @return string
      */
     public function getTitle(): string
     {
@@ -84,8 +68,6 @@ class BaseDto
 
     /**
      * Get title sanitize (used for folder creation).
-     *
-     * @return string
      */
     public function getTitleSanitize(): string
     {
@@ -94,8 +76,6 @@ class BaseDto
 
     /**
      * Pid.
-     *
-     * @param int $pid
      */
     public function setPid(int $pid): void
     {
@@ -104,8 +84,6 @@ class BaseDto
 
     /**
      * Get pid.
-     *
-     * @return int
      */
     public function getPid(): int
     {
@@ -114,8 +92,6 @@ class BaseDto
 
     /**
      * Set the root site's pid.
-     *
-     * @param int $modelPid
      */
     public function setModelPid(int $modelPid): void
     {
@@ -124,8 +100,6 @@ class BaseDto
 
     /**
      * Get modelPid.
-     *
-     * @return int
      */
     public function getModelPid(): int
     {
@@ -134,8 +108,6 @@ class BaseDto
 
     /**
      * Set the home page's pid.
-     *
-     * @param int $hpPid
      */
     public function setHpPid(int $hpPid): void
     {
@@ -144,8 +116,6 @@ class BaseDto
 
     /**
      * Get hpPid.
-     *
-     * @return int
      */
     public function getHpPid(): int
     {
@@ -154,8 +124,6 @@ class BaseDto
 
     /**
      * Set the mapping array merge : relation between original pid / new pid after model copy.
-     *
-     * @param array $mappingArrayMerge
      */
     public function setMappingArrayMerge(array $mappingArrayMerge): void
     {
@@ -166,20 +134,16 @@ class BaseDto
      * Get mappingArrayMerge : relation between original pid / new pid after model copy.
      *
      * @param string $key The key to use 'page', 'tt_content', etc. if empty, return all data
-     *
-     * @return array
      */
     public function getMappingArrayMerge(string $key = ''): array
     {
-        return empty($key) ? $this->mappingArrayMerge : ($this->mappingArrayMerge[$key] ?? []);
+        return $key === '' || $key === '0' ? $this->mappingArrayMerge : ($this->mappingArrayMerge[$key] ?? []);
     }
 
     /**
      * Get new pid from model pid.
      *
      * @param int $modelPid The pid in model
-     *
-     * @return int
      */
     public function getNewPidFromModel(int $modelPid): int
     {
@@ -188,8 +152,6 @@ class BaseDto
 
     /**
      * Set a message.
-     *
-     * @param string $message
      */
     public function setMessage(string $message): void
     {
@@ -198,8 +160,6 @@ class BaseDto
 
     /**
      * Append to success message.
-     *
-     * @param string $message
      */
     public function addMessage(string $message): void
     {
@@ -208,8 +168,6 @@ class BaseDto
 
     /**
      * Get message.
-     *
-     * @return string
      */
     public function getMessage(): string
     {

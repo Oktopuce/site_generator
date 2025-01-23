@@ -11,10 +11,10 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Florian Rival',
     'author_email' => 'florian.typo3@oktopuce.fr',
     'state' => 'stable',
-    'version' => '3.2.3',
+    'version' => '3.2.4',
     'constraints' => [
         'depends' => [
-            'typo3' => '12.4.0-13.9.99',
+            'typo3' => '12.4.0-13.4.99',
         ],
         'conflicts' => [],
         'suggests' => [],

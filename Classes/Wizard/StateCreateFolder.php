@@ -27,9 +27,6 @@ use RuntimeException;
  */
 class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
 {
-    /**
-     * @param ResourceFactory $resourceFactory
-     */
     public function __construct(readonly protected ResourceFactory $resourceFactory)
     {
         parent::__construct();
@@ -38,7 +35,6 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
     /**
      * Create site folder in fileadmin : base Folder / site title / sub folder.
      *
-     * @param SiteGeneratorWizard $context
      *
      * @throws Exception
      */
@@ -64,7 +60,7 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
         $baseFolderName = $siteData->getBaseFolderName();
         $subFolderNames = GeneralUtility::trimExplode(',', $siteData->getSubFolderNames(), true);
 
-        if ($storageUid) {
+        if ($storageUid !== 0) {
             $storage = $this->resourceFactory->getStorageObject($storageUid);
 
             try {
@@ -107,10 +103,10 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
                 }
             } catch (InsufficientFolderWritePermissionsException) {
                 $this->log(LogLevel::ERROR, 'You are not allowed to create directories! ("%s")', [$currentFolder]);
-                throw new RuntimeException($this->translate('wizard.folderCreation.error', [$currentFolder]));
+                throw new RuntimeException($this->translate('wizard.folderCreation.error', [$currentFolder]), 3629261695);
             } catch (InsufficientFolderAccessPermissionsException) {
                 $this->log(LogLevel::ERROR, 'You don\'t have full access to the destination directory "%s"!', [$currentFolder]);
-                throw new RuntimeException($this->translate('wizard.folderCreation.error', [$currentFolder]));
+                throw new RuntimeException($this->translate('wizard.folderCreation.error', [$currentFolder]), 3309513367);
             }
 
             $this->log(LogLevel::NOTICE, 'Folder creation successfull');

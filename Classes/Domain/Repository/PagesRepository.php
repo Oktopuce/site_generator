@@ -56,23 +56,19 @@ class PagesRepository
      * @param string $uids Uid comma separated
      *
      * @throws Exception
-     *
-     * @return array
      */
     public function getPages(string $uids): array
     {
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
 
-        $pages = $queryBuilder->select('uid', 'title')
+        return $queryBuilder->select('uid', 'title')
             ->from('pages')
             ->where(
                 $queryBuilder->expr()->in('uid', $queryBuilder->createNamedParameter(GeneralUtility::intExplode(',', $uids, true), Connection::PARAM_INT_ARRAY))
             )
             ->executeQuery()
             ->fetchAllAssociative();
-
-        return $pages;
     }
 
     /**
@@ -81,8 +77,6 @@ class PagesRepository
      * @param array $uids The pages ids to look for a root line
      *
      * @throws Exception
-     *
-     * @return int
      */
     public function getRootSiteId(array $uids): int
     {
@@ -99,13 +93,11 @@ class PagesRepository
             ->executeQuery()
             ->fetchAllAssociative();
 
-        return !empty($rootPage) ? $rootPage[0]['uid'] : 0;
+        return $rootPage === [] ? 0 : $rootPage[0]['uid'];
     }
 
     /**
      * Returns an instance of the QueryBuilder.
-     *
-     * @return QueryBuilder
      */
     protected function getQueryBuilder(): QueryBuilder
     {

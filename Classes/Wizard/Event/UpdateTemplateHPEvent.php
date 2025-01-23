@@ -21,9 +21,6 @@ use Oktopuce\SiteGenerator\Utility\TemplateDirectivesService;
  */
 final class UpdateTemplateHPEvent
 {
-    /**
-     * @var string
-     */
     private string $updatedValue = '';
 
     /**
@@ -31,7 +28,6 @@ final class UpdateTemplateHPEvent
      * @param string                    $parameters                The parameter
      * @param string                    $value                     Current value
      * @param array                     $filteredMapping           Mapping filtered - i.e. ignoredUids already removed
-     * @param TemplateDirectivesService $templateDirectivesService
      */
     public function __construct(
         private readonly string $action,
@@ -41,41 +37,26 @@ final class UpdateTemplateHPEvent
         private readonly TemplateDirectivesService $templateDirectivesService
     ) {}
 
-    /**
-     * @return string
-     */
     public function getAction(): string
     {
         return $this->action;
     }
 
-    /**
-     * @return string
-     */
     public function getParameters(): string
     {
         return $this->parameters;
     }
 
-    /**
-     * @return string
-     */
     public function getValue(): string
     {
         return $this->value;
     }
 
-    /**
-     * @return array
-     */
     public function getFilteredMapping(): array
     {
         return $this->filteredMapping;
     }
 
-    /**
-     * @return TemplateDirectivesService
-     */
     public function getTemplateDirectivesService(): TemplateDirectivesService
     {
         return $this->templateDirectivesService;

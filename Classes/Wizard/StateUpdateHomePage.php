@@ -29,8 +29,6 @@ class StateUpdateHomePage extends StateBase implements SiteGeneratorStateInterfa
 
     /**
      * Update home page with new name.
-     *
-     * @param SiteGeneratorWizard $context
      */
     public function process(SiteGeneratorWizard $context): void
     {

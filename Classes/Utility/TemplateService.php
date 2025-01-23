@@ -32,7 +32,7 @@ class TemplateService
      */
     public function getAllTemplateRecordsOnPage(int $pageId): array
     {
-        if (!$pageId) {
+        if ($pageId === 0) {
             return [];
         }
         $result = $this->getTemplateQueryBuilder($pageId)->executeQuery();
@@ -102,8 +102,6 @@ class TemplateService
      *
      * @param string $rawConstant The raw constant line
      * @param string $var         The new value
-     *
-     * @return string
      */
     public function updateValueInConf(string $rawConstant, string $var): string
     {
