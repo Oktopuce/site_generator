@@ -11,85 +11,82 @@ declare(strict_types=1);
  *
  */
 
- namespace Oktopuce\SiteGenerator\Dto;
+namespace Oktopuce\SiteGenerator\Dto;
 
 /**
- * SiteGeneratorDto DTO for data exchange beetwen form and Wizard
+ * SiteGeneratorDto DTO for data exchange beetwen form and Wizard.
  *
  * @author Florian Rival <florian.typo3@oktopuce.fr>
  */
 class SiteGeneratorDto extends BaseDto
 {
-
     /**
-     * Domain name
+     * Domain name.
      *
      * @var string
      */
     protected string $domain = '';
 
     /**
-     * Mount point uid
+     * Mount point uid.
      *
      * @var int
      */
     protected int $mountId = 0;
 
     /**
-     * Group prefix
+     * Group prefix.
      *
      * @var string
      */
     protected string $groupPrefix = '';
 
     /**
-     * BE group Uid
+     * BE group Uid.
      *
      * @var int
      */
     protected int $beGroupId = 0;
 
     /**
-     * Common mount point uid for all groups
+     * Common mount point uid for all groups.
      *
      * @var int
      */
     protected int $commonMountPointUid = 0;
 
     /**
-     * Base folder name
+     * Base folder name.
      *
      * @var string
      */
     protected string $baseFolderName = '';
 
     /**
-     * Sub folder names
+     * Sub folder names.
      *
      * @var string
      */
     protected string $subFolderNames = '';
 
     /**
-     * FE group Uid
+     * FE group Uid.
      *
      * @var int
      */
     protected int $feGroupId = 0;
 
     /**
-     * Pid for FE group
+     * Pid for FE group.
      *
      * @var int
      */
     protected int $feGroupPid = 0;
 
     /**
-     * Domain
+     * Domain.
      *
      * @param string $domain
-
-     * @return void
      */
     public function setDomain(string $domain): void
     {
@@ -97,7 +94,7 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Get domain
+     * Get domain.
      *
      * @return string
      */
@@ -107,10 +104,9 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Set the mount point ID
+     * Set the mount point ID.
      *
      * @param int $mountId
-     * @return void
      */
     public function setMountId(int $mountId): void
     {
@@ -118,7 +114,7 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Get mountId
+     * Get mountId.
      *
      * @return int
      */
@@ -128,10 +124,9 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Set the user BE group ID
+     * Set the user BE group ID.
      *
      * @param int $beGroupId
-     * @return void
      */
     public function setBeGroupId(int $beGroupId): void
     {
@@ -139,7 +134,7 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Get beGroupId
+     * Get beGroupId.
      *
      * @return int
      */
@@ -149,10 +144,9 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Set group prefix
+     * Set group prefix.
      *
      * @param string $groupPrefix
-     * @return void
      */
     public function setGroupPrefix(string $groupPrefix): void
     {
@@ -160,7 +154,7 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Get groupPrefix
+     * Get groupPrefix.
      *
      * @return string
      */
@@ -170,10 +164,9 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Set baseFolderName
+     * Set baseFolderName.
      *
      * @param string $baseFolderName
-     * @return void
      */
     public function setBaseFolderName(string $baseFolderName): void
     {
@@ -181,7 +174,7 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Get baseFolderName
+     * Get baseFolderName.
      *
      * @return string
      */
@@ -191,10 +184,9 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Set commonMountPointUid
+     * Set commonMountPointUid.
      *
      * @param int $commonMountPointUid
-     * @return void
      */
     public function setCommonMountPointUid(int $commonMountPointUid): void
     {
@@ -202,7 +194,7 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Get commonMountPointUid
+     * Get commonMountPointUid.
      *
      * @return int
      */
@@ -212,10 +204,9 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Set subFolderNames
+     * Set subFolderNames.
      *
      * @param string $subFolderNames
-     * @return void
      */
     public function setSubFolderNames(string $subFolderNames): void
     {
@@ -223,7 +214,7 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Get subFolderNames
+     * Get subFolderNames.
      *
      * @return string
      */
@@ -233,10 +224,9 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Set the feGroupId
+     * Set the feGroupId.
      *
      * @param int $feGroupId
-     * @return void
      */
     public function setFeGroupId(int $feGroupId): void
     {
@@ -244,7 +234,7 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Get feGroupId
+     * Get feGroupId.
      *
      * @return int
      */
@@ -254,10 +244,9 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Set the feGroupPid
+     * Set the feGroupPid.
      *
      * @param int $feGroupPid
-     * @return void
      */
     public function setFeGroupPid(int $feGroupPid): void
     {
@@ -265,7 +254,7 @@ class SiteGeneratorDto extends BaseDto
     }
 
     /**
-     * Get feGroupPid
+     * Get feGroupPid.
      *
      * @return int
      */

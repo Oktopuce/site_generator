@@ -17,9 +17,10 @@ use Oktopuce\SiteGenerator\Exception\CopyModelException;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
+use Exception;
 
 /**
- * StateCopyModelSite
+ * StateCopyModelSite.
  */
 class StateCopyModelSite extends StateBase implements SiteGeneratorStateInterface
 {
@@ -29,11 +30,11 @@ class StateCopyModelSite extends StateBase implements SiteGeneratorStateInterfac
     }
 
     /**
-     * Copy model site
+     * Copy model site.
      *
      * @param SiteGeneratorWizard $context
-     * @return void
-     * @throws \Exception
+     *
+     * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void
     {
@@ -45,10 +46,11 @@ class StateCopyModelSite extends StateBase implements SiteGeneratorStateInterfac
     }
 
     /**
-     * Copy the model site in current page
+     * Copy the model site in current page.
      *
      * @param BaseDto $siteData New site data
-     * @throws \Exception
+     *
+     * @throws Exception
      *
      * @return int The pid of the new Home Page
      */
@@ -74,13 +76,12 @@ class StateCopyModelSite extends StateBase implements SiteGeneratorStateInterfac
             $this->log(LogLevel::NOTICE, 'Site model copy successful (pid home page = ' . $homePagePid . ')');
             // @extensionScannerIgnoreLine
             $siteData->addMessage($this->translate('generate.success.copySuccessfull', [$homePagePid]));
-        }
-        else {
+        } else {
             $this->log(LogLevel::ERROR, 'Site model copy error');
             throw new CopyModelException($this->translate('wizard.copyModel.error'));
         }
 
-        return ($homePagePid);
+        return $homePagePid;
     }
 
 }

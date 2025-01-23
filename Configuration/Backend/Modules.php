@@ -2,7 +2,7 @@
 
 use Oktopuce\SiteGenerator\Controller\SiteGeneratorController;
 
-/**
+/*
  * Definitions for routes provided by EXT:site_generator
  */
 return [
@@ -21,8 +21,8 @@ return [
             SiteGeneratorController::class => [
                 'getDataFirstStep',
                 'getDataSecondStep',
-                'generateSite'
+                'generateSite',
             ],
-        ]
-    ]
+        ],
+    ],
 ];

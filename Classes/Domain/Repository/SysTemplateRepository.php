@@ -22,11 +22,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class SysTemplateRepository
 {
     /**
-     * Find a systemplate by pid (consider there's only one template)
+     * Find a systemplate by pid (consider there's only one template).
      *
      * @param int $pid The page id where the template is located
-     * @return array
+     *
      * @throws Exception
+     *
+     * @return array
      */
     public function findByPid(int $pid): array
     {
@@ -40,15 +42,14 @@ class SysTemplateRepository
             ->executeQuery()
             ->fetchAssociative();
 
-        return (($row !== false) ? $row : []);
+        return ($row !== false) ? $row : [];
     }
 
     /**
-     * SetConstants
+     * SetConstants.
      *
-     * @param int $uid The uid of the template to update
+     * @param int    $uid       The uid of the template to update
      * @param string $constants The new constants
-     * @return void
      */
     public function setConstants(int $uid, string $constants): void
     {

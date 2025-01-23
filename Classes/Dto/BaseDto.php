@@ -14,61 +14,58 @@ declare(strict_types=1);
 namespace Oktopuce\SiteGenerator\Dto;
 
 /**
- * BaseDto Base DTO for data exchange between form and Wizard
+ * BaseDto Base DTO for data exchange between form and Wizard.
  *
  * @author Florian Rival <florian.typo3@oktopuce.fr>
  */
 class BaseDto
 {
-
     /**
-     * First page title
+     * First page title.
      *
      * @var string
      */
     protected string $title = '';
 
     /**
-     * Page UID where model will be copied
+     * Page UID where model will be copied.
      *
      * @var int
      */
     protected int $pid = 0;
 
     /**
-     * Model Pid to copy
+     * Model Pid to copy.
      *
      * @var int
      */
     protected int $modelPid = 0;
 
     /**
-     * Contains the relation between pid before copy (I.E. model pid) / after copy (i.e. new-site pid)
+     * Contains the relation between pid before copy (I.E. model pid) / after copy (i.e. new-site pid).
      *
      * @var array
      */
     protected array $mappingArrayMerge = [];
 
     /**
-     * Success message displayed when process finished
+     * Success message displayed when process finished.
      *
      * @var string
      */
     protected string $message = '';
 
     /**
-     * Home page id
+     * Home page id.
      *
      * @var int
      */
     protected int $hpPid = 0;
 
     /**
-     * Title
+     * Title.
      *
      * @param string $title
-
-     * @return void
      */
     public function setTitle(string $title): void
     {
@@ -76,7 +73,7 @@ class BaseDto
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string
      */
@@ -86,20 +83,19 @@ class BaseDto
     }
 
     /**
-     * Get title sanitize (used for folder creation)
+     * Get title sanitize (used for folder creation).
      *
      * @return string
      */
     public function getTitleSanitize(): string
     {
-        return(preg_replace('/[^a-z0-9]+/', '-', strtolower($this->title)));
+        return preg_replace('/[^a-z0-9]+/', '-', strtolower($this->title));
     }
 
     /**
-     * Pid
+     * Pid.
      *
      * @param int $pid
-     * @return void
      */
     public function setPid(int $pid): void
     {
@@ -107,7 +103,7 @@ class BaseDto
     }
 
     /**
-     * Get pid
+     * Get pid.
      *
      * @return int
      */
@@ -117,10 +113,9 @@ class BaseDto
     }
 
     /**
-     * Set the root site's pid
+     * Set the root site's pid.
      *
      * @param int $modelPid
-     * @return void
      */
     public function setModelPid(int $modelPid): void
     {
@@ -128,7 +123,7 @@ class BaseDto
     }
 
     /**
-     * Get modelPid
+     * Get modelPid.
      *
      * @return int
      */
@@ -138,10 +133,9 @@ class BaseDto
     }
 
     /**
-     * Set the home page's pid
+     * Set the home page's pid.
      *
      * @param int $hpPid
-     * @return void
      */
     public function setHpPid(int $hpPid): void
     {
@@ -149,7 +143,7 @@ class BaseDto
     }
 
     /**
-     * Get hpPid
+     * Get hpPid.
      *
      * @return int
      */
@@ -159,10 +153,9 @@ class BaseDto
     }
 
     /**
-     * Set the mapping array merge : relation between original pid / new pid after model copy
+     * Set the mapping array merge : relation between original pid / new pid after model copy.
      *
      * @param array $mappingArrayMerge
-     * @return void
      */
     public function setMappingArrayMerge(array $mappingArrayMerge): void
     {
@@ -170,33 +163,33 @@ class BaseDto
     }
 
     /**
-     * Get mappingArrayMerge : relation between original pid / new pid after model copy
+     * Get mappingArrayMerge : relation between original pid / new pid after model copy.
      *
      * @param string $key The key to use 'page', 'tt_content', etc. if empty, return all data
+     *
      * @return array
      */
     public function getMappingArrayMerge(string $key = ''): array
     {
-        return (empty($key) ? $this->mappingArrayMerge : ($this->mappingArrayMerge[$key] ?? []));
+        return empty($key) ? $this->mappingArrayMerge : ($this->mappingArrayMerge[$key] ?? []);
     }
 
     /**
-     * Get new pid from model pid
+     * Get new pid from model pid.
+     *
      * @param int $modelPid The pid in model
      *
      * @return int
      */
     public function getNewPidFromModel(int $modelPid): int
     {
-        return ($this->mappingArrayMerge[$modelPid] ?? 0);
+        return $this->mappingArrayMerge[$modelPid] ?? 0;
     }
 
     /**
-     * Set a message
+     * Set a message.
      *
      * @param string $message
-
-     * @return void
      */
     public function setMessage(string $message): void
     {
@@ -204,11 +197,9 @@ class BaseDto
     }
 
     /**
-     * Append to success message
+     * Append to success message.
      *
      * @param string $message
-
-     * @return void
      */
     public function addMessage(string $message): void
     {
@@ -216,7 +207,7 @@ class BaseDto
     }
 
     /**
-     * Get message
+     * Get message.
      *
      * @return string
      */

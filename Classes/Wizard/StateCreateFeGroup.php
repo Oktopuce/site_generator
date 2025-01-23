@@ -17,9 +17,11 @@ use Psr\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 use TYPO3\CMS\Core\Utility\StringUtility;
+use Exception;
+use UnexpectedValueException;
 
 /**
- * StateCreateFeGroup
+ * StateCreateFeGroup.
  */
 class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterface
 {
@@ -29,27 +31,28 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
     }
 
     /**
-     * Create FE user group
+     * Create FE user group.
      *
      * @param SiteGeneratorWizard $context
-     * @return void
-     * @throws \Exception
+     *
+     * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void
     {
         $settings = $context->getSettings();
 
         // Create FE group
-        $groupId = $this->createFeGroup($context->getSiteData(), (int)($settings['siteGenerator']['wizard']['pidFeGroup'] ?? 0));
+        $groupId = $this->createFeGroup($context->getSiteData(), (int) ($settings['siteGenerator']['wizard']['pidFeGroup'] ?? 0));
         $context->getSiteData()->setFeGroupId($groupId);
     }
 
     /**
-     * Create FE group
+     * Create FE group.
      *
-     * @param BaseDto $siteData New site data
-     * @param int $pidFeGroup Pid for FE group creation
-     * @throws \Exception
+     * @param BaseDto $siteData   New site data
+     * @param int     $pidFeGroup Pid for FE group creation
+     *
+     * @throws Exception
      *
      * @return int The uid of the group created
      */
@@ -64,7 +67,7 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
             $groupName = ($siteData->getGroupPrefix() ? $siteData->getGroupPrefix() . ' - ' : '') . $siteData->getTitle();
             $data['fe_groups'][$newUniqueId] = [
                 'pid' => $pidFeGroup,
-                'title' => $groupName
+                'title' => $groupName,
             ];
 
             $this->dataHandler->start($data, []);
@@ -79,7 +82,7 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
                 $siteData->addMessage($this->translate('generate.success.feGroupCreated', [$groupName, $groupId]));
             } else {
                 $this->log(LogLevel::ERROR, 'Create FE group error, check the value of module.tx_sitegenerator.settings.wizard.pidFeGroup');
-                throw new \UnexpectedValueException($this->translate('wizard.feGroup.error'));
+                throw new UnexpectedValueException($this->translate('wizard.feGroup.error'));
             }
         } else {
             $this->log(LogLevel::WARNING, "FE Group couldn't be created because module.tx_sitegenerator.settings.wizard.pidFeGroup is not defined");
@@ -87,6 +90,6 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
             $siteData->addMessage($this->translate('generate.success.noFeGroupCreated'));
         }
 
-        return ($groupId);
+        return $groupId;
     }
 }

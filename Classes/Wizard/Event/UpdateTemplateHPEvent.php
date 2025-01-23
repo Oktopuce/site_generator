@@ -17,7 +17,7 @@ use Oktopuce\SiteGenerator\Utility\TemplateDirectivesService;
 
 /**
  * This event is fired when state StateUpdateTemplateHP is executed and action is a custom action
- * i.e. : different from : mapInList, mapInString or exclude
+ * i.e. : different from : mapInList, mapInString or exclude.
  */
 final class UpdateTemplateHPEvent
 {
@@ -27,10 +27,10 @@ final class UpdateTemplateHPEvent
     private string $updatedValue = '';
 
     /**
-     * @param string $action The action
-     * @param string $parameters The parameter
-     * @param string $value Current value
-     * @param array $filteredMapping Mapping filtered - i.e. ignoredUids already removed
+     * @param string                    $action                    The action
+     * @param string                    $parameters                The parameter
+     * @param string                    $value                     Current value
+     * @param array                     $filteredMapping           Mapping filtered - i.e. ignoredUids already removed
      * @param TemplateDirectivesService $templateDirectivesService
      */
     public function __construct(
@@ -39,8 +39,7 @@ final class UpdateTemplateHPEvent
         private readonly string $value,
         private readonly array $filteredMapping,
         private readonly TemplateDirectivesService $templateDirectivesService
-    ) {
-    }
+    ) {}
 
     /**
      * @return string
@@ -83,7 +82,7 @@ final class UpdateTemplateHPEvent
     }
 
     /**
-     * Get the updated value
+     * Get the updated value.
      *
      * @return string Empty if no update required otherwise the value to update
      */
@@ -93,10 +92,9 @@ final class UpdateTemplateHPEvent
     }
 
     /**
-     * Set the updated value
+     * Set the updated value.
      *
      * @param string $updatedValue The value to update
-     * @return void
      */
     public function setUpdatedValue(string $updatedValue): void
     {

@@ -24,23 +24,22 @@ use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * StateSiteConfiguration
+ * StateSiteConfiguration.
  */
 class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInterface
 {
     public function __construct(
         readonly protected PagesRepository $pagesRepository,
         readonly protected DataHandler $dataHandler
-    )
-    {
+    ) {
         parent::__construct();
     }
 
     /**
-     * Create site management
+     * Create site management.
      *
      * @param SiteGeneratorWizard $context
-     * @return void
+     *
      * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void
@@ -50,10 +49,10 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
     }
 
     /**
-     * Create a site configuration
+     * Create a site configuration.
      *
      * @param BaseDto $siteData New site data
-     * @return void
+     *
      * @throws \Exception|Exception
      */
     protected function createSiteConfiguration(BaseDto $siteData): void
@@ -88,15 +87,14 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
                     $newSiteConfiguration['baseVariants'] = [];
                     $newSiteConfiguration['languages']['0'] = $language;
 
-                    $siteIdentifier = $extensionConfiguration['siteIdentifierPrefix'] . md5((string)$rootSiteId);
+                    $siteIdentifier = $extensionConfiguration['siteIdentifierPrefix'] . md5((string) $rootSiteId);
 
                     if (GeneralUtility::makeInstance(Typo3Version::class)->getMajorVersion() <= 12) {
                         $siteConfiguration = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\SiteConfiguration::class);
 
                         // Persist the configuration
                         $siteConfiguration->write($siteIdentifier, $newSiteConfiguration);
-                    }
-                    else {
+                    } else {
                         $siteConfiguration = GeneralUtility::makeInstance(SiteWriter::class);
 
                         // Persist the configuration
@@ -110,16 +108,20 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
                     $this->log(LogLevel::NOTICE, 'Site configuration created');
                     // @extensionScannerIgnoreLine
                     $siteData->addMessage($this->translate('generate.success.createSiteConfiguration', [
-                        $siteData->getDomain()
+                        $siteData->getDomain(),
                     ]));
                 } catch (SiteValidationErrorException) {
-                    $this->log(LogLevel::ERROR,
-                        'Cannot create site configuration for domain : ' . $siteData->getDomain());
+                    $this->log(
+                        LogLevel::ERROR,
+                        'Cannot create site configuration for domain : ' . $siteData->getDomain()
+                    );
                     throw new SiteValidationErrorException($this->translate('wizard.createSiteConfiguration.error'));
                 }
             } else {
-                $this->log(LogLevel::WARNING,
-                    'The selected model does not contains root pages, no site configuration created');
+                $this->log(
+                    LogLevel::WARNING,
+                    'The selected model does not contains root pages, no site configuration created'
+                );
                 // @extensionScannerIgnoreLine
                 $siteData->addMessage($this->translate('wizard.createSiteConfiguration.error.noRooTPage'));
             }

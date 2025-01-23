@@ -15,7 +15,9 @@ namespace Oktopuce\SiteGenerator\Utility;
 
 class TemplateDirectivesService
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected array $directives = [];
 
     /**
@@ -30,7 +32,6 @@ class TemplateDirectivesService
      * ignoreUids=777,888 : list of uids to ignore
      *
      * @param string $lineFromConstant The constant line
-     * @return void
      */
     public function lookForDirectives(string $lineFromConstant): void
     {
@@ -51,43 +52,49 @@ class TemplateDirectivesService
     }
 
     /**
-     * Return the name of the action in directives
+     * Return the name of the action in directives.
+     *
      * @param string $default Default value
+     *
      * @return string
      */
     public function getAction(string $default = ''): string
     {
-        return ($this->directives['action'] ?? $default);
+        return $this->directives['action'] ?? $default;
     }
 
     /**
      * Get the parameters, for custom extensions, can be used with action
-     * # ext=SiteGenerator; action=customAction; parameters=myparams
+     * # ext=SiteGenerator; action=customAction; parameters=myparams.
      *
      * @return string
      */
     public function getParameters(): string
     {
-        return ($this->directives['parameters'] ?? '');
+        return $this->directives['parameters'] ?? '';
     }
 
     /**
-     * Return the name of the table in directives
+     * Return the name of the table in directives.
+     *
      * @param string $default Default value
+     *
      * @return string
      */
     public function getTable(string $default = ''): string
     {
-        return ($this->directives['table'] ?? $default);
+        return $this->directives['table'] ?? $default;
     }
 
     /**
-     * Return the list of uids to ignore
+     * Return the list of uids to ignore.
+     *
      * @param string $default Default values - comma separated (sample : 12,54)
+     *
      * @return string
      */
     public function getIgnoreUids(string $default = ''): string
     {
-        return ($this->directives['ignoreUids'] ?? $default);
+        return $this->directives['ignoreUids'] ?? $default;
     }
 }

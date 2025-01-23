@@ -16,9 +16,10 @@ namespace Oktopuce\SiteGenerator\Wizard;
 use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
+use Exception;
 
 /**
- * StateSetPageBeGroup : set page access
+ * StateSetPageBeGroup : set page access.
  */
 class StateSetPageBeGroup extends StateBase implements SiteGeneratorStateInterface
 {
@@ -28,11 +29,11 @@ class StateSetPageBeGroup extends StateBase implements SiteGeneratorStateInterfa
     }
 
     /**
-     * Set group BE to all pages
+     * Set group BE to all pages.
      *
      * @param SiteGeneratorWizard $context
-     * @return void
-     * @throws \Exception
+     *
+     * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void
     {
@@ -41,12 +42,11 @@ class StateSetPageBeGroup extends StateBase implements SiteGeneratorStateInterfa
     }
 
     /**
-     * Affect BE group to pages created
+     * Affect BE group to pages created.
      *
      * @param BaseDto $siteData New site data
-     * @throws \Exception
      *
-     * @return void
+     * @throws Exception
      */
     protected function setBeGroup(BaseDto $siteData): void
     {
@@ -54,7 +54,7 @@ class StateSetPageBeGroup extends StateBase implements SiteGeneratorStateInterfa
             $pages = [];
             foreach ($siteData->getMappingArrayMerge('pages') as $sitePid) {
                 $updateValues = [
-                    'perms_groupid' => $siteData->getBeGroupId()
+                    'perms_groupid' => $siteData->getBeGroupId(),
                 ];
                 $this->pagesRepository->updatePage($sitePid, $updateValues);
                 $pages[] = $sitePid;

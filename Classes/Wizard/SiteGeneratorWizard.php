@@ -17,16 +17,15 @@ use Oktopuce\SiteGenerator\Exception\TsConfigException;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Context\Context;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
+use Exception;
 
 /**
- * SiteGeneratorWizard : based on design pattern 'State'
+ * SiteGeneratorWizard : based on design pattern 'State'.
  */
 class SiteGeneratorWizard
 {
-
     /**
      * @var BaseDto
      */
@@ -43,27 +42,24 @@ class SiteGeneratorWizard
     private static array $states = [];
 
     /**
-     * Contains the settings of the current extension
+     * Contains the settings of the current extension.
      *
      * @var array
      */
     protected array $settings = [];
 
     /**
-     *
-     * Get extension settings from TypoScript
+     * Get extension settings from TypoScript.
      *
      * @return array
      */
     public function getSettings(): array
     {
-        return ($this->settings);
+        return $this->settings;
     }
 
     /**
-     * Get states from TS
-     *
-     * @return void
+     * Get states from TS.
      */
     protected function getStates(): void
     {
@@ -73,13 +69,13 @@ class SiteGeneratorWizard
     }
 
     /**
-     * Start site generation wizard
+     * Start site generation wizard.
      *
      * @param BaseDto $siteData Data coming from forms : mandatory and optional data
-     * @param array $settings Settings from TypoScript configuration (could have been override with Page TsConfig)
-     * @return void
+     * @param array   $settings Settings from TypoScript configuration (could have been override with Page TsConfig)
+     *
      * @throws AspectNotFoundException
-     * @throws \Exception
+     * @throws Exception
      */
     public function startWizard(BaseDto $siteData, array $settings): void
     {
@@ -100,7 +96,7 @@ class SiteGeneratorWizard
         $GLOBALS['BE_USER']->user['admin'] = true;
 
         // Process all steps : steps are defined in setup TS, field wizardSteps
-        while ($this->currentState !== NULL) {
+        while ($this->currentState !== null) {
             $this->currentState->process($this);
             $this->setNextWizardState();
         }
@@ -110,10 +106,9 @@ class SiteGeneratorWizard
     }
 
     /**
-     * Set next wizard state
+     * Set next wizard state.
      *
-     * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     public function setNextWizardState(): void
     {
@@ -131,12 +126,12 @@ class SiteGeneratorWizard
     }
 
     /**
-     * Get site data (i.e. data from Form/DTO)
+     * Get site data (i.e. data from Form/DTO).
      *
      * @return BaseDto
      */
     public function getSiteData(): BaseDto
     {
-        return ($this->siteData);
+        return $this->siteData;
     }
 }

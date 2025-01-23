@@ -17,9 +17,10 @@ use Psr\Log\LogLevel;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 use TYPO3\CMS\Core\Utility\StringUtility;
+use Exception;
 
 /**
- * StateCreateBeGroup
+ * StateCreateBeGroup.
  */
 class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterface
 {
@@ -29,11 +30,11 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
     }
 
     /**
-     * Create BE user group
+     * Create BE user group.
      *
      * @param SiteGeneratorWizard $context
-     * @return void
-     * @throws \Exception
+     *
+     * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void
     {
@@ -44,10 +45,12 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
     }
 
     /**
-     * Create BE group with file mount, DB mount, access lists
+     * Create BE group with file mount, DB mount, access lists.
      *
      * @param BaseDto $siteData New site data
-     * @throws \Exception
+     *
+     * @throws Exception
+     *
      * @return int The uid of the group created
      */
     protected function createBeGroup(BaseDto $siteData): int
@@ -68,7 +71,7 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
             'tables_modify' => ($extensionConfiguration['tablesModify'] ?: null),
             'explicit_allowdeny' => ($extensionConfiguration['explicitAllowdeny'] ?: null),
             'TSconfig' => 'options.defaultUploadFolder = 1:' . ($siteData->getBaseFolderName() ? $siteData->getBaseFolderName() . '/' : '') . strtolower($siteData->getTitleSanitize()) . '/',
-            'file_mountpoints' => ''
+            'file_mountpoints' => '',
         ];
 
         // Set common mountpoint
@@ -91,13 +94,12 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
             $this->log(LogLevel::NOTICE, 'Create BE group successful (uid = ' . $groupId);
             // @extensionScannerIgnoreLine
             $siteData->addMessage($this->translate('generate.success.beGroupCreated', [$groupName, $groupId]));
-        }
-        else {
+        } else {
             $this->log(LogLevel::ERROR, 'Create BE group error');
-            throw new \Exception($this->translate('wizard.beGroup.error'));
+            throw new Exception($this->translate('wizard.beGroup.error'));
         }
 
-        return ($groupId);
+        return $groupId;
     }
 
 }

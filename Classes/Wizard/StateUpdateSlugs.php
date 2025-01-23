@@ -22,15 +22,14 @@ use Oktopuce\SiteGenerator\Dto\BaseDto;
 use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
 
 /**
- * StateUpdateSlugs
+ * StateUpdateSlugs.
  */
 class StateUpdateSlugs extends StateBase implements SiteGeneratorStateInterface
 {
     /**
-     * Update slugs for new tree structure
+     * Update slugs for new tree structure.
      *
      * @param SiteGeneratorWizard $context
-     * @return void
      */
     public function process(SiteGeneratorWizard $context): void
     {
@@ -39,10 +38,9 @@ class StateUpdateSlugs extends StateBase implements SiteGeneratorStateInterface
     }
 
     /**
-     * Update slugs for new tree structure
+     * Update slugs for new tree structure.
      *
      * @param BaseDto $siteData New site data
-     * @return void
      */
     protected function updateSlugs(BaseDto $siteData): void
     {

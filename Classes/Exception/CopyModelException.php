@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Exception;
 
-class CopyModelException extends \Exception
-{
-}
+use Exception;
+
+class CopyModelException extends Exception {}

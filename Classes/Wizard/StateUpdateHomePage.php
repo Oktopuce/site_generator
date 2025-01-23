@@ -18,7 +18,7 @@ use Oktopuce\SiteGenerator\Domain\Repository\PagesRepository;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 
 /**
- * StateUpdateHomePage
+ * StateUpdateHomePage.
  */
 class StateUpdateHomePage extends StateBase implements SiteGeneratorStateInterface
 {
@@ -28,32 +28,29 @@ class StateUpdateHomePage extends StateBase implements SiteGeneratorStateInterfa
     }
 
     /**
-     * Update home page with new name
+     * Update home page with new name.
      *
      * @param SiteGeneratorWizard $context
-     * @return void
      */
     public function process(SiteGeneratorWizard $context): void
     {
         $settings = $context->getSettings();
 
         // Update the home page with the form data
-        $this->updateHomePage($context->getSiteData(), (int)($settings['siteGenerator']['wizard']['hideHomePage'] ?? 0));
+        $this->updateHomePage($context->getSiteData(), (int) ($settings['siteGenerator']['wizard']['hideHomePage'] ?? 0));
     }
 
     /**
-     * Update the home page with the form data
+     * Update the home page with the form data.
      *
-     * @param BaseDto $siteData New site data
-     * @param int $hideHomePage If 1, home page will be hidden
-     *
-     * @return void
+     * @param BaseDto $siteData     New site data
+     * @param int     $hideHomePage If 1, home page will be hidden
      */
     protected function updateHomePage(BaseDto $siteData, int $hideHomePage): void
     {
         $updateValues = [
             'title' => $siteData->getTitle(),
-            'hidden' => $hideHomePage
+            'hidden' => $hideHomePage,
         ];
 
         $this->pagesRepository->updatePage($siteData->getHpPid(), $updateValues);

@@ -28,7 +28,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class StateBase
 {
     /**
-     * @var LoggerInterface|null|Logger
+     * @var Logger|LoggerInterface|null
      */
     protected LoggerInterface|null|Logger $logger = null;
     protected readonly SiteFinder $siteFinder;
@@ -53,7 +53,7 @@ class StateBase
      */
     public function log($level, $message, array $data = []): void
     {
-        $this->logger->log($level, "Site generator : " . $message, $data);
+        $this->logger->log($level, 'Site generator : ' . $message, $data);
     }
 
     /*
@@ -67,11 +67,11 @@ class StateBase
      */
     public function translate($key, $arguments = null, $extensionName = 'site_generator'): ?string
     {
-        return (LocalizationUtility::translate($key, $extensionName, $arguments));
+        return LocalizationUtility::translate($key, $extensionName, $arguments);
     }
 
     /**
-     * Get data from extension configuration, data can be override by site configuration
+     * Get data from extension configuration, data can be override by site configuration.
      *
      * @return array
      */
@@ -81,7 +81,7 @@ class StateBase
 
         try {
             $request = $this->getRequest();
-            $id = (int)($request->getQueryParams()['id'] ?? $request->getParsedBody()['id'] ?? 0);
+            $id = (int) ($request->getQueryParams()['id'] ?? $request->getParsedBody()['id'] ?? 0);
 
             if ($id) {
                 // Retrieve site generator configuration in site configuration
@@ -90,14 +90,14 @@ class StateBase
 
                 // Override data with site configuration
                 foreach ($siteConfiguration['siteGenerator'] ?? [] as $key => $value) {
-                    $extensionConfiguration[$key] = (string)$value;
+                    $extensionConfiguration[$key] = (string) $value;
                 }
             }
         } catch (SiteNotFoundException $exception) {
             // No site configuration for this page
         }
 
-        return ($extensionConfiguration);
+        return $extensionConfiguration;
     }
 
     private function getRequest(): ServerRequestInterface

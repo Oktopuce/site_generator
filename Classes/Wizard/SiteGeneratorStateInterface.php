@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Oktopuce\SiteGenerator\Wizard;
 
-interface SiteGeneratorStateInterface {
+interface SiteGeneratorStateInterface
+{
     public function process(SiteGeneratorWizard $context): void;
 }

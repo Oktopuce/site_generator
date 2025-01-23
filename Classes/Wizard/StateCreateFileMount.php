@@ -16,12 +16,12 @@ namespace Oktopuce\SiteGenerator\Wizard;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
-use TYPO3\CMS\Core\Information\Typo3Version;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
+use Exception;
+use RuntimeException;
 
 /**
- * StateCreateFileMount
+ * StateCreateFileMount.
  */
 class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterface
 {
@@ -31,11 +31,11 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
     }
 
     /**
-     * Create file mount for foler create in previous step
+     * Create file mount for foler create in previous step.
      *
      * @param SiteGeneratorWizard $context
-     * @return void
-     * @throws \Exception
+     *
+     * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void
     {
@@ -46,11 +46,13 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
     }
 
     /**
-     * Create file mount for site
+     * Create file mount for site.
      *
      * @param BaseDto $siteData New site data
+     *
+     * @throws Exception
+     *
      * @return int The uid of the mounted file
-     * @throws \Exception
      */
     protected function createFileMount(BaseDto $siteData): int
     {
@@ -65,7 +67,7 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
             'title' => $siteData->getTitle(),
             /* 1 = fileadmin */
             'identifier' => '1:' . $path,
-            'pid' => 0
+            'pid' => 0,
         ];
 
         $this->dataHandler->start($data, []);
@@ -80,10 +82,10 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
             $siteData->addMessage($this->translate('generate.success.createFileMount', [$path, $mountId]));
         } else {
             $this->log(LogLevel::ERROR, 'Create file mount error');
-            throw new \RuntimeException($this->translate('wizard.fileMount.error'));
+            throw new RuntimeException($this->translate('wizard.fileMount.error'));
         }
 
-        return ($mountId);
+        return $mountId;
     }
 
 }

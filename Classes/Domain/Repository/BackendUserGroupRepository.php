@@ -21,9 +21,8 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
     /**
      * Sets the custom options field.
      *
-     * @param int $uid  The uid of the group to update
+     * @param int    $uid           The uid of the group to update
      * @param string $customOptions The new custom options
-     * @return void
      */
     public function setCustomOptions(int $uid, string $customOptions): void
     {
@@ -32,7 +31,7 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
         $queryBuilder
            ->update('be_groups')
            ->where(
-              $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT))
+               $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT))
            )->set('custom_options', $customOptions)->executeStatement();
     }
 
@@ -40,8 +39,10 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
      * Gets the custom options field.
      *
      * @param int $uid The uid of the group
-     * @return string The current custom options
+     *
      * @throws Exception
+     *
+     * @return string The current custom options
      */
     public function getCustomOptions(int $uid): string
     {
@@ -51,15 +52,14 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
             ->from('be_groups')->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)))->executeQuery()
             ->fetchAssociative();
 
-        return ($row['custom_options'] ?? '');
+        return $row['custom_options'] ?? '';
     }
 
     /**
      * Sets the file mountpoints field.
      *
-     * @param int $uid  The uid of the group to update
+     * @param int    $uid        The uid of the group to update
      * @param string $fileMounts The new custom file mounts
-     * @return void
      */
     public function setFileMounts(int $uid, string $fileMounts): void
     {
@@ -68,7 +68,7 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
         $queryBuilder
            ->update('be_groups')
            ->where(
-              $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT))
+               $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT))
            )->set('file_mountpoints', $fileMounts)->executeStatement();
     }
 
@@ -76,8 +76,10 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
      * Gets the file mountpoints field.
      *
      * @param int $uid The uid of the group
-     * @return string The current file mounts
+     *
      * @throws Exception
+     *
+     * @return string The current file mounts
      */
     public function getFileMounts(int $uid): string
     {
@@ -87,6 +89,6 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Beuser\Domain\Repository\Bac
             ->from('be_groups')->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)))->executeQuery()
             ->fetchAssociative();
 
-        return ($row['file_mountpoints'] ?? '');
+        return $row['file_mountpoints'] ?? '';
     }
 }

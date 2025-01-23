@@ -36,48 +36,52 @@ use Oktopuce\SiteGenerator\Dto\SiteGeneratorDto;
 use Oktopuce\SiteGenerator\Wizard\Event\BeforeRenderingFirstStepViewEvent;
 use Oktopuce\SiteGenerator\Wizard\Event\BeforeRenderingSecondStepViewEvent;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Exception;
+use JsonException;
+use ReflectionException;
+use ReflectionMethod;
 
 /**
- * SiteGeneratorController
+ * SiteGeneratorController.
  */
 class SiteGeneratorController extends ActionController
 {
     /**
-     * The local configuration array
+     * The local configuration array.
      *
      * @var array
      */
     protected array $conf = [];
 
     /**
-     * The data transfer object form => wizard
+     * The data transfer object form => wizard.
      *
      * @var SiteGeneratorDto Could also be DTO defined by TS
      */
     protected SiteGeneratorDto $siteGeneratorDto;
 
     /**
-     * Extension configuration
+     * Extension configuration.
      *
      * @var array
      */
     protected array $extensionConfiguration = [];
 
     /**
-     * Current page ID
+     * Current page ID.
      *
      * @var int
      */
     protected int $id = 0;
 
     /**
-     * The constructor of this class
+     * The constructor of this class.
      *
      * @param ModuleTemplateFactory $moduleTemplateFactory
-     * @param SiteGeneratorWizard $siteGeneratorWizard
-     * @param IconFactory $iconFactory
-     * @param PageRenderer $pageRenderer
-     * @param SiteFinder $siteFinder
+     * @param SiteGeneratorWizard   $siteGeneratorWizard
+     * @param IconFactory           $iconFactory
+     * @param PageRenderer          $pageRenderer
+     * @param SiteFinder            $siteFinder
      */
     public function __construct(
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
@@ -85,16 +89,15 @@ class SiteGeneratorController extends ActionController
         protected readonly IconFactory $iconFactory,
         private readonly PageRenderer $pageRenderer,
         private readonly SiteFinder $siteFinder
-    ) {
-    }
+    ) {}
 
     /**
-     * @throws \ReflectionException
-     * @throws \JsonException
+     * @throws ReflectionException
+     * @throws JsonException
      */
     protected function initializeAction(): void
     {
-        $this->id = (int)($this->request->getQueryParams()['id'] ?? $this->request->getParsedBody()['id'] ?? 0);
+        $this->id = (int) ($this->request->getQueryParams()['id'] ?? $this->request->getParsedBody()['id'] ?? 0);
 
         $this->overrideSettingsWithPageTsConfig();
 
@@ -114,14 +117,12 @@ class SiteGeneratorController extends ActionController
         $this->pageRenderer->addInlineLanguageLabelArray([
             'alert' => $this->getLanguageService()->sL('LLL:EXT:site_generator/Resources/Private/Language/backend.xlf:alert'),
             'mandatory_fields' => $this->getLanguageService()->sL('LLL:EXT:site_generator/Resources/Private/Language/backend.xlf:allfieldsMandatory'),
-            'ok' => $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_common.xlf:ok')
+            'ok' => $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_common.xlf:ok'),
         ]);
     }
 
     /**
-     * Settings could be overwritten with Page TsConfig
-     *
-     * @return void
+     * Settings could be overwritten with Page TsConfig.
      */
     protected function overrideSettingsWithPageTsConfig(): void
     {
@@ -129,11 +130,11 @@ class SiteGeneratorController extends ActionController
 
         // Retrieve page TSconfig for current page
         $pageTsConfig = BackendUtility::getPagesTSconfig($currentPageId);
-        $settingsOverrule = GeneralUtility::removeDotsFromTS((array)($pageTsConfig['module.']['tx_sitegenerator.']['settings.'] ?? []));
+        $settingsOverrule = GeneralUtility::removeDotsFromTS((array) ($pageTsConfig['module.']['tx_sitegenerator.']['settings.'] ?? []));
 
         if (!empty($settingsOverrule)) {
             if (isset($settingsOverrule['siteGenerator']['wizard']['steps']['clear'])
-                && (int)$settingsOverrule['siteGenerator']['wizard']['steps']['clear'] === 1) {
+                && (int) $settingsOverrule['siteGenerator']['wizard']['steps']['clear'] === 1) {
                 // Clear all steps
                 $clearAllSteps['siteGenerator']['wizard']['steps'] = '__UNSET';
                 ArrayUtility::mergeRecursiveWithOverrule($this->settings, $clearAllSteps);
@@ -145,11 +146,10 @@ class SiteGeneratorController extends ActionController
     }
 
     /**
-     * Store DTO Data from form
+     * Store DTO Data from form.
      *
-     * @return void
-     * @throws \JsonException
-     * @throws \ReflectionException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     public function storeDtoData(): void
     {
@@ -162,8 +162,10 @@ class SiteGeneratorController extends ActionController
 
         if ($siteDtoSaved) {
             // Restore saved form data
-            $this->siteGeneratorDto = unserialize(json_decode((string)$siteDtoSaved, false, 512, JSON_THROW_ON_ERROR),
-                [true]);
+            $this->siteGeneratorDto = unserialize(
+                json_decode((string) $siteDtoSaved, false, 512, JSON_THROW_ON_ERROR),
+                [true]
+            );
         } else {
             // Store form data in DTO
             $this->siteGeneratorDto = GeneralUtility::makeInstance($this->settings['siteGenerator']['wizard']['formDto']);
@@ -173,7 +175,7 @@ class SiteGeneratorController extends ActionController
 
             if ($this->siteGeneratorDto instanceof SiteGeneratorDto) {
                 $this->siteGeneratorDto->setGroupPrefix($this->getExtensionConfiguration('groupPrefix'));
-                $this->siteGeneratorDto->setCommonMountPointUid((int)$this->getExtensionConfiguration('commonMountPointUid'));
+                $this->siteGeneratorDto->setCommonMountPointUid((int) $this->getExtensionConfiguration('commonMountPointUid'));
                 $this->siteGeneratorDto->setBaseFolderName($this->getExtensionConfiguration('baseFolderName'));
                 $this->siteGeneratorDto->setSubFolderNames($this->getExtensionConfiguration('subFolderNames'));
             }
@@ -181,10 +183,10 @@ class SiteGeneratorController extends ActionController
 
         if ($parameters) {
             foreach ($parameters as $key => $value) {
-                $setter = 'set' . ucfirst((string)$key);
+                $setter = 'set' . ucfirst((string) $key);
 
                 // Retrieve method parameter type
-                $reflectionFunc = new \ReflectionMethod($this->siteGeneratorDto::class, $setter);
+                $reflectionFunc = new ReflectionMethod($this->siteGeneratorDto::class, $setter);
                 $reflectionParams = $reflectionFunc->getParameters();
 
                 if ($reflectionParams[0]->getType() && $reflectionParams[0]->getType()->getName()) {
@@ -197,10 +199,11 @@ class SiteGeneratorController extends ActionController
     }
 
     /**
-     * Display a form to gather data (first step)
+     * Display a form to gather data (first step).
+     *
+     * @throws \Doctrine\DBAL\Exception|RouteNotFoundException
      *
      * @return ResponseInterface The rendered view
-     * @throws RouteNotFoundException|\Doctrine\DBAL\Exception
      */
     protected function getDataFirstStepAction(): ResponseInterface
     {
@@ -224,7 +227,7 @@ class SiteGeneratorController extends ActionController
             'modelPages' => $modelPages,
             'action' => ($this->getExtensionConfiguration('onlyOneFormPage') ? 'generateSite' : 'getDataSecondStep'),
             'returnurl' => $this->conf['returnurl'],
-            'rules' => '[{"type":"required"}]'
+            'rules' => '[{"type":"required"}]',
         ];
 
         // Add event to assign more variables to the view (useful when using your own template)
@@ -234,10 +237,11 @@ class SiteGeneratorController extends ActionController
     }
 
     /**
-     * Display a form to gather data (second step)
+     * Display a form to gather data (second step).
+     *
+     * @throws RouteNotFoundException
      *
      * @return ResponseInterface The rendered view
-     * @throws RouteNotFoundException
      */
     protected function getDataSecondStepAction(): ResponseInterface
     {
@@ -265,7 +269,7 @@ class SiteGeneratorController extends ActionController
     }
 
     /**
-     * Call wizard for new site generation
+     * Call wizard for new site generation.
      *
      * @return ResponseInterface The rendered view
      */
@@ -276,13 +280,13 @@ class SiteGeneratorController extends ActionController
         try {
             // Start the wizard
             $this->siteGeneratorWizard->startWizard($this->siteGeneratorDto, $this->settings);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $errorMessage = $e->getMessage();
         }
 
         $viewVariables = [
             'errorMessage' => $errorMessage,
-            'sucessMessage' => $this->siteGeneratorWizard->getSiteData()->getMessage()
+            'sucessMessage' => $this->siteGeneratorWizard->getSiteData()->getMessage(),
         ];
 
         // Update page tree
@@ -296,7 +300,7 @@ class SiteGeneratorController extends ActionController
     }
 
     /**
-     * Get data from extension configuration or override by site configuration (new data can also be added)
+     * Get data from extension configuration or override by site configuration (new data can also be added).
      *
      * @param string $name Name of data to retrieve from configuration
      *
@@ -309,20 +313,19 @@ class SiteGeneratorController extends ActionController
 
             try {
                 // Retrieve site generator configuration in site configuration
-                $site = $this->siteFinder->getSiteByPageId((int)$this->request->getArgument('id'));
+                $site = $this->siteFinder->getSiteByPageId((int) $this->request->getArgument('id'));
                 $siteConfiguration = $site->getConfiguration();
 
                 // Override data with site configuration
                 foreach ($siteConfiguration['siteGenerator'] ?? [] as $key => $value) {
-                    $this->extensionConfiguration[$key] = (string)$value;
+                    $this->extensionConfiguration[$key] = (string) $value;
                 }
-            }
-            catch (SiteNotFoundException $exception) {
+            } catch (SiteNotFoundException $exception) {
                 // No site configuration for this page
             }
         }
 
-        return ($this->extensionConfiguration[$name] ?? '');
+        return $this->extensionConfiguration[$name] ?? '';
     }
 
     /**
@@ -334,18 +337,20 @@ class SiteGeneratorController extends ActionController
     }
 
     /**
-     * Generate URI for a backend module
+     * Generate URI for a backend module.
      *
-     * @param string $name The name of the route
-     * @param array $parameters
-     * @return string
+     * @param string $name       The name of the route
+     * @param array  $parameters
+     *
      * @throws RouteNotFoundException
+     *
+     * @return string
      */
     public function buildUriFromRoute(string $name, array $parameters = []): string
     {
         /** @var UriBuilder $uriBuilder */
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-        return (((string)$uriBuilder->buildUriFromRoute($name, $parameters)));
+        return (string) $uriBuilder->buildUriFromRoute($name, $parameters);
     }
 
     protected function addDocHeaderBackButton(ModuleTemplate $view): void
@@ -367,9 +372,10 @@ class SiteGeneratorController extends ActionController
     }
 
     /**
-     * Creation of the view
+     * Creation of the view.
      *
      * @param array $variables Variables for the view
+     *
      * @return ModuleTemplate
      */
     protected function createView(array $variables): ModuleTemplate
@@ -383,7 +389,7 @@ class SiteGeneratorController extends ActionController
         if ($pageAccess !== []) {
             $view->getDocHeaderComponent()->setMetaInformation($pageAccess);
         }
-        return ($view);
+        return $view;
     }
 
     protected function getBackendUser(): BackendUserAuthentication

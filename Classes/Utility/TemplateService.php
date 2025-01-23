@@ -23,12 +23,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 // Cf. app/vendor/typo3/cms-tstemplate/Classes/Controller/ConstantEditorController.php
 class TemplateService
 {
-    public function __construct(private readonly ConnectionPool $connectionPool)
-    {
-    }
+    public function __construct(private readonly ConnectionPool $connectionPool) {}
 
     /**
      * Get an array of all template records on a page.
+     *
      * @throws Exception
      */
     public function getAllTemplateRecordsOnPage(int $pageId): array
@@ -80,7 +79,7 @@ class TemplateService
                 $key = substr($line, 0, $operatorPosition);
                 $line = ltrim(substr($line, $operatorPosition));
                 if ($line[0] === '=' || str_starts_with($line, ':=')) {
-                    $constantPositions[$prefix . $key . "_" . $lineCounter] = $lineCounter - 1;
+                    $constantPositions[$prefix . $key . '_' . $lineCounter] = $lineCounter - 1;
                 } elseif ($line[0] === '{') {
                     $braceLevel++;
                     $this->calculateConstantPositions($rawTemplateConstantsArray, $constantPositions, $prefix . $key . '.', $braceLevel, $lineCounter);
@@ -99,10 +98,11 @@ class TemplateService
     }
 
     /**
-     * Update a constant value
+     * Update a constant value.
      *
      * @param string $rawConstant The raw constant line
-     * @param string $var The new value
+     * @param string $var         The new value
+     *
      * @return string
      */
     public function updateValueInConf(string $rawConstant, string $var): string

@@ -20,7 +20,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
 
 /**
- * StateUpdateTemplate
+ * StateUpdateTemplate.
  */
 class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
 {
@@ -30,10 +30,9 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
     }
 
     /**
-     * Update Page TS with the new uids (i.e. : for TCEMAIN.clearCacheCmd)
+     * Update Page TS with the new uids (i.e. : for TCEMAIN.clearCacheCmd).
      *
      * @param SiteGeneratorWizard $context
-     * @return void
      */
     public function process(SiteGeneratorWizard $context): void
     {
@@ -42,10 +41,9 @@ class StateUpdatePageTs extends StateBase implements SiteGeneratorStateInterface
     }
 
     /**
-     * Update page TS to set new uids for TCEMAIN.clearCacheCmd
+     * Update page TS to set new uids for TCEMAIN.clearCacheCmd.
      *
      * @param BaseDto $siteData New site data
-     * @return void
      */
     protected function updatePageTS(BaseDto $siteData): void
     {

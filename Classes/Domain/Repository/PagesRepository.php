@@ -23,13 +23,11 @@ use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 
 class PagesRepository
 {
-
     /**
-     * Update page
+     * Update page.
      *
-     * @param int $uid  The page record to update
-     * @param array $updateValues  The columns/values to set
-     * @return void
+     * @param int   $uid          The page record to update
+     * @param array $updateValues The columns/values to set
      */
     public function updatePage(int $uid, array $updateValues): void
     {
@@ -53,12 +51,13 @@ class PagesRepository
     }
 
     /**
-     * Get pages title
+     * Get pages title.
      *
      * @param string $uids Uid comma separated
      *
-     * @return array
      * @throws Exception
+     *
+     * @return array
      */
     public function getPages(string $uids): array
     {
@@ -73,16 +72,17 @@ class PagesRepository
             ->executeQuery()
             ->fetchAllAssociative();
 
-        return ($pages);
+        return $pages;
     }
 
     /**
-     * Find a root site id between a set of pages
+     * Find a root site id between a set of pages.
      *
      * @param array $uids The pages ids to look for a root line
      *
-     * @return int
      * @throws Exception
+     *
+     * @return int
      */
     public function getRootSiteId(array $uids): int
     {
@@ -93,12 +93,13 @@ class PagesRepository
             ->from('pages')
             ->setMaxResults(1)
             ->where(
-                $queryBuilder->expr()->in('uid', $queryBuilder->createNamedParameter($uids, Connection::PARAM_INT_ARRAY)), $queryBuilder->expr()->eq('is_siteroot', true)
+                $queryBuilder->expr()->in('uid', $queryBuilder->createNamedParameter($uids, Connection::PARAM_INT_ARRAY)),
+                $queryBuilder->expr()->eq('is_siteroot', true)
             )
             ->executeQuery()
             ->fetchAllAssociative();
 
-        return ((!empty($rootPage) ? $rootPage[0]['uid'] : 0));
+        return !empty($rootPage) ? $rootPage[0]['uid'] : 0;
     }
 
     /**

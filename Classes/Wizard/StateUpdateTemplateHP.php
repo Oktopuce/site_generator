@@ -24,15 +24,15 @@ use Oktopuce\SiteGenerator\Utility\TemplateService;
 use Oktopuce\SiteGenerator\Wizard\Event\UpdateTemplateHPEvent;
 
 /**
- * StateUpdateTemplate
+ * StateUpdateTemplate.
  */
 class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInterface
 {
     /**
      * @param TemplateDirectivesService $templateDirectivesService
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param TemplateService $templateService
-     * @param DataHandler $dataHandler
+     * @param EventDispatcherInterface  $eventDispatcher
+     * @param TemplateService           $templateService
+     * @param DataHandler               $dataHandler
      */
     public function __construct(
         readonly protected TemplateDirectivesService $templateDirectivesService,
@@ -44,10 +44,9 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
     }
 
     /**
-     * Update site template with the new uids
+     * Update site template with the new uids.
      *
      * @param SiteGeneratorWizard $context
-     * @return void
      */
     public function process(SiteGeneratorWizard $context): void
     {
@@ -56,10 +55,10 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
     }
 
     /**
-     * Update site templates to set new uids
+     * Update site templates to set new uids.
      *
      * @param BaseDto $siteData New site data
-     * @return void
+     *
      * @throws Exception
      */
     protected function updateTemplate(BaseDto $siteData): void
@@ -68,7 +67,7 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
         $allTemplatesOnPage = $this->templateService->getAllTemplateRecordsOnPage($siteData->getHpPid());
 
         foreach ($allTemplatesOnPage as $template) {
-            $rawTemplateConstantsArray = explode(LF, (string)$template['constants']);
+            $rawTemplateConstantsArray = explode(LF, (string) $template['constants']);
             $constantPositions = $this->templateService->calculateConstantPositions($rawTemplateConstantsArray);
 
             $updatedTemplateConstantsArray = [];
@@ -81,34 +80,45 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
 
                 $value = GeneralUtility::trimExplode('=', $rawTemplateConstantsArray[$rawP], false, 2);
 
-                $uidsToExclude = GeneralUtility::trimExplode(',',
-                    $this->templateDirectivesService->getIgnoreUids(), true);
+                $uidsToExclude = GeneralUtility::trimExplode(
+                    ',',
+                    $this->templateDirectivesService->getIgnoreUids(),
+                    true
+                );
                 $filteredMapping = $mapping = $siteData->getMappingArrayMerge($table);
 
                 // Manage uids to exclude
                 if (!empty($uidsToExclude)) {
-                    $filteredMapping = array_filter($mapping,
-                        static fn($key) => !in_array((string)$key, $uidsToExclude, true), ARRAY_FILTER_USE_KEY);
+                    $filteredMapping = array_filter(
+                        $mapping,
+                        static fn($key) => !in_array((string) $key, $uidsToExclude, true),
+                        ARRAY_FILTER_USE_KEY
+                    );
                 }
 
                 $action = $this->templateDirectivesService->getAction('mapInList');
                 $updatedValue = '';
 
                 switch ($action) {
-                    case 'mapInList' :
+                    case 'mapInList':
                         $updatedValue = $this->mapInList($value[1], $filteredMapping);
                         break;
-                    case 'mapInString' :
+                    case 'mapInString':
                         $updatedValue = $this->mapInString($value[1], $filteredMapping);
                         break;
-                    case 'exclude' :
+                    case 'exclude':
                         // Exclude all line
                         break;
-                    default :
+                    default:
                         // Call custom action if there is one
                         $parameters = $this->templateDirectivesService->getParameters();
-                        $event = $this->eventDispatcher->dispatch(new UpdateTemplateHPEvent($action, $parameters,
-                            $value[1], $filteredMapping, $this->templateDirectivesService));
+                        $event = $this->eventDispatcher->dispatch(new UpdateTemplateHPEvent(
+                            $action,
+                            $parameters,
+                            $value[1],
+                            $filteredMapping,
+                            $this->templateDirectivesService
+                        ));
                         $updatedValue = $event->getUpdatedValue();
                         break;
                 }
@@ -120,8 +130,10 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
 
             if ($updatedTemplateConstantsArray) {
                 foreach ($updatedTemplateConstantsArray as $rowP => $updatedTemplateConstant) {
-                    $rawTemplateConstantsArray[$rowP] = $this->templateService->updateValueInConf($rawTemplateConstantsArray[$rowP],
-                        $updatedTemplateConstant);
+                    $rawTemplateConstantsArray[$rowP] = $this->templateService->updateValueInConf(
+                        $rawTemplateConstantsArray[$rowP],
+                        $updatedTemplateConstant
+                    );
                 }
 
                 // Set the data to be saved
@@ -135,8 +147,7 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
                 // @extensionScannerIgnoreLine
                 $siteData->addMessage($this->translate('generate.success.templateHpUpdated'));
                 $this->log(LogLevel::NOTICE, 'Update home page template with new uids done');
-            }
-            else {
+            } else {
                 // @extensionScannerIgnoreLine
                 $siteData->addMessage($this->translate('generate.warning.templateHpUpdated'));
             }
@@ -144,10 +155,11 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
     }
 
     /**
-     * Update constant in list
+     * Update constant in list.
      *
      * @param string $value
-     * @param array $filteredMapping
+     * @param array  $filteredMapping
+     *
      * @return string Empty string or value updated
      */
     protected function mapInList(
@@ -168,16 +180,18 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
             $listOfInt = GeneralUtility::trimExplode(',', $value, true);
 
             // Set new uid for constants
-            array_walk($listOfInt,
+            array_walk(
+                $listOfInt,
                 static function (&$constantValue) use ($filteredMapping, &$updateConstant) {
-                    if (isset($filteredMapping[(int)$constantValue])) {
-                        $constantValue = $filteredMapping[(int)$constantValue];
+                    if (isset($filteredMapping[(int) $constantValue])) {
+                        $constantValue = $filteredMapping[(int) $constantValue];
                         $updateConstant = true;
                     }
-                });
+                }
+            );
 
             if ($updateConstant) {
-//                return implode(',', $listOfInt);
+                //                return implode(',', $listOfInt);
                 $newList = implode(',', $listOfInt);
                 if ($functionName) {
                     $newList = "$functionName($newList)";
@@ -185,14 +199,15 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
                 return $newList;
             }
         }
-        return ('');
+        return '';
     }
 
     /**
-     * Update constants in string
+     * Update constants in string.
      *
      * @param string $value
-     * @param array $filteredMapping
+     * @param array  $filteredMapping
+     *
      * @return string Empty string or value updated
      */
     protected function mapInString(
@@ -202,15 +217,15 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
         $updateConstant = false;
         $count = 0;
 
-        # A replacement could occur many times, for example, with $filteredMapping = [7 => 61, 6 => 62]
-        # The result for addToList(6,7) will be addToList(62,621) instead of addToList(62,61)
+        // A replacement could occur many times, for example, with $filteredMapping = [7 => 61, 6 => 62]
+        // The result for addToList(6,7) will be addToList(62,621) instead of addToList(62,61)
         foreach ($filteredMapping as $modelUid => $siteUid) {
-            $value = str_replace((string)$modelUid, (string)$siteUid, $value, $count);
+            $value = str_replace((string) $modelUid, (string) $siteUid, $value, $count);
             $updateConstant = ($updateConstant || $count > 0);
         }
         if ($updateConstant) {
-            return ($value);
+            return $value;
         }
-        return ('');
+        return '';
     }
 }

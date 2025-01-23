@@ -19,9 +19,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use Psr\Log\LogLevel;
 use Oktopuce\SiteGenerator\Dto\BaseDto;
+use Exception;
+use RuntimeException;
 
 /**
- * StateCreateFolder
+ * StateCreateFolder.
  */
 class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
 {
@@ -34,28 +36,27 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
     }
 
     /**
-     * Create site folder in fileadmin : base Folder / site title / sub folder
+     * Create site folder in fileadmin : base Folder / site title / sub folder.
      *
      * @param SiteGeneratorWizard $context
-     * @return void
-     * @throws \Exception
+     *
+     * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void
     {
         $settings = $context->getSettings();
 
         // Create folders in storage
-        $this->createFolders($context->getSiteData(), (int)($settings['siteGenerator']['wizard']['storageUid'] ?? 0));
+        $this->createFolders($context->getSiteData(), (int) ($settings['siteGenerator']['wizard']['storageUid'] ?? 0));
     }
 
     /**
-     * Create folder "fileadmin/base_folder/sites_title", with sub-folders "documents" and "images"
+     * Create folder "fileadmin/base_folder/sites_title", with sub-folders "documents" and "images".
      *
-     * @param BaseDto $siteData New site data
-     * @param int $storageUid The uid of storage to use
-     * @throws \Exception
+     * @param BaseDto $siteData   New site data
+     * @param int     $storageUid The uid of storage to use
      *
-     * @return void
+     * @throws Exception
      */
     protected function createFolders(BaseDto $siteData, int $storageUid): void
     {
@@ -106,10 +107,10 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
                 }
             } catch (InsufficientFolderWritePermissionsException) {
                 $this->log(LogLevel::ERROR, 'You are not allowed to create directories! ("%s")', [$currentFolder]);
-                throw new \RuntimeException($this->translate('wizard.folderCreation.error', [$currentFolder]));
+                throw new RuntimeException($this->translate('wizard.folderCreation.error', [$currentFolder]));
             } catch (InsufficientFolderAccessPermissionsException) {
                 $this->log(LogLevel::ERROR, 'You don\'t have full access to the destination directory "%s"!', [$currentFolder]);
-                throw new \RuntimeException($this->translate('wizard.folderCreation.error', [$currentFolder]));
+                throw new RuntimeException($this->translate('wizard.folderCreation.error', [$currentFolder]));
             }
 
             $this->log(LogLevel::NOTICE, 'Folder creation successfull');

@@ -23,7 +23,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\ContextMenu\ItemProviders\AbstractProvider;
 
 /**
- * Item provider for site generator
+ * Item provider for site generator.
  */
 class SiteGeneratorItemProvider extends AbstractProvider
 {
@@ -39,34 +39,35 @@ class SiteGeneratorItemProvider extends AbstractProvider
     }
 
     /**
-     * This array contains configuration for site generator item
-     * @var array $itemsConfiguration
+     * This array contains configuration for site generator item.
+     *
+     * @var array
      */
     protected $itemsConfiguration = [
         'divider10' => [
-            'type' => 'divider'
+            'type' => 'divider',
         ],
         'siteGenerator' => [
             'type' => 'item',
             'label' => 'LLL:EXT:site_generator/Resources/Private/Language/backend.xlf:itemProvider.siteGenerator',
             'iconIdentifier' => 'tx_site_generator-sitegenerator',
-            'callbackAction' => 'siteGenerator' //name of the function in the JS file
-        ]
+            'callbackAction' => 'siteGenerator', //name of the function in the JS file
+        ],
     ];
 
     /**
-     * The item is only displayed if we're on a page and the pid is the one for new sites
+     * The item is only displayed if we're on a page and the pid is the one for new sites.
      *
      * @return bool
      */
     public function canHandle(): bool
     {
         $sitesPid = $this->getSitesPid();
-        return ($this->table === 'pages' && in_array($this->identifier, $sitesPid, true));
+        return $this->table === 'pages' && in_array($this->identifier, $sitesPid, true);
     }
 
     /**
-     * Get sitesPid from extension configuration (can be override by site configuration)
+     * Get sitesPid from extension configuration (can be override by site configuration).
      *
      * @return array
      */
@@ -76,21 +77,20 @@ class SiteGeneratorItemProvider extends AbstractProvider
 
         try {
             $request = $this->getRequest();
-            $id = (int)($request->getQueryParams()['uid'] ?? $request->getParsedBody()['uid'] ?? 0);
+            $id = (int) ($request->getQueryParams()['uid'] ?? $request->getParsedBody()['uid'] ?? 0);
 
             if ($id) {
                 // Retrieve site generator configuration in site configuration
                 $site = $this->siteFinder->getSiteByPageId($id);
                 $siteConfiguration = $site->getConfiguration();
 
-                $sitesPid = (string)($siteConfiguration['siteGenerator']['sitesPid'] ?? $sitesPid);
+                $sitesPid = (string) ($siteConfiguration['siteGenerator']['sitesPid'] ?? $sitesPid);
             }
-        }
-        catch (SiteNotFoundException $exception) {
+        } catch (SiteNotFoundException $exception) {
             // No site configuration for this page
         }
 
-        return (GeneralUtility::trimExplode(',', $sitesPid));
+        return GeneralUtility::trimExplode(',', $sitesPid);
     }
 
     /**
@@ -110,7 +110,8 @@ class SiteGeneratorItemProvider extends AbstractProvider
     }
 
     /**
-     * Registers custom JS module with item onclick behaviour
+     * Registers custom JS module with item onclick behaviour.
+     *
      * @throws RouteNotFoundException
      */
     protected function getAdditionalAttributes(string $itemName): array
@@ -122,15 +123,16 @@ class SiteGeneratorItemProvider extends AbstractProvider
         /** @var UriBuilder $uriBuilder */
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 
-        $attributes['data-action-url'] = htmlspecialchars((string)$uriBuilder->buildUriFromRoute('tx_wizard_sitegenerator'));
+        $attributes['data-action-url'] = htmlspecialchars((string) $uriBuilder->buildUriFromRoute('tx_wizard_sitegenerator'));
 
         return $attributes;
     }
 
     /**
-     * This method adds the new items at the end of the context menu
+     * This method adds the new items at the end of the context menu.
      *
      * @param array $items
+     *
      * @return array
      */
     public function addItems(array $items): array
@@ -142,10 +144,11 @@ class SiteGeneratorItemProvider extends AbstractProvider
     }
 
     /**
-     * This method is called for each item this provider adds and checks if given item can be added
+     * This method is called for each item this provider adds and checks if given item can be added.
      *
      * @param string $itemName
      * @param string $type
+     *
      * @return bool
      */
     protected function canRender(string $itemName, string $type): bool
