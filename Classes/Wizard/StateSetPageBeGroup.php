@@ -31,7 +31,6 @@ class StateSetPageBeGroup extends StateBase implements SiteGeneratorStateInterfa
     /**
      * Set group BE to all pages.
      *
-     *
      * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void

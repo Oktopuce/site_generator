@@ -32,7 +32,6 @@ class StateCopyModelSite extends StateBase implements SiteGeneratorStateInterfac
     /**
      * Copy model site.
      *
-     *
      * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void

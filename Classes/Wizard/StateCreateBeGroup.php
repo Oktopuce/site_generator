@@ -32,7 +32,6 @@ class StateCreateBeGroup extends StateBase implements SiteGeneratorStateInterfac
     /**
      * Create BE user group.
      *
-     *
      * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void

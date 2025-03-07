@@ -38,7 +38,6 @@ class StateSiteConfiguration extends StateBase implements SiteGeneratorStateInte
     /**
      * Create site management.
      *
-     *
      * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void
