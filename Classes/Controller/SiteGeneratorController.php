@@ -160,13 +160,10 @@ class SiteGeneratorController extends ActionController
 
             // Load default values from extension configuration
             $this->siteGeneratorDto->setTitle($this->getExtensionConfiguration('homePageTitle'));
-
-            if ($this->siteGeneratorDto instanceof SiteGeneratorDto) {
-                $this->siteGeneratorDto->setGroupPrefix($this->getExtensionConfiguration('groupPrefix'));
-                $this->siteGeneratorDto->setCommonMountPointUid((int) $this->getExtensionConfiguration('commonMountPointUid'));
-                $this->siteGeneratorDto->setBaseFolderName($this->getExtensionConfiguration('baseFolderName'));
-                $this->siteGeneratorDto->setSubFolderNames($this->getExtensionConfiguration('subFolderNames'));
-            }
+            $this->siteGeneratorDto->setGroupPrefix($this->getExtensionConfiguration('groupPrefix'));
+            $this->siteGeneratorDto->setCommonMountPointUid((int) $this->getExtensionConfiguration('commonMountPointUid'));
+            $this->siteGeneratorDto->setBaseFolderName($this->getExtensionConfiguration('baseFolderName'));
+            $this->siteGeneratorDto->setSubFolderNames($this->getExtensionConfiguration('subFolderNames'));
         }
 
         if ($parameters) {
@@ -322,10 +319,9 @@ class SiteGeneratorController extends ActionController
     /**
      * Generate URI for a backend module.
      *
-     * @param string $name       The name of the route
+     * @param string $name The name of the route
      *
      * @throws RouteNotFoundException
-     *
      */
     public function buildUriFromRoute(string $name, array $parameters = []): string
     {

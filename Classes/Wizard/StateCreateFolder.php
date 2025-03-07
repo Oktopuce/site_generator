@@ -35,7 +35,6 @@ class StateCreateFolder extends StateBase implements SiteGeneratorStateInterface
     /**
      * Create site folder in fileadmin : base Folder / site title / sub folder.
      *
-     *
      * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void

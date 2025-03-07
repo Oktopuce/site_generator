@@ -24,10 +24,10 @@ final class UpdateTemplateHPEvent
     private string $updatedValue = '';
 
     /**
-     * @param string                    $action                    The action
-     * @param string                    $parameters                The parameter
-     * @param string                    $value                     Current value
-     * @param array                     $filteredMapping           Mapping filtered - i.e. ignoredUids already removed
+     * @param string $action          The action
+     * @param string $parameters      The parameter
+     * @param string $value           Current value
+     * @param array  $filteredMapping Mapping filtered - i.e. ignoredUids already removed
      */
     public function __construct(
         private readonly string $action,

@@ -149,7 +149,6 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
     /**
      * Update constant in list.
      *
-     *
      * @return string Empty string or value updated
      */
     protected function mapInList(
@@ -194,7 +193,6 @@ class StateUpdateTemplateHP extends StateBase implements SiteGeneratorStateInter
 
     /**
      * Update constants in string.
-     *
      *
      * @return string Empty string or value updated
      */
