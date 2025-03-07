@@ -121,8 +121,6 @@ class SiteGeneratorItemProvider extends AbstractProvider
 
     /**
      * This method adds the new items at the end of the context menu.
-     *
-     *
      */
     public function addItems(array $items): array
     {
@@ -133,8 +131,6 @@ class SiteGeneratorItemProvider extends AbstractProvider
 
     /**
      * This method is called for each item this provider adds and checks if given item can be added.
-     *
-     *
      */
     protected function canRender(string $itemName, string $type): bool
     {

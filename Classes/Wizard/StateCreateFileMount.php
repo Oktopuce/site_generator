@@ -33,7 +33,6 @@ class StateCreateFileMount extends StateBase implements SiteGeneratorStateInterf
     /**
      * Create file mount for foler create in previous step.
      *
-     *
      * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void

@@ -5,12 +5,43 @@
 Change log
 ==========
 
+v3.2.5
+------
+
+::
+
+   2025-03-07 [TASK] Apply rector, fractor and php-cs-fixer recommendations (Commit 5a6a67f by Florian RIVAL)
+
+v3.2.4
+------
+
+::
+
+   2025-01-23 [TASK] Apply php-cs-fixer recommendations (commit: ea998f9 by Florian RIVAL)
+   2025-01-23 [TASK] Apply rector recommendations (commit: edea9c2 by Florian RIVAL)
+   2025-01-23 [TASK] Use StringUtility::getUniqueId to generate ID (commit: 27b4fe5 by Florian RIVAL)
+
+V3.2.3
+------
+
+::
+
+   2025-01-21 [BUGFIX] Correct filemount path (commit: efed4ef by Florian RIVAL)
+   2025-01-20 [TASK] Disable limits (memory_limit and max_execution_time) (commit: abccb03 by Florian RIVAL)
+
+V3.2.2
+------
+
+::
+
+   2024-10-23 [TASK] Add the availability to override sitePid with site configuration (commit: f85faa0 by Florian RIVAL)
+
 V3.2.1
 ------
 
 ::
 
-   2024-10-04  [TASK] Change version number for TER (commit: 970ecd5 by Florian RIVAL)
+   2024-10-04 [TASK] Change version number for TER (commit: 970ecd5 by Florian RIVAL)
 
 V3.2.0
 ------

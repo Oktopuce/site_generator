@@ -33,7 +33,6 @@ class StateCreateFeGroup extends StateBase implements SiteGeneratorStateInterfac
     /**
      * Create FE user group.
      *
-     *
      * @throws Exception
      */
     public function process(SiteGeneratorWizard $context): void
