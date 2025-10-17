@@ -5,6 +5,13 @@
 Change log
 ==========
 
+v3.2.6
+------
+
+::
+
+   2025-10-17 [TASK] Patch to skip DataHandler operations on be_groups table (Commit f7d320c by Florian RIVAL)
+
 v3.2.5
 ------
 
