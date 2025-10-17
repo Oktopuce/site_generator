@@ -50,3 +50,8 @@ services:
   Oktopuce\SiteGenerator\Controller\SiteGeneratorController:
     public: true
     shared: false
+
+  Oktopuce\SiteGenerator\EventListener\SkipBeGroupSudoModeRequired:
+    tags:
+      - name: event.listener
+        identifier: 'ext-sitegenerator/skip-sudo-mode-for-data--handler'
