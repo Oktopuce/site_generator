@@ -5,6 +5,13 @@
 Change log
 ==========
 
+v3.2.7
+------
+
+::
+
+   2025-11-07 [BUGFIX] Fix site configuration generation with TYPO V13 (Commit 20c4ebb by Florian RIVAL)
+
 v3.2.6
 ------
 
